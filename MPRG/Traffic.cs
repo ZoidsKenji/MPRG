@@ -10,9 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MPRG{
     internal class Traffic : Sprite{
 
-        float scale  = 1;
-        int xpos = 0;
-
+        public float scale = 1.0f;
         public int speed = 60;
 
         public int midpoint = 1280 / 2;
@@ -27,7 +25,7 @@ namespace MPRG{
 
         public Traffic(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.midpoint = 1280 / 2;
-            //this.xPos = (lane - 1) * 500;
+            this.xPos = (lane - 1) * 500;
         }
 
         private void laneXpos(){
