@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MPRG{
     internal class Traffic : Sprite{
 
-        public float scale = 1.0f;
+        public float scale = 1;
         public int speed = 60;
 
         public int midpoint = 1280 / 2;
