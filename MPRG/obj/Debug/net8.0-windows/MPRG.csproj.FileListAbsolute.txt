@@ -27,3 +27,34 @@ C:\Users\user\MPRG\MPRG\obj\Debug\net8.0-windows\ref\MPRG.dll
 C:\Users\user\MPRG\MPRG\bin\Debug\net8.0-windows\Content\FITRS.xnb
 C:\Users\user\MPRG\MPRG\bin\Debug\net8.0-windows\Content\MRS.xnb
 C:\Users\user\MPRG\MPRG\bin\Debug\net8.0-windows\Content\road.xnb
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\FITRS.xnb
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\MRS.xnb
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\road.xnb
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\MPRG.exe
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\MPRG.deps.json
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\MPRG.runtimeconfig.json
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\MPRG.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\MPRG.pdb
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\MonoGame.Framework.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.Direct2D1.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.Direct3D11.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.Direct3D9.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.DXGI.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.Mathematics.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.MediaFoundation.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.XAudio2.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\SharpDX.XInput.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.csproj.AssemblyReference.cache
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.AssemblyInfoInputs.cache
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.AssemblyInfo.cs
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.sourcelink.json
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.csproj.Up2Date
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\refint\MPRG.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.pdb
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\MPRG.genruntimeconfig.cache
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug\net8.0-windows\ref\MPRG.dll
+C:\Users\user\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\whiteLine.xnb

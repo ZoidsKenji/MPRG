@@ -118,7 +118,7 @@ public class Game1 : Game
         
         spawnCounter += (float)gameTime.ElapsedGameTime.TotalSeconds * (1 + (playerSpeed / 500f));
         counter += (float)gameTime.ElapsedGameTime.TotalSeconds * (1 + (playerSpeed / 2f));
-        if (spawnCounter > 3- (playerSpeed / 500f)){
+        if (spawnCounter > 3 - (playerSpeed / 500f)){
             sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390)));
             spawnCounter = 0;
             
@@ -176,7 +176,7 @@ public class Game1 : Game
 
             
 
-            sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, player.xPos);
+            sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
         
         }
 

@@ -17,42 +17,44 @@ namespace MPRG{
 
         public int midpoint = 1280 / 2;
 
-        public int lane = new Random().Next(0, 3);
+        public int lane = 1;//new Random().Next(0, 3);
 
         public override Rectangle Rect{
             get{
-                return new Rectangle((int)xpos, (int)pos.Y, (int)Math.Floor(300 * scale), (int)Math.Floor(300 * scale));
+                return new Rectangle((int)pos.X, (int)pos.Y, (int)Math.Floor(300 * scale), (int)Math.Floor(300 * scale));
             }
         }
 
         public Traffic(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.midpoint = 1280 / 2;
-            this.xPos = (lane - 1) * 500;
+            //this.xPos = (lane - 1) * 500;
         }
 
         private void laneXpos(){
             if (lane == 0){
-                float curveFactor = (this.midpoint - (1280 / 2)) / (1280 / 2.0f);
+                midpoint -= 200;
+                float curveFactor = (midpoint - (1280 / 2)) / (1280 / 2.0f);
                 float curveStrength = 600;
-                float yFactor = Math.Max(0, (pos.Y - 480) / 480.0f);
+                float yFactor = Math.Max(0, (pos.Y - 470) / 470.0f);
 
-                xPos = (int)Math.Floor(this.midpoint - ((scale * 300) / 2.0) - (curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength));
+                pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
 
                 speed = 50;
             }else if (lane == 1){
-                float curveFactor = (this.midpoint - (1280 / 2.0f)) / (1280 / 2.0f);
-                float curveStrength = 0;
-                float yFactor = Math.Max(0, (pos.Y - 480) / 480.0f);
+                float curveFactor = (midpoint - (1280 / 2)) / (1280 / 2.0f);
+                float curveStrength = 550;
+                float yFactor = Math.Max(0, (pos.Y - 470) / 470.0f);
 
-                xPos = (int)Math.Floor(this.midpoint - ((scale * 300) / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
+                pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
 
                 speed = 60;
             }else if (lane == 2){
-                float curveFactor = (this.midpoint - (1280 / 2)) / (1280 / 2.0f);
-                float curveStrength = -600;
-                float yFactor = Math.Max(0, (pos.Y - 480) / 480.0f);
+                midpoint += 200;
+                float curveFactor = (midpoint - 640) / (1280 / 2.0f);
+                float curveStrength = 600;
+                float yFactor = Math.Max(0, (pos.Y - 470) / 470.0f);
 
-                xPos = (int)Math.Floor(this.midpoint - ((scale * 300) / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
+                pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
                 speed = 70;
 
             }
