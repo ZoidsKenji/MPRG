@@ -4,9 +4,9 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/user/MPRG/MPRG/Content/FITRS.png</File>
-    <File>C:/Users/user/MPRG/MPRG/Content/MRS.png</File>
-    <File>C:/Users/user/MPRG/MPRG/Content/road.png</File>
+    <File>c:/Users/user/MPRG/MPRG/Content/FITRS.png</File>
+    <File>c:/Users/user/MPRG/MPRG/Content/MRS.png</File>
+    <File>c:/Users/user/MPRG/MPRG/Content/road.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

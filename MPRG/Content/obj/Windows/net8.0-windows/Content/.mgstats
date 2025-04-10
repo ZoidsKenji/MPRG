@@ -1,4 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/user/MPRG/MPRG/Content/FITRS.png","C:/Users/user/MPRG/MPRG/Content/bin/Windows/Content/FITRS.xnb","TextureProcessor","Texture2DContent",313766,1522841,0.2135994
-"C:/Users/user/MPRG/MPRG/Content/MRS.png","C:/Users/user/MPRG/MPRG/Content/bin/Windows/Content/MRS.xnb","TextureProcessor","Texture2DContent",216431,1406681,0.0689226
-"C:/Users/user/MPRG/MPRG/Content/road.png","C:/Users/user/MPRG/MPRG/Content/bin/Windows/Content/road.xnb","TextureProcessor","Texture2DContent",96,213,0.0034277
+"c:/Users/user/MPRG/MPRG/Content/FITRS.png","c:/Users/user/MPRG/MPRG/Content/bin/Windows/Content/FITRS.xnb","TextureProcessor","Texture2DContent",313766,1522841,0.2682201
+"c:/Users/user/MPRG/MPRG/Content/MRS.png","c:/Users/user/MPRG/MPRG/Content/bin/Windows/Content/MRS.xnb","TextureProcessor","Texture2DContent",216431,1406681,0.0519697
+"c:/Users/user/MPRG/MPRG/Content/road.png","c:/Users/user/MPRG/MPRG/Content/bin/Windows/Content/road.xnb","TextureProcessor","Texture2DContent",96,213,0.0030989
