@@ -4163,11 +4163,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\MPRG\\MPRG\\MPRG.csproj",
+      "projectUniqueName": "C:\\Users\\user\\OneDrive - King Edward VI College, Stourbridge\\MPRG\\MPRG\\MPRG.csproj",
       "projectName": "MPRG",
-      "projectPath": "C:\\Users\\user\\MPRG\\MPRG\\MPRG.csproj",
+      "projectPath": "C:\\Users\\user\\OneDrive - King Edward VI College, Stourbridge\\MPRG\\MPRG\\MPRG.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\MPRG\\MPRG\\obj\\",
+      "outputPath": "C:\\Users\\user\\OneDrive - King Edward VI College, Stourbridge\\MPRG\\MPRG\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
