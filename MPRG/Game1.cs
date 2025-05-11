@@ -31,6 +31,8 @@ public class Game1 : Game
     private float Xaccel = 300;
     private float Xspeed = 0;
 
+    public bool showbackend = false;
+
     List<Sprite> sprites;
     List<Sprite> roads;
     List<Sprite> roadLine;
@@ -81,24 +83,28 @@ public class Game1 : Game
 
         player = new Player(texture, startPos);
         
-        for (int i = 0; i < 170; i++){
-            roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
-        }
+        if (!showbackend){
+            for (int i = 0; i < 170; i++){
+                roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
+            }
 
-        // for (int i = 0; i < 200; i++){
-        //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
-        // }
-        
-        for (int i = 0; i < 30; i++){
-            roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3)), 1));
-        }
 
-        for (int i = 0; i < 30; i++){
-            roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 590 + (i * 3)), 1));
-        }
 
-        for (int i = 0; i < 30; i++){
-            roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
+            // for (int i = 0; i < 200; i++){
+            //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
+            // }
+            
+            for (int i = 0; i < 30; i++){
+                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3)), 1));
+            }
+
+            for (int i = 0; i < 30; i++){
+                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 590 + (i * 3)), 1));
+            }
+
+            for (int i = 0; i < 30; i++){
+                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
+            }
         }
 
         // for (int i = 0; i < 320; i++){
@@ -124,7 +130,7 @@ public class Game1 : Game
             
         }
 
-        if (spawnCounter > 2 - (playerSpeed / 400f)){
+        if ((spawnCounter > 2 - (playerSpeed / 400f)) && !showbackend){
             for (int i = 0; i < 15; i++){
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 350), 1));
             }  
@@ -204,7 +210,7 @@ public class Game1 : Game
 
         sprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
 
-        bool showbackend = false;
+        
 
         if (!showbackend){ //show front end(ray casting)
             // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
