@@ -16,6 +16,12 @@ namespace MPRG{
             }
         }
 
+        public override Rectangle BackendRect{
+            get{
+                return new Rectangle((int)xPos, (int)yPos, 300, 300);
+            }
+        }
+
         public Player(Texture2D texture, Vector2 pos) : base(texture, pos){
 
         }

@@ -23,6 +23,13 @@ namespace MPRG{
             }
         }
 
+        public override Rectangle BackendRect{
+            get{
+                return new Rectangle((int)xPos, (int)yPos, (int)Math.Floor(300 * scale), (int)Math.Floor(300 * scale));
+            }
+        }
+
+
         public Traffic(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.midpoint = 1280 / 2;
             this.xPos = (lane - 1) * 500;

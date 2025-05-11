@@ -10,6 +10,8 @@ namespace MPRG{
 
         //private static readonly float scale = 3f;
         public Texture2D texture;
+
+        public Texture2D backendTexture;
         public Vector2 pos;
         public Color colour;
 
@@ -19,6 +21,12 @@ namespace MPRG{
         public virtual Rectangle Rect{
             get{
                 return new Rectangle((int)pos.X, (int)pos.Y, 423, 285);
+            }
+        }
+
+        public virtual Rectangle BackendRect{
+            get{
+                return new Rectangle((int)xPos, (int)yPos, 423, 285);
             }
         }
 

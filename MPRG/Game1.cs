@@ -204,20 +204,30 @@ public class Game1 : Game
 
         sprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
 
-        // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
-        // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
-        foreach(Sprite road in roads){
-            _spriteBatch.Draw(road.texture, road.Rect, road.colour);
+        bool showbackend = false;
+
+        if (!showbackend){ //show front end(ray casting)
+            // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
+            // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
+            foreach(Sprite road in roads){
+                _spriteBatch.Draw(road.texture, road.Rect, road.colour);
+            }
+            foreach(Sprite line in roadLine){
+                _spriteBatch.Draw(line.texture, line.Rect, line.colour);
+            }
+            // foreach(Sprite line in roadLineR){
+            //     _spriteBatch.Draw(line.texture, line.Rect, line.colour);
+            // }
+            foreach(Sprite sprite in sprites){
+                _spriteBatch.Draw(sprite.texture, sprite.Rect, sprite.colour);
+            }
+        }else{ //show back end
+            foreach(Sprite sprite in sprites){
+                _spriteBatch.Draw(sprite.backendTexture, sprite.BackendRect, sprite.colour);
+            }
         }
-        foreach(Sprite line in roadLine){
-            _spriteBatch.Draw(line.texture, line.Rect, line.colour);
-        }
-        // foreach(Sprite line in roadLineR){
-        //     _spriteBatch.Draw(line.texture, line.Rect, line.colour);
-        // }
-        foreach(Sprite sprite in sprites){
-            _spriteBatch.Draw(sprite.texture, sprite.Rect, sprite.colour);
-        }
+
+        
 
         _spriteBatch.End();
 
