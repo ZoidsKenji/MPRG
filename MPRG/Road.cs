@@ -16,10 +16,18 @@ namespace MPRG{
             }
         }
 
+        public override Rectangle BackendRect{
+            get{
+                return new Rectangle((int)xPos, 0, 960, 300);
+            }
+        }
+
         public Road(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.midpoint = 1280 / 2;
             width = (int)Math.Floor(((pos.Y - 480) * 6.0));
             xPos = (int)Math.Floor(this.midpoint - (width / 2.0));
+            this.backendColour = Color.DarkGray;
+
         }
 
         public override void moveMidPoint(float xMove){

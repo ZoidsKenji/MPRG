@@ -23,6 +23,7 @@ namespace MPRG{
         }
 
         public Player(Texture2D texture, Vector2 pos) : base(texture, pos){
+            this.backendColour = Color.LightGray;
 
         }
 

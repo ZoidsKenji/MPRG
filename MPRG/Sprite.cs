@@ -12,6 +12,7 @@ namespace MPRG{
         public Texture2D texture;
         public Vector2 pos;
         public Color colour;
+        public Color backendColour;
 
         public float xPos = 0;
         public float yPos = 0;
@@ -34,6 +35,7 @@ namespace MPRG{
             //this.BackendTexture = backendTexture;
             this.pos = pos;
             this.colour = Color.White;
+            this.backendColour = Color.White;
             this.xPos = 0;
             this.yPos = 0;
         }

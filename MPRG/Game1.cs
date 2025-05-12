@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 
 namespace MPRG;
@@ -31,7 +32,7 @@ public class Game1 : Game
     private float Xaccel = 300;
     private float Xspeed = 0;
 
-    public bool showbackend = false;
+    public bool showbackend = true;
 
     public Texture2D backendTexture;
 
@@ -74,7 +75,7 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Texture2D texture = Content.Load<Texture2D>("MRS");
-        backendTexture = Content.Load<Texture2D>("redsquare");
+        backendTexture = Content.Load<Texture2D>("backendTexture");
         Vector2 startPos;
         startPos.X = 490;
         startPos.Y = 600;
@@ -108,6 +109,8 @@ public class Game1 : Game
             for (int i = 0; i < 30; i++){
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
             }
+        }else{
+            roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
         }
 
         // for (int i = 0; i < 320; i++){
@@ -231,8 +234,12 @@ public class Game1 : Game
                 _spriteBatch.Draw(sprite.texture, sprite.Rect, sprite.colour);
             }
         }else{ //show back end
+            foreach(Sprite road in roads){
+                _spriteBatch.Draw(backendTexture, road.BackendRect, road.backendColour);
+            }
+
             foreach(Sprite sprite in sprites){
-                _spriteBatch.Draw(backendTexture, sprite.BackendRect, sprite.colour);
+                _spriteBatch.Draw(backendTexture, sprite.BackendRect, sprite.backendColour);
             }
         }
 

@@ -33,6 +33,8 @@ namespace MPRG{
         public Traffic(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.midpoint = 1280 / 2;
             this.xPos = (lane - 1) * 500;
+            this.backendColour = Color.Orange;
+
         }
 
         private void laneXpos(){
