@@ -18,7 +18,7 @@ namespace MPRG{
 
         public override Rectangle BackendRect{
             get{
-                return new Rectangle((int)(xPos * 3 / 10) + (150 - 35), 435, 70, 90);
+                return new Rectangle((int)(xPos * 0.23) + (150 - 35), 435, 70, 90);
             }
         }
 

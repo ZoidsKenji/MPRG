@@ -48,6 +48,10 @@ namespace MPRG{
         //     Console.WriteLine(width);
         // }
 
+        public override void moveX(float velocity){
+            //this.xPos += velocity;
+        }
+
     }
 
 

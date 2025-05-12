@@ -33,11 +33,14 @@ public class Game1 : Game
     private float Xspeed = 0;
 
     public bool showbackend = true;
+    public bool showfrontend = true;
 
     public Texture2D backendTexture;
 
     List<Sprite> sprites;
     List<Sprite> roads;
+    List<Sprite> backendroads;
+
     List<Sprite> roadLine;
     // List<Sprite> roadLineR;
 
@@ -81,12 +84,13 @@ public class Game1 : Game
         startPos.Y = 600;
         sprites = new List<Sprite>();
         roads = new List<Sprite>();
+        backendroads = new List<Sprite>();
         roadLine = new List<Sprite>();
         // roadLineR = new List<Sprite>();
 
 
         player = new Player(texture, startPos);
-        if (!showbackend){
+        if (showfrontend){
 
             for (int i = 0; i < 170; i++){
                 roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
@@ -107,8 +111,9 @@ public class Game1 : Game
             for (int i = 0; i < 30; i++){
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
             }
-        }else{
-            roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
+        }
+        if (showbackend){
+            backendroads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
         }
 
         // for (int i = 0; i < 320; i++){
@@ -134,13 +139,13 @@ public class Game1 : Game
             
         }
 
-        if ((spawnCounter > 2 - (playerSpeed / 400f)) && !showbackend){
+        if ((spawnCounter > 2 - (playerSpeed / 400f)) && showfrontend){
             for (int i = 0; i < 15; i++){
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 350), 1));
             }  
         }
 
-        sprites.RemoveAll(sprite => sprite.Rect.Y > 1000 || sprite.Rect.Y < 370);
+        sprites.RemoveAll(sprite => sprite.yPos > 1280 || sprite.yPos < 0);
         roadLine.RemoveAll(line => line.Rect.Y > 1000 || line.Rect.Y < 300);
 
         foreach(Sprite sprite in sprites){
@@ -216,7 +221,7 @@ public class Game1 : Game
 
         
 
-        if (!showbackend){ //show front end(ray casting)
+        if (showfrontend){ //show front end(ray casting)
             // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
             // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
             foreach(Sprite road in roads){
@@ -231,8 +236,9 @@ public class Game1 : Game
             foreach(Sprite sprite in sprites){
                 _spriteBatch.Draw(sprite.texture, sprite.Rect, sprite.colour);
             }
-        }else{ //show back end
-            foreach(Sprite road in roads){
+        }
+        if (showbackend){ //show back end
+            foreach(Sprite road in backendroads){
                 _spriteBatch.Draw(backendTexture, road.BackendRect, road.backendColour);
             }
 

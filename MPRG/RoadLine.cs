@@ -48,6 +48,10 @@ namespace MPRG{
             this.pos.Y += time * playerSpeed * (this.pos.Y / 480) * speedFactor;
         }
 
+        public override void moveX(float velocity){
+            //this.xPos += velocity;
+        }
+
     }
 
 

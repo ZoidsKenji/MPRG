@@ -40,7 +40,7 @@ namespace MPRG{
             this.yPos = 0;
         }
 
-        public void moveX(float velocity){
+        public virtual void moveX(float velocity){
             this.xPos += velocity;
         }
 
