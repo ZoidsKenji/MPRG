@@ -186,8 +186,7 @@ public class Game1 : Game
                 if (sprite.yPos < player.yPos){
                     if ((player.yPos - sprite.yPos) > 80){
                         if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
-                            player.setSpeed(sprite.speed);
-                            Console.WriteLine(player.speed);
+                            player.setSpeed(sprite.speed - 2);
                         }
                     }
                     

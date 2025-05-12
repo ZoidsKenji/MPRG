@@ -11,7 +11,6 @@ namespace MPRG{
     internal class Traffic : Sprite{
 
         public float scale = 1;
-        public float speed = 60;
 
         public int midpoint = 1280 / 2;
 
