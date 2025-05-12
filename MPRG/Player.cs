@@ -18,7 +18,7 @@ namespace MPRG{
 
         public override Rectangle BackendRect{
             get{
-                return new Rectangle((int)xPos, (int)yPos, 300, 300);
+                return new Rectangle((int)(xPos * 3 / 10) + (150 - 35), 435, 70, 90);
             }
         }
 
@@ -29,7 +29,7 @@ namespace MPRG{
 
         public void accelerate(float accel){
             speed += accel;
-            Console.WriteLine(speed);
+            //Console.WriteLine(speed);
         }
 
     }

@@ -86,14 +86,12 @@ public class Game1 : Game
 
 
         player = new Player(texture, startPos);
-        
         if (!showbackend){
+
             for (int i = 0; i < 170; i++){
                 roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
             }
-
-
-
+            
             // for (int i = 0; i < 200; i++){
             //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
             // }
