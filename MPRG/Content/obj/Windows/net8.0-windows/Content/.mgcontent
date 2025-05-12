@@ -4,12 +4,14 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/FITRS.png</File>
-    <File>C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/MRS.png</File>
-    <File>C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/road.png</File>
-    <File>C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/whiteLine.png</File>
+    <File>C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/FITRS.png</File>
+    <File>C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/MRS.png</File>
+    <File>C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/redsquare.png</File>
+    <File>C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/road.png</File>
+    <File>C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/whiteLine.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

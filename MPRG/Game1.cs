@@ -33,6 +33,8 @@ public class Game1 : Game
 
     public bool showbackend = false;
 
+    public Texture2D backendTexture;
+
     List<Sprite> sprites;
     List<Sprite> roads;
     List<Sprite> roadLine;
@@ -72,6 +74,7 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Texture2D texture = Content.Load<Texture2D>("MRS");
+        backendTexture = Content.Load<Texture2D>("redsquare");
         Vector2 startPos;
         startPos.X = 490;
         startPos.Y = 600;
@@ -229,7 +232,7 @@ public class Game1 : Game
             }
         }else{ //show back end
             foreach(Sprite sprite in sprites){
-                _spriteBatch.Draw(sprite.backendTexture, sprite.BackendRect, sprite.colour);
+                _spriteBatch.Draw(backendTexture, sprite.BackendRect, sprite.colour);
             }
         }
 

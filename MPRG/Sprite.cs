@@ -10,8 +10,6 @@ namespace MPRG{
 
         //private static readonly float scale = 3f;
         public Texture2D texture;
-
-        public Texture2D backendTexture;
         public Vector2 pos;
         public Color colour;
 
@@ -33,6 +31,7 @@ namespace MPRG{
         public Sprite(Texture2D texture, Vector2 pos){
             Console.WriteLine("NewSprite");
             this.texture = texture;
+            //this.BackendTexture = backendTexture;
             this.pos = pos;
             this.colour = Color.White;
             this.xPos = 0;
