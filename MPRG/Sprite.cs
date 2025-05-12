@@ -14,6 +14,8 @@ namespace MPRG{
         public Color colour;
         public Color backendColour;
 
+        public float speed;
+
         public float xPos = 0;
         public float yPos = 0;
 
@@ -38,6 +40,7 @@ namespace MPRG{
             this.backendColour = Color.White;
             this.xPos = 0;
             this.yPos = 0;
+            this.speed = 0;
         }
 
         public virtual void moveX(float velocity){

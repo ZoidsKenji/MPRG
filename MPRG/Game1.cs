@@ -182,11 +182,18 @@ public class Game1 : Game
 
             }
 
-            if (sprite.Rect.Intersects(player.Rect) && sprite != player){
-                if (Math.Abs(sprite.yPos - player.Rect.Y) < 50 && Math.Abs(sprite.Rect.X - player.Rect.X) < 20){
-                    player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                    Console.WriteLine("Crash");
+            if (sprite.BackendRect.Intersects(player.BackendRect) && sprite != player){
+                if (sprite.yPos < player.yPos){
+                    if ((player.yPos - sprite.yPos) > 80){
+                        if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
+                            player.setSpeed(sprite.speed);
+                            Console.WriteLine(player.speed);
+                        }
+                    }
+                    
                 }
+                //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                Console.WriteLine("Crash");
             }
 
             

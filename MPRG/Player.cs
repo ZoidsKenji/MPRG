@@ -8,8 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MPRG{
     internal class Player : Sprite{
 
-        public float speed = 50;
-
         public override Rectangle Rect{
             get{
                 return new Rectangle((int)pos.X, (int)pos.Y, 300, 300);
@@ -24,12 +22,17 @@ namespace MPRG{
 
         public Player(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.backendColour = Color.LightGray;
-
+            this.yPos = 435;
+            this.speed = 55;
         }
 
         public void accelerate(float accel){
             speed += accel;
             //Console.WriteLine(speed);
+        }
+
+        public void setSpeed(float Speed){
+            speed = Speed;
         }
 
     }

@@ -11,7 +11,7 @@ namespace MPRG{
     internal class Traffic : Sprite{
 
         public float scale = 1;
-        public int speed = 60;
+        public float speed = 60;
 
         public int midpoint = 1280 / 2;
 
@@ -34,6 +34,14 @@ namespace MPRG{
             this.midpoint = 1280 / 2;
             this.xPos = (lane - 1) * 500;
             this.backendColour = Color.Orange;
+            this.speed = 60;
+            if (lane == 0){
+                this.speed = 60;
+            }else if (lane == 1){
+                this.speed = 70;
+            }else{
+                this.speed = 80;
+            }
 
         }
 
@@ -46,7 +54,7 @@ namespace MPRG{
 
                 pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
 
-                speed = 50;
+                this.speed = 60;
             }else if (lane == 1){
                 float curveFactor = (midpoint - (1280 / 2)) / (1280 / 2.0f);
                 float curveStrength = 550;
@@ -54,7 +62,7 @@ namespace MPRG{
 
                 pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
 
-                speed = 60;
+                this.speed = 70;
             }else if (lane == 2){
                 midpoint += 200;
                 float curveFactor = (midpoint - 640) / (1280 / 2.0f);
@@ -62,7 +70,7 @@ namespace MPRG{
                 float yFactor = Math.Max(0, (pos.Y - 470) / 470.0f);
 
                 pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
-                speed = 70;
+                this.speed = 80;
 
             }
         }
