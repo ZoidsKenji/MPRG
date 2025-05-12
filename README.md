@@ -1,4 +1,4 @@
-# MPRG
+# Motorway Pursuit Racing Game
 
 ## Describtion
 
