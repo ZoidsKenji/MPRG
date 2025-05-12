@@ -6,10 +6,12 @@
   <SourceFiles>
     <File>c:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/FITRS.png</File>
     <File>c:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/MRS.png</File>
+    <File>c:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/redsquare.png</File>
     <File>c:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/road.png</File>
     <File>c:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/whiteLine.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
