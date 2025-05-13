@@ -188,8 +188,20 @@ public class Game1 : Game
                         if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
                             player.setSpeed(sprite.speed - 2);
                         }
+                    }else{
+                        Xspeed = -(Math.Abs(Xspeed) / Xspeed);
+                        player.moveX(Xspeed);
                     }
                     
+                }else if (sprite.yPos > player.yPos){
+                    if ((sprite.yPos - player.yPos) > 80){
+                        if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
+                            player.setSpeed(sprite.speed + 2);
+                        }
+                    }else{
+                        Xspeed = -(Math.Abs(Xspeed) / Xspeed);
+                        player.moveX(Xspeed);
+                    }
                 }
                 //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
                 Console.WriteLine("Crash");
