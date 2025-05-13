@@ -31,7 +31,7 @@ namespace MPRG{
             //Console.WriteLine(speed);
         }
 
-        public void setSpeed(float Speed){
+        public override void setSpeedTo(float Speed){
             speed = Speed;
         }
 

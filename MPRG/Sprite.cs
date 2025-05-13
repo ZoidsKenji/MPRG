@@ -54,6 +54,10 @@ namespace MPRG{
         public virtual void updateObject(float time, float playerSpeed, float midPoint){
 
         }
+
+        public virtual void setSpeedTo(float Speed){
+            speed = Speed;
+        }
     }
 
 }

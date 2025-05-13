@@ -12,6 +12,8 @@ namespace MPRG{
 
         public float scale = 1;
 
+        public float setSpeed;
+
         public int midpoint = 1280 / 2;
 
         public int lane = new Random().Next(0, 3);
@@ -34,12 +36,16 @@ namespace MPRG{
             this.xPos = (lane - 1) * 500;
             this.backendColour = Color.Orange;
             this.speed = 60;
+            setSpeed = 60;
             if (lane == 0){
                 this.speed = 60;
+                setSpeed = 60;
             }else if (lane == 1){
                 this.speed = 70;
+                setSpeed = 70;
             }else{
                 this.speed = 80;
+                setSpeed = 80;
             }
 
         }
@@ -81,10 +87,19 @@ namespace MPRG{
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
             laneXpos();
+            if (speed > setSpeed){
+                speed -= time * 2;
+            }else{
+                speed += time * 2;
+            }
         }
 
         public override void moveX(float velocity){
             //this.xPos += velocity;
+        }
+
+        public override void setSpeedTo(float Speed){
+            speed = Speed;
         }
 
     }

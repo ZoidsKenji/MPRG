@@ -183,10 +183,12 @@ public class Game1 : Game
             }
 
             if (sprite.BackendRect.Intersects(player.BackendRect) && sprite != player){
+                float speeddifferent = Math.Abs(player.speed - sprite.speed);
                 if (sprite.yPos < player.yPos){
                     if ((player.yPos - sprite.yPos) > 80){
                         if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
-                            player.setSpeed(sprite.speed - 2);
+                            player.setSpeedTo(sprite.speed - ((speeddifferent / 8) + 0.5f));
+                            sprite.setSpeedTo(sprite.speed + ((speeddifferent / 8) + 0.5f));
                         }
                     }else{
                         Xspeed = -(Math.Abs(Xspeed) / Xspeed);
@@ -196,7 +198,8 @@ public class Game1 : Game
                 }else if (sprite.yPos > player.yPos){
                     if ((sprite.yPos - player.yPos) > 80){
                         if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
-                            player.setSpeed(sprite.speed + 2);
+                            player.setSpeedTo(sprite.speed + ((speeddifferent / 8) + 0.5f));
+                            sprite.setSpeedTo(player.speed - ((speeddifferent / 8) + 0.5f));
                         }
                     }else{
                         Xspeed = -(Math.Abs(Xspeed) / Xspeed);
