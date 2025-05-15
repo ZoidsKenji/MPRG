@@ -37,10 +37,13 @@ public class Game1 : Game
     public bool showbackend = true;
     public bool showfrontend = true;
 
+    public int policespawnnum = 1;
+
     public Texture2D backendTexture;
 
     List<Sprite> sprites;
     List<Sprite> roads;
+    List<Sprite> polices;
     List<Sprite> backendroads;
 
     List<Sprite> roadLine;
@@ -86,6 +89,7 @@ public class Game1 : Game
         startPos.Y = 600;
         sprites = new List<Sprite>();
         roads = new List<Sprite>();
+        polices = new List<Sprite>();
         backendroads = new List<Sprite>();
         roadLine = new List<Sprite>();
         // roadLineR = new List<Sprite>();
@@ -122,6 +126,7 @@ public class Game1 : Game
         //     sprites.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 320 - (i * 2))));
         // }
         sprites.Add(player);
+        polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(490, 900)));
 
         
     }
@@ -160,75 +165,83 @@ public class Game1 : Game
         sprites.RemoveAll(sprite => sprite.yPos > 1280 || sprite.yPos < 0);
         roadLine.RemoveAll(line => line.Rect.Y > 1000 || line.Rect.Y < 300);
 
-        foreach(Sprite sprite in sprites){
-            if (sprite is Player playersprite){
-                
-                float fraction = 10f;
-
-                if (Keyboard.GetState().IsKeyDown(Keys.D) && playersprite.xPos < 500){
-                    Xspeed += Xaccel * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }else if (Keyboard.GetState().IsKeyDown(Keys.A) && playersprite.xPos > -500){
-                    Xspeed -=  Xaccel * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }else if (Xspeed > 0){
-                    Xspeed -= (float)gameTime.ElapsedGameTime.TotalSeconds * fraction;
-                }else if (Xspeed < 0){
-                    Xspeed += (float)gameTime.ElapsedGameTime.TotalSeconds * fraction;
+        foreach (Sprite policesprite in polices){
+            foreach(Sprite sprite in sprites){
+                if (policesprite.yPos > player.yPos && !policesprite.BackendRect.Intersects(sprite.BackendRect)){
+                    policesprite.setSpeedTo(policesprite.speed + (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                }else{
+                    policesprite.setSpeedTo(policesprite.speed + (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 }
 
-                if (playersprite.xPos > 550 || player.xPos < -550){
-                    Xspeed = -Math.Abs(Xspeed) * (playersprite.xPos / Math.Abs(playersprite.xPos));
-                }
-
-                playersprite.moveX(Xspeed);
-
-                playerSpeed = playersprite.speed;
-
-                if (playersprite.speed > 0){
-                    playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.W)){
-                    playersprite.accelerate(10 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                }else if (Keyboard.GetState().IsKeyDown(Keys.S) && playersprite.speed > 0){
-                    playersprite.accelerate(-20 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                }
-
-            }
-
-            if (sprite.BackendRect.Intersects(player.BackendRect) && sprite != player){
-                float speeddifferent = Math.Abs(player.speed - sprite.speed);
-                Console.WriteLine(speeddifferent);
-                if (sprite.yPos < player.yPos){
-                    if ((player.yPos - sprite.yPos) > 80){
-                        if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
-                            player.setSpeedTo(sprite.speed - ((speeddifferent / 2) + 0.5f));
-                            sprite.setSpeedTo(sprite.speed + (speeddifferent + 3));
-                        }
-                    }else{
-                        Xspeed = -(Math.Abs(Xspeed) / Xspeed);
-                        player.moveX(Xspeed);
-                    }
+                if (sprite is Player playersprite){
                     
-                }else if (sprite.yPos > player.yPos){
-                    if ((sprite.yPos - player.yPos) > 80){
-                        if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
-                            player.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
-                            sprite.setSpeedTo(player.speed - (speeddifferent + 3));
-                        }
-                    }else{
-                        Xspeed = -(Math.Abs(Xspeed) / Xspeed);
-                        player.moveX(Xspeed);
+                    float fraction = 10f;
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.D) && playersprite.xPos < 500){
+                        Xspeed += Xaccel * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }else if (Keyboard.GetState().IsKeyDown(Keys.A) && playersprite.xPos > -500){
+                        Xspeed -=  Xaccel * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }else if (Xspeed > 0){
+                        Xspeed -= (float)gameTime.ElapsedGameTime.TotalSeconds * fraction;
+                    }else if (Xspeed < 0){
+                        Xspeed += (float)gameTime.ElapsedGameTime.TotalSeconds * fraction;
                     }
+
+                    if (playersprite.xPos > 550 || player.xPos < -550){
+                        Xspeed = -Math.Abs(Xspeed) * (playersprite.xPos / Math.Abs(playersprite.xPos));
+                    }
+
+                    playersprite.moveX(Xspeed);
+
+                    playerSpeed = playersprite.speed;
+
+                    if (playersprite.speed > 0){
+                        playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.W)){
+                        playersprite.accelerate(10 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    }else if (Keyboard.GetState().IsKeyDown(Keys.S) && playersprite.speed > 0){
+                        playersprite.accelerate(-20 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    }
+
                 }
-                //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                Console.WriteLine("Crash");
-            }
 
+
+                if (sprite.BackendRect.Intersects(player.BackendRect) && sprite != player){
+                    float speeddifferent = Math.Abs(player.speed - sprite.speed);
+                    Console.WriteLine(speeddifferent);
+                    if (sprite.yPos < player.yPos){
+                        if ((player.yPos - sprite.yPos) > 80){
+                            if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
+                                player.setSpeedTo(sprite.speed - ((speeddifferent / 2) + 0.5f));
+                                sprite.setSpeedTo(sprite.speed + (speeddifferent + 3));
+                            }
+                        }else{
+                            Xspeed = -(Math.Abs(Xspeed) / Xspeed);
+                            player.moveX(Xspeed);
+                        }
+                        
+                    }else if (sprite.yPos > player.yPos){
+                        if ((sprite.yPos - player.yPos) > 80){
+                            if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
+                                player.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
+                                sprite.setSpeedTo(player.speed - (speeddifferent + 3));
+                            }
+                        }else{
+                            Xspeed = -(Math.Abs(Xspeed) / Xspeed);
+                            player.moveX(Xspeed);
+                        }
+                    }
+                    //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    Console.WriteLine("Crash");
+                }
+
+                
+
+                sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
             
-
-            sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
-        
+            }
         }
-
         foreach (Sprite road in roads){
             road.moveMidPoint(-player.xPos);
         }

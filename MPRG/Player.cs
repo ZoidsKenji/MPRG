@@ -28,7 +28,7 @@ namespace MPRG{
 
         public void accelerate(float accel){
             speed += accel;
-            //Console.WriteLine(speed);
+            Console.WriteLine(speed);
         }
 
         public override void setSpeedTo(float Speed){
