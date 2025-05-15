@@ -32,6 +32,8 @@ public class Game1 : Game
     private float Xaccel = 300;
     private float Xspeed = 0;
 
+    public int lastlanespawn = 3;
+
     public bool showbackend = true;
     public bool showfrontend = true;
 
@@ -131,15 +133,25 @@ public class Game1 : Game
             Exit();
         }
         
-        spawnCounter += (float)gameTime.ElapsedGameTime.TotalSeconds * (1 + (playerSpeed / 500f));
-        counter += (float)gameTime.ElapsedGameTime.TotalSeconds * (1 + (playerSpeed / 2f));
-        if (spawnCounter > 3 - (playerSpeed / 500f)){
-            sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390)));
+        spawnCounter += (float)gameTime.ElapsedGameTime.TotalSeconds * playerSpeed;
+        counter += (float)gameTime.ElapsedGameTime.TotalSeconds * playerSpeed;
+        if (spawnCounter > 300){
+            int laneToSpawn = new Random().Next(0, 3);
+            if (laneToSpawn != lastlanespawn){
+                sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390), laneToSpawn));
+                lastlanespawn = laneToSpawn;
+            }else{
+                int laneToSpawn2 = new Random().Next(0, 2);
+                if (laneToSpawn2 != lastlanespawn){
+                    sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390), laneToSpawn2));
+                    lastlanespawn = laneToSpawn2;
+                }
+            }
             spawnCounter = 0;
             
         }
 
-        if ((spawnCounter > 2 - (playerSpeed / 400f)) && showfrontend){
+        if ((counter > 200) && showfrontend){
             for (int i = 0; i < 15; i++){
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 350), 1));
             }  
@@ -188,8 +200,8 @@ public class Game1 : Game
                 if (sprite.yPos < player.yPos){
                     if ((player.yPos - sprite.yPos) > 80){
                         if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
-                            player.setSpeedTo(sprite.speed - ((speeddifferent / 8) + 0.5f));
-                            sprite.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
+                            player.setSpeedTo(sprite.speed - ((speeddifferent / 2) + 0.5f));
+                            sprite.setSpeedTo(sprite.speed + (speeddifferent + 3));
                         }
                     }else{
                         Xspeed = -(Math.Abs(Xspeed) / Xspeed);
@@ -200,7 +212,7 @@ public class Game1 : Game
                     if ((sprite.yPos - player.yPos) > 80){
                         if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35){
                             player.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
-                            sprite.setSpeedTo(player.speed - ((speeddifferent / 8) + 0.5f));
+                            sprite.setSpeedTo(player.speed - (speeddifferent + 3));
                         }
                     }else{
                         Xspeed = -(Math.Abs(Xspeed) / Xspeed);

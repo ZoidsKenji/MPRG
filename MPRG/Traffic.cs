@@ -31,21 +31,25 @@ namespace MPRG{
         }
 
 
-        public Traffic(Texture2D texture, Vector2 pos) : base(texture, pos){
+        public Traffic(Texture2D texture, Vector2 pos, int setLane) : base(texture, pos){
+            if (setLane != 3){
+                lane = setLane;
+            }
+
             this.midpoint = 1280 / 2;
             this.xPos = (lane - 1) * 500;
             this.backendColour = Color.Orange;
-            this.speed = 60;
-            setSpeed = 60;
+            this.speed = 30;
+            setSpeed = 30;
             if (lane == 0){
-                this.speed = 60;
-                setSpeed = 60;
+                this.speed = 30;
+                setSpeed = 30;
             }else if (lane == 1){
+                this.speed = 50;
+                setSpeed = 50;
+            }else{
                 this.speed = 70;
                 setSpeed = 70;
-            }else{
-                this.speed = 80;
-                setSpeed = 80;
             }
 
         }
@@ -59,7 +63,7 @@ namespace MPRG{
 
                 pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
 
-                this.speed = 60;
+                this.speed = 40;
             }else if (lane == 1){
                 float curveFactor = (midpoint - (1280 / 2)) / (1280 / 2.0f);
                 float curveStrength = 550;
@@ -67,7 +71,7 @@ namespace MPRG{
 
                 pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
 
-                this.speed = 70;
+                this.speed = 50;
             }else if (lane == 2){
                 midpoint += 200;
                 float curveFactor = (midpoint - 640) / (1280 / 2.0f);
@@ -75,7 +79,7 @@ namespace MPRG{
                 float yFactor = Math.Max(0, (pos.Y - 470) / 470.0f);
 
                 pos.X = (int)Math.Floor(midpoint - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
-                this.speed = 80;
+                this.speed = 60;
 
             }
         }
@@ -88,9 +92,9 @@ namespace MPRG{
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
             laneXpos();
             if (speed > setSpeed){
-                speed -= time * 2;
+                speed -= time / 100;
             }else{
-                speed += time * 2;
+                speed += time / 100;
             }
         }
 
