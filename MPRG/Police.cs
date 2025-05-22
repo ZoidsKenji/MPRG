@@ -31,18 +31,22 @@ namespace MPRG{
             }
         }
 
-        public Police(Texture2D texture, Vector2 pos) : base(texture, pos){
+        public Police(Texture2D texture, Vector2 pos) : base(texture, pos)
+        {
             this.midpoint = 1280 / 2;
             this.backendColour = Color.Blue;
-            this.speed = 60;
+            this.speed = 90;
+            this.yPos = 1280;
         }
 
-        public override void updateObject(float time, float playerSpeed, float midPointX){
+        public override void updateObject(float time, float playerSpeed, float midPointX)
+        {
             this.midpoint = (int)midPointX + 640;
             this.pos.Y += (playerSpeed - speed) * time * (this.pos.Y / 480);
             this.yPos += (playerSpeed - speed) * time;
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
+            Console.WriteLine("police update" + " " + this.yPos + " " + this.speed);
         }
 
         public override void moveX(float velocity){
