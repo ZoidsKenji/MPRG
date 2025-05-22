@@ -26,13 +26,23 @@ namespace MPRG{
             this.speed = 55;
         }
 
-        public void accelerate(float accel){
+        public void accelerate(float accel)
+        {
             speed += accel;
             Console.WriteLine(speed);
+            // if (speed < 0)
+            // {
+            //     speed = 10;
+            // }
         }
 
-        public override void setSpeedTo(float Speed){
+        public override void setSpeedTo(float Speed)
+        {
             speed = Speed;
+            if (speed < 0)
+            {
+                speed = 10;
+            }
         }
 
     }

@@ -173,15 +173,70 @@ public class Game1 : Game
 
             foreach (Sprite sprite in sprites)
             {
+                //-- police controller
+                float policeXspeed = 0;
                 if (policesprite.yPos > player.yPos && !policesprite.BackendRect.Intersects(sprite.BackendRect))
                 {
-                    policesprite.setSpeedTo(policesprite.speed + (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                    policesprite.setSpeedTo(policesprite.speed + (8 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                }
+                else if (policesprite.BackendRect.Intersects(sprite.BackendRect))
+                {
+                    policesprite.setSpeedTo(policesprite.speed - (40 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                }
+                else if (policesprite.speed > (playerSpeed * 0.8))
+                {
+                    policesprite.setSpeedTo(policesprite.speed - (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 }
                 else
                 {
-                    policesprite.setSpeedTo(policesprite.speed + (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                    policesprite.setSpeedTo(policesprite.speed + (3 * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 }
 
+                //-- police crash physics
+                if (sprite.BackendRect.Intersects(policesprite.BackendRect) && sprite != policesprite)
+                {
+                    float speeddifferent = Math.Abs(policesprite.speed - sprite.speed);
+                    Console.WriteLine(speeddifferent);
+                    if (sprite.yPos < policesprite.yPos)
+                    {
+                        if ((policesprite.yPos - sprite.yPos) > 80)
+                        {
+                            if (Math.Abs(policesprite.BackendRect.X - sprite.BackendRect.X) < 35)
+                            {
+                                policesprite.setSpeedTo(sprite.speed - ((speeddifferent / 2) + 0.5f));
+                                sprite.setSpeedTo(sprite.speed + (speeddifferent + 3));
+                            }
+                        }
+                        else
+                        {
+                            policeXspeed = -(Math.Abs(policeXspeed) / policeXspeed);
+                            policesprite.moveX(policeXspeed);
+                        }
+
+                    }
+                    else if (sprite.yPos > policesprite.yPos)
+                    {
+                        if ((sprite.yPos - policesprite.yPos) > 80)
+                        {
+                            if (Math.Abs(policesprite.BackendRect.X - sprite.BackendRect.X) < 35)
+                            {
+                                policesprite.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
+                                sprite.setSpeedTo(policesprite.speed - (speeddifferent + 3));
+                            }
+                        }
+                        else
+                        {
+                            policeXspeed = -(Math.Abs(policeXspeed) / policeXspeed);
+                            policesprite.moveX(policeXspeed);
+                        }
+                    }
+                    //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    //Console.WriteLine("Crash");
+                }
+
+
+                
+                //-- player controller
                 if (sprite is Player playersprite)
                 {
 
@@ -226,19 +281,10 @@ public class Game1 : Game
                         playersprite.accelerate(-20 * (float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
 
-                    if ((policesprite.yPos > playersprite.yPos) && (policesprite.speed < (playerSpeed * 1.1)))
-                    {
-                        policesprite.setSpeedTo(playerSpeed * 1.1f);
-                    }
-                    else
-                    {
-                        policesprite.setSpeedTo(policesprite.speed - (20 * (float)gameTime.ElapsedGameTime.TotalSeconds));
-                    }
-
 
                 }
 
-
+                //-- player crash physics
                 if (sprite.BackendRect.Intersects(player.BackendRect) && sprite != player)
                 {
                     float speeddifferent = Math.Abs(player.speed - sprite.speed);

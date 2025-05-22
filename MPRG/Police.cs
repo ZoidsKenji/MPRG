@@ -13,8 +13,12 @@ namespace MPRG{
         public float scale = 1;
         public int midpoint = 1280 / 2;
 
-        public override Rectangle Rect{
-            get{
+        public float xSpeed;
+
+        public override Rectangle Rect
+        {
+            get
+            {
                 return new Rectangle((int)pos.X, (int)pos.Y, (int)Math.Floor(300 * scale), (int)Math.Floor(300 * scale));
             }
         }
@@ -49,12 +53,15 @@ namespace MPRG{
             Console.WriteLine("police update" + " " + this.yPos + " " + this.speed);
         }
 
-        public override void moveX(float velocity){
+        public override void moveX(float velocity)
+        {
             this.xPos += velocity;
         }
 
-        public override void setSpeedTo(float Speed){
+        public override void setSpeedTo(float Speed)
+        {
             speed = Speed;
+            Console.WriteLine($"police {this.speed}");
         }
     }
 }
