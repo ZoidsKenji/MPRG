@@ -305,6 +305,8 @@ public class Game1 : Game
                 Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80);
                 Xspeed = crashPhysics(player, policesprite, Xspeed, 35, 80);
 
+                policesprite.moveX(policeXspeed);
+
 
 
                 sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);

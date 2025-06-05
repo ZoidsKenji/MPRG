@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 
 namespace MPRG{
-    internal class Police : Sprite{
+    internal class Police : Sprite
+    {
 
         public float scale = 1;
         public int midpoint = 1280 / 2;
@@ -23,14 +24,18 @@ namespace MPRG{
             }
         }
 
-        public override Rectangle BackendRect{
-            get{
+        public override Rectangle BackendRect
+        {
+            get
+            {
                 return new Rectangle((int)(xPos * 0.23) + (150 - 35), (int)yPos, 70, 90);
             }
         }
 
-        public Rectangle DetectionRect{
-            get{
+        public Rectangle DetectionRect
+        {
+            get
+            {
                 return new Rectangle((int)(xPos * 0.23) + (150 - 35), (int)yPos - 90, 70, 90);
             }
         }
@@ -63,5 +68,6 @@ namespace MPRG{
             speed = Speed;
             Console.WriteLine($"police {this.speed}");
         }
+        
     }
 }
