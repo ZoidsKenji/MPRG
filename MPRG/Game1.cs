@@ -135,6 +135,62 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        static float crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
+        {
+            if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
+            {
+                float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
+                Console.WriteLine(speeddifferent);
+                if (reactionSprite.yPos < actionSprite.yPos)
+                {
+                    if ((actionSprite.yPos - reactionSprite.yPos) > hitboxHeight)
+                    {
+                        if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
+                        {
+                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 2) + 0.5f));
+                            reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
+                        }
+                        else
+                        {
+                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 2) + 0.5f));
+                            reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
+                        }
+                    }
+                    else
+                    {
+                        actionXspeed = -(Math.Abs(actionXspeed) / actionXspeed);
+                        actionSprite.moveX(actionXspeed);
+                    }
+
+
+                }
+                else if (reactionSprite.yPos > actionSprite.yPos)
+                {
+                    if ((reactionSprite.yPos - actionSprite.yPos) > hitboxHeight)
+                    {
+                        if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
+                        {
+                            actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
+                            reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
+                        }
+                        else
+                        {
+                            actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
+                            reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
+                        }
+                    }
+                    else
+                    {
+                        actionXspeed = -(Math.Abs(actionXspeed) / actionXspeed);
+                        actionSprite.moveX(actionXspeed);
+                    }
+                }
+                //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                //Console.WriteLine("Crash");
+            }
+            return actionXspeed;
+        }
+
         Xaccel = player.speed / 10;
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)){
             Exit();
@@ -193,46 +249,7 @@ public class Game1 : Game
                 }
 
                 //-- police crash physics
-                if (sprite.BackendRect.Intersects(policesprite.BackendRect) && sprite != policesprite)
-                {
-                    float speeddifferent = Math.Abs(policesprite.speed - sprite.speed);
-                    Console.WriteLine(speeddifferent);
-                    if (sprite.yPos < policesprite.yPos)
-                    {
-                        if ((policesprite.yPos - sprite.yPos) > 80)
-                        {
-                            if (Math.Abs(policesprite.BackendRect.X - sprite.BackendRect.X) < 35)
-                            {
-                                policesprite.setSpeedTo(sprite.speed - ((speeddifferent / 2) + 0.5f));
-                                sprite.setSpeedTo(sprite.speed + (speeddifferent + 3));
-                            }
-                        }
-                        else
-                        {
-                            policeXspeed = -(Math.Abs(policeXspeed) / policeXspeed);
-                            policesprite.moveX(policeXspeed);
-                        }
-
-                    }
-                    else if (sprite.yPos > policesprite.yPos)
-                    {
-                        if ((sprite.yPos - policesprite.yPos) > 80)
-                        {
-                            if (Math.Abs(policesprite.BackendRect.X - sprite.BackendRect.X) < 35)
-                            {
-                                policesprite.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
-                                sprite.setSpeedTo(policesprite.speed - (speeddifferent + 3));
-                            }
-                        }
-                        else
-                        {
-                            policeXspeed = -(Math.Abs(policeXspeed) / policeXspeed);
-                            policesprite.moveX(policeXspeed);
-                        }
-                    }
-                    //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                    //Console.WriteLine("Crash");
-                }
+                policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80);
 
 
                 
@@ -285,46 +302,8 @@ public class Game1 : Game
                 }
 
                 //-- player crash physics
-                if (sprite.BackendRect.Intersects(player.BackendRect) && sprite != player)
-                {
-                    float speeddifferent = Math.Abs(player.speed - sprite.speed);
-                    Console.WriteLine(speeddifferent);
-                    if (sprite.yPos < player.yPos)
-                    {
-                        if ((player.yPos - sprite.yPos) > 80)
-                        {
-                            if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35)
-                            {
-                                player.setSpeedTo(sprite.speed - ((speeddifferent / 2) + 0.5f));
-                                sprite.setSpeedTo(sprite.speed + (speeddifferent + 3));
-                            }
-                        }
-                        else
-                        {
-                            Xspeed = -(Math.Abs(Xspeed) / Xspeed);
-                            player.moveX(Xspeed);
-                        }
-
-                    }
-                    else if (sprite.yPos > player.yPos)
-                    {
-                        if ((sprite.yPos - player.yPos) > 80)
-                        {
-                            if (Math.Abs(player.BackendRect.X - sprite.BackendRect.X) < 35)
-                            {
-                                player.setSpeedTo(sprite.speed + ((speeddifferent / 2) + 0.5f));
-                                sprite.setSpeedTo(player.speed - (speeddifferent + 3));
-                            }
-                        }
-                        else
-                        {
-                            Xspeed = -(Math.Abs(Xspeed) / Xspeed);
-                            player.moveX(Xspeed);
-                        }
-                    }
-                    //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                    Console.WriteLine("Crash");
-                }
+                Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80);
+                Xspeed = crashPhysics(player, policesprite, Xspeed, 35, 80);
 
 
 
