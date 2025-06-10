@@ -23,7 +23,7 @@ namespace MPRG{
         public Player(Texture2D texture, Vector2 pos) : base(texture, pos){
             this.backendColour = Color.LightGray;
             this.yPos = 435;
-            this.speed = 55;
+            this.speed = 80;
         }
 
         public void accelerate(float accel)

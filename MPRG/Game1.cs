@@ -248,6 +248,12 @@ public class Game1 : Game
                     policesprite.setSpeedTo(policesprite.speed + (3 * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 }
 
+                // police path finding
+                List<List<bool>> map = new List<List<bool>>();
+                map.Add(new List<bool>());
+                map.Add(new List<bool>());
+                Console.WriteLine("" + map.Count);
+
                 //-- police crash physics
                 policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80);
 
