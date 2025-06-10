@@ -147,12 +147,12 @@ public class Game1 : Game
                     {
                         if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
                         {
-                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 2) + 0.5f));
+                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
                             reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
                         }
                         else
                         {
-                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 2) + 0.5f));
+                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
                             reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
                         }
                     }

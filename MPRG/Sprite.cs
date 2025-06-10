@@ -14,6 +14,9 @@ namespace MPRG{
         public Color colour;
         public Color backendColour;
 
+        public float rotationAngle;
+        public Vector2 spriteOrigin;
+
         public float speed;
 
         public float xPos = 0;
@@ -31,7 +34,8 @@ namespace MPRG{
             }
         }
 
-        public Sprite(Texture2D texture, Vector2 pos){
+        public Sprite(Texture2D texture, Vector2 pos)
+        {
             Console.WriteLine("NewSprite");
             this.texture = texture;
             //this.BackendTexture = backendTexture;
@@ -41,6 +45,9 @@ namespace MPRG{
             this.xPos = 0;
             this.yPos = 0;
             this.speed = 0;
+            this.rotationAngle = 0;
+            this.spriteOrigin.X = texture.Width / 2;
+            this.spriteOrigin.Y = texture.Height / 2;
         }
 
         public virtual void moveX(float velocity){
