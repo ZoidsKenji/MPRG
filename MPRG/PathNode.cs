@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,6 +29,15 @@ namespace MPRG
         public bool LargerThan(PathNode other)
         {
             return this.tCost < other.tCost;
+        }
+
+        public bool Equal(PathNode other)
+        {
+            return x == other.x && y == other.y;
+        }
+
+        public HashSet<int> hash(){
+            return new HashSet<int>() {x, y};
         }
     }
 }
