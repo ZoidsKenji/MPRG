@@ -46,6 +46,7 @@ namespace MPRG{
             this.backendColour = Color.Blue;
             this.speed = 90;
             this.yPos = 1280;
+            this.xSpeed = 0;
         }
 
         public override void updateObject(float time, float playerSpeed, float midPointX)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.DXGI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -223,12 +224,39 @@ public class Game1 : Game
         sprites.RemoveAll(sprite => sprite.yPos > 1280 || sprite.yPos < -90);
         roadLine.RemoveAll(line => line.Rect.Y > 1000 || line.Rect.Y < 300);
 
-        foreach (Sprite policesprite in polices){
+        foreach (Sprite policesprite in polices)
+        {
 
             policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
 
+            // police maping
+            List<List<bool>> map = [new List<bool>(), new List<bool>(), new List<bool>()];
+            Rectangle mapcheckRect = new Rectangle(0, 0, 70, 40);
+            for (int i = 0; i < 3; i++)
+            {
+                for (int n = 0; n < 25; n++)
+                {
+                    //if (mapcheckRect.Intersects(sprites.BackendRect))
+                    map[i].Add(false);
+
+                    mapcheckRect = new Rectangle(i * 100, n * 40, 70, 40);
+                }
+            }
+
             foreach (Sprite sprite in sprites)
             {
+                int xGrid = (int)((sprite.xPos * 0.23) + 150) / 100;
+                int yGrid = (int)(sprite.yPos / 40);
+                if (yGrid < 0)
+                {
+                    yGrid = 0;
+                }
+                if (yGrid > 24)
+                {
+                    yGrid = 24;
+                }
+                map[xGrid][yGrid] = true;
+
                 //-- police controller
                 float policeXspeed = 0;
                 if (policesprite.yPos > player.yPos && !policesprite.BackendRect.Intersects(sprite.BackendRect))
@@ -248,17 +276,11 @@ public class Game1 : Game
                     policesprite.setSpeedTo(policesprite.speed + (3 * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 }
 
-                // police path finding
-                List<List<bool>> map = new List<List<bool>>();
-                map.Add(new List<bool>());
-                map.Add(new List<bool>());
-                Console.WriteLine("" + map.Count);
-
                 //-- police crash physics
                 policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80);
 
 
-                
+
                 //-- player controller
                 if (sprite is Player playersprite)
                 {
@@ -318,8 +340,17 @@ public class Game1 : Game
                 sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
 
             }
+            var map0 = string.Join(",", map[0]);
+            var map1 = string.Join(",", map[1]);
+            var map2 = string.Join(",", map[2]);
+            Console.WriteLine(map2);
+            Console.WriteLine(map1);
+            Console.WriteLine(map0);
+
         }
-        foreach (Sprite road in roads){
+        
+        foreach (Sprite road in roads)
+        {
             road.moveMidPoint(-player.xPos);
         }
 
