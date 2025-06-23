@@ -230,32 +230,56 @@ public class Game1 : Game
             policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
 
             // police maping
-            List<List<bool>> map = [new List<bool>(), new List<bool>(), new List<bool>()];
+            List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
             Rectangle mapcheckRect = new Rectangle(0, 0, 70, 40);
             for (int i = 0; i < 3; i++)
             {
                 for (int n = 0; n < 25; n++)
                 {
                     //if (mapcheckRect.Intersects(sprites.BackendRect))
-                    map[i].Add(false);
+                    map[i].Add(0);
 
                     mapcheckRect = new Rectangle(i * 100, n * 40, 70, 40);
                 }
             }
 
+            //put police into the grid
+            int PxGrid = (int)((policesprite.xPos * 0.23) + 150) / 100;
+            int PyGrid = (int)(policesprite.yPos / 40);
+            if (PyGrid < 0)
+            {
+                PyGrid = 0;
+            }
+            if (PyGrid > 24)
+            {
+                PyGrid = 24;
+            }
+            map[PxGrid][PyGrid] = 3;
+
             foreach (Sprite sprite in sprites)
             {
                 int xGrid = (int)((sprite.xPos * 0.23) + 150) / 100;
                 int yGrid = (int)(sprite.yPos / 40);
+
                 if (yGrid < 0)
                 {
                     yGrid = 0;
                 }
+
                 if (yGrid > 24)
                 {
                     yGrid = 24;
                 }
-                map[xGrid][yGrid] = true;
+
+                if (map[xGrid][yGrid] == 0)
+                {
+                    map[xGrid][yGrid] = 1;
+                }
+                
+                if (sprite is Player)
+                {
+                    map[xGrid][yGrid] = 2;
+                }
 
                 //-- police controller
                 float policeXspeed = 0;
