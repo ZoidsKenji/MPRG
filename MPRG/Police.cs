@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,8 @@ namespace MPRG{
         public int midpoint = 1280 / 2;
 
         public float xSpeed;
+
+        public PathFind pathfinder;
 
         public override Rectangle Rect
         {
@@ -47,6 +50,17 @@ namespace MPRG{
             this.speed = 90;
             this.yPos = 1280;
             this.xSpeed = 0;
+
+            // blank map (default)
+            List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
+            for (int i = 0; i < 3; i++)
+            {
+                for (int n = 0; n < 25; n++)
+                {
+                    map[i].Add(0);
+                }
+            }
+            this.pathfinder = new PathFind(map);
         }
 
         public override void updateObject(float time, float playerSpeed, float midPointX)
@@ -68,6 +82,11 @@ namespace MPRG{
         {
             speed = Speed;
             Console.WriteLine($"police {this.speed}");
+        }
+
+        public static void findPath(List<List<int>> map)
+        {
+            
         }
         
     }

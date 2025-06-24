@@ -229,9 +229,9 @@ public class Game1 : Game
 
             policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
 
-            // police maping
+            // police maping (0 = road, 1 = traffic, 2 = player, 3 = police, 4 = police path)
             List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
-            Rectangle mapcheckRect = new Rectangle(0, 0, 70, 40);
+            //Rectangle mapcheckRect = new Rectangle(0, 0, 70, 40);
             for (int i = 0; i < 3; i++)
             {
                 for (int n = 0; n < 25; n++)
@@ -239,7 +239,7 @@ public class Game1 : Game
                     //if (mapcheckRect.Intersects(sprites.BackendRect))
                     map[i].Add(0);
 
-                    mapcheckRect = new Rectangle(i * 100, n * 40, 70, 40);
+                    //mapcheckRect = new Rectangle(i * 100, n * 40, 70, 40);
                 }
             }
 

@@ -15,9 +15,9 @@ namespace MPRG
         public int x;
         public int y;
         public bool drivible = true;
-        public int dCost = 0;
-        public int hCost = 0;
-        public int tCost = 0;
+        public float dCost = 0;
+        public float hCost = 0;
+        public float tCost = 0;
         public PathNode parent = null;
         public PathNode(int x, int y, bool drivible)
         {
