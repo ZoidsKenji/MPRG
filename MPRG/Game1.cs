@@ -46,7 +46,7 @@ public class Game1 : Game
 
     List<Sprite> allSprites;
     List<Sprite> roads;
-    List<Sprite> polices;
+    List<Police> polices;
     List<Sprite> backendroads;
 
     List<Sprite> roadLine;
@@ -92,7 +92,7 @@ public class Game1 : Game
         startPos.Y = 600;
         sprites = new List<Sprite>();
         roads = new List<Sprite>();
-        polices = new List<Sprite>();
+        polices = new List<Police>();
         backendroads = new List<Sprite>();
         roadLine = new List<Sprite>();
         // roadLineR = new List<Sprite>();
@@ -224,7 +224,7 @@ public class Game1 : Game
         sprites.RemoveAll(sprite => sprite.yPos > 1280 || sprite.yPos < -90);
         roadLine.RemoveAll(line => line.Rect.Y > 1000 || line.Rect.Y < 300);
 
-        foreach (Sprite policesprite in polices)
+        foreach (Police policesprite in polices)
         {
 
             policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
@@ -254,6 +254,17 @@ public class Game1 : Game
             {
                 PyGrid = 24;
             }
+
+            if (PxGrid < 0)
+            {
+                PxGrid = 0;
+            }
+            if (PxGrid > 2)
+            {
+                PxGrid = 2;
+            }
+            Console.WriteLine(PxGrid);
+            Console.WriteLine(PyGrid);
             map[PxGrid][PyGrid] = 3;
 
             foreach (Sprite sprite in sprites)
@@ -364,12 +375,14 @@ public class Game1 : Game
                 sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
 
             }
-            var map0 = string.Join(",", map[0]);
-            var map1 = string.Join(",", map[1]);
-            var map2 = string.Join(",", map[2]);
-            Console.WriteLine(map2);
-            Console.WriteLine(map1);
-            Console.WriteLine(map0);
+            policesprite.findPath(map);
+
+            // var map0 = string.Join(",", map[0]);
+            // var map1 = string.Join(",", map[1]);as
+            // var map2 = string.Join(",", map[2]);
+            // Console.WriteLine(map2);
+            // Console.WriteLine(map1);
+            // Console.WriteLine(map0);
 
         }
         

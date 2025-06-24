@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -58,7 +60,24 @@ namespace MPRG{
 
         }
 
-        public virtual void updateObject(float time, float playerSpeed, float midPoint){
+        public (int, int) ItemPos(List<List<int>> list, int item)
+        {
+            for (int y = 0; y < list[0].Count(); y++)
+            {
+                for (int x = 0; x < list.Count(); x++)
+                {
+                    if (list[x][y] == item)
+                    {
+                        return (x, y);
+                    }
+                }
+
+            }
+            throw new Exception("");
+        }
+
+        public virtual void updateObject(float time, float playerSpeed, float midPoint)
+        {
 
         }
 

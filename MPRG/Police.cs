@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
@@ -52,15 +53,15 @@ namespace MPRG{
             this.xSpeed = 0;
 
             // blank map (default)
-            List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
-            for (int i = 0; i < 3; i++)
-            {
-                for (int n = 0; n < 25; n++)
-                {
-                    map[i].Add(0);
-                }
-            }
-            this.pathfinder = new PathFind(map);
+            // List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
+            // for (int i = 0; i < 3; i++)
+            // {
+            //     for (int n = 0; n < 25; n++)
+            //     {
+            //         map[i].Add(0);
+            //     }
+            // }
+            // this.pathfinder = new PathFind(map);
         }
 
         public override void updateObject(float time, float playerSpeed, float midPointX)
@@ -84,9 +85,62 @@ namespace MPRG{
             Console.WriteLine($"police {this.speed}");
         }
 
-        public static void findPath(List<List<int>> map)
+        public void showPath(List<List<int>> map, List<(int x, int y)> path = null)
         {
-            
+            List<(int x, int y)> pathSet = new();
+            if (path != null)
+            {
+                foreach ((int, int) road in path)
+                {
+                    pathSet.Add(road);
+                }
+            }
+
+            for (int y = 0; y < map[0].Count(); y++)
+                {
+                    string row = "";
+                    for (int x = 0; x < map.Count(); x++)
+                    {
+                        if (pathSet.Contains((x, y)))
+                        {
+                            if ((x, y) == path[0])
+                            {
+                                row += "3";
+                            }
+                            else if ((x, y) == path.Last())
+                            {
+                                row += "2";
+                            }
+                            else
+                            {
+                                row += "4";
+                            }
+
+                        }
+                        else if (map[x][y] == 1)
+                        {
+                            row += "1";
+                        }
+                        else
+                        {
+                            row += "0";
+                        }
+                    }
+                    Console.WriteLine(row);
+
+                }
+        }
+
+        public void findPath(List<List<int>> map)
+        {
+            showPath(map);
+            pathfinder = new PathFind(map);
+
+            var startPos = ItemPos(map, 3);
+            var endPos = ItemPos(map, 2);
+
+            List<(int, int)> path = pathfinder.findPath(startPos, endPos);
+            showPath(map, path);
         }
         
     }

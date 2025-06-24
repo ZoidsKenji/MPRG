@@ -22,8 +22,8 @@ namespace MPRG
         public PathFind(List<List<int>> map)
         {
             this.map = map;
-            height = map.Count;
-            width = map[0].Count;
+            height = map[0].Count;
+            width = map.Count;
             nodes = new List<List<PathNode>>();
 
             for (int y = 0; y < height; y++)
@@ -38,11 +38,11 @@ namespace MPRG
             }
         }
 
-        public PathNode getNode(int x, int y)
+        public PathNode getNode((int, int) pos)
         {
-            if (0 <= x && x < width && 0 <= y && y < height)
+            if (0 <= pos.Item1 && pos.Item1 < width && 0 <= pos.Item2 && pos.Item2 < height)
             {
-                return nodes[x][y];
+                return nodes[pos.Item2][pos.Item1];
             }
             return null;
         }
@@ -63,7 +63,8 @@ namespace MPRG
                 int dx = dirList[0];
                 int dy = dirList[1];
 
-                PathNode neighbor = getNode(node.x + dx, node.y + dy);
+                (int, int) pos = (node.x + dx, node.y + dy);
+                PathNode neighbor = getNode(pos);
 
                 if (neighbor != null && neighbor.drivible)
                 {
@@ -87,14 +88,14 @@ namespace MPRG
             return Math.Abs(node.x - target.x) + Math.Abs(node.y - target.y);
         }
 
-        public List<HashSet<int>> reconstructPath(PathNode endNode)
+        public List<(int, int)> reconstructPath(PathNode endNode)
         {
-            List<HashSet<int>> path = [];
+            List<(int, int)> path = [];
             PathNode current = endNode;
 
             while (current != null)
             {
-                path.Add(new HashSet<int> { current.x, current.y });
+                path.Add((current.x, current.y));
                 current = current.parent;
             }
 
@@ -102,13 +103,10 @@ namespace MPRG
             return path;
         }
 
-        public List<HashSet<int>> findPath(HashSet<int> start, HashSet<int> end)
+        public List<(int, int)> findPath((int, int) start, (int, int) end)
         {
-            List<int> startList = start.ToList();
-            List<int> endList = end.ToList();
-
-            PathNode startNode = getNode(startList[0], startList[1]);
-            PathNode endNode = getNode(endList[0], endList[1]);
+            PathNode startNode = getNode(start);
+            PathNode endNode = getNode(end);
 
             if (startNode == null || endNode == null)
             {
@@ -166,50 +164,5 @@ namespace MPRG
             return null;
         }
 
-        public void showPath(List<List<int>> map, List<HashSet<int>> path = null)
-        {
-            List<HashSet<int>> pathSet = null;
-            foreach (HashSet<int> road in path)
-            {
-                pathSet.Add(road);
-            }
-
-            for (int y = 0; y < map.Count(); y++)
-            {
-                string row = "";
-                for (int x = 0; x < map[0].Count(); x++)
-                {
-                    HashSet<int> grid = new HashSet<int> { x, y };
-                    if (pathSet.Contains(grid))
-                    {
-                        if (grid == path[0])
-                        {
-                            row += "3";
-                        }
-                        else if (grid == path[-1])
-                        {
-                            row += "2";
-                        }
-                        else
-                        {
-                            row += "4";
-                        }
-
-                    }
-                    else if (map[x][y] == 1)
-                    {
-                        row += "1";
-                    }
-                    else
-                    {
-                        row += "0";
-                    }
-                }
-                Console.WriteLine(row);
-
-            }
-        }
-        
-        
     }
 }
