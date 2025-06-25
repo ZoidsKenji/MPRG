@@ -110,6 +110,7 @@ namespace MPRG
 
             if (startNode == null || endNode == null)
             {
+                Console.WriteLine("No startpoint or endpoint");
                 return null;
             }
 
@@ -161,6 +162,7 @@ namespace MPRG
                     neighbor.tCost = neighbor.dCost + neighbor.dCost;
                 }
             }
+            Console.WriteLine("No path");
             return null;
         }
 
