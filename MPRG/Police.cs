@@ -96,18 +96,18 @@ namespace MPRG{
                 }
             }
 
-            for (int y = 0; y < map[0].Count(); y++)
+            for (int y = 0; y < map.Count(); y++)
                 {
                     string row = "";
-                    for (int x = 0; x < map.Count(); x++)
+                    for (int x = 0; x < map[0].Count(); x++)
                     {
-                        if (pathSet.Contains((x, y)))
+                        if (pathSet.Contains((y, x)))
                         {
-                            if ((x, y) == path[0])
+                            if ((y, x) == path[0])
                             {
                                 row += "3";
                             }
-                            else if ((x, y) == path.Last())
+                            else if ((y, x) == path.Last())
                             {
                                 row += "2";
                             }
@@ -117,7 +117,7 @@ namespace MPRG{
                             }
 
                         }
-                        else if (map[x][y] == 1)
+                        else if (map[y][x] == 1)
                         {
                             row += "1";
                         }
@@ -133,7 +133,7 @@ namespace MPRG{
 
         public void findPath(List<List<int>> map)
         {
-            showPath(map);
+            //showPath(map);
             pathfinder = new PathFind(map);
 
             var startPos = ItemPos(map, 3);

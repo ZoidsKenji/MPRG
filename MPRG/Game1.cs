@@ -312,7 +312,7 @@ public class Game1 : Game
                 }
 
                 //-- police crash physics
-                policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80) / 10;
+                policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80) / 100;
 
 
 
