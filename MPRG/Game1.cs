@@ -244,7 +244,7 @@ public class Game1 : Game
             }
 
             //put police into the grid
-            int PxGrid = (int)((policesprite.xPos * 0.23) + 150) / 100;
+            int PxGrid = (int)(policesprite.xPos * 0.23) + 150 / 100;
             int PyGrid = (int)(policesprite.yPos / 40);
             if (PyGrid < 0)
             {
@@ -271,10 +271,12 @@ public class Game1 : Game
             {
                 int xGrid = (int)((sprite.xPos * 0.23) + 150) / 100;
                 int yGrid = (int)(sprite.yPos / 40);
+                int y2Grid = yGrid + 1;
 
                 if (yGrid < 0)
                 {
                     yGrid = 0;
+                    y2Grid = 0;
                 }
 
                 if (yGrid > 24)
@@ -282,9 +284,18 @@ public class Game1 : Game
                     yGrid = 24;
                 }
 
-                if (map[xGrid][yGrid] == 0)
+                if (y2Grid > 24)
+                {
+                    y2Grid = 24;
+                }
+
+                if (map[xGrid][yGrid] == 0 && sprite is not Player)
                 {
                     map[xGrid][yGrid] = 1;
+                    if (map[xGrid][y2Grid] == 0)
+                    {
+                        map[xGrid][y2Grid] = 1;
+                    }
                 }
                 
                 if (sprite is Player)
@@ -380,7 +391,10 @@ public class Game1 : Game
             //     new() { 0, 1, 1, 1, 0 },
             //     new() { 3, 0, 0, 2, 0 }
             // };
-
+            if (policesprite.xPos > 550 || player.xPos < -550)
+            {
+                policesprite.xSpeed = -Math.Abs(policesprite.xSpeed) * (policesprite.xPos / Math.Abs(policesprite.xPos));
+            }
             policesprite.findPath(map, (float)gameTime.ElapsedGameTime.TotalSeconds);
 
             // var map0 = string.Join(",", map[0]);

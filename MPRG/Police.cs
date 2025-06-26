@@ -144,26 +144,27 @@ namespace MPRG{
 
             List<(int, int)> path = pathfinder.findPath(startPos, endPos);
             showPath(map, path);
-            if (startPos.Item1 == path[0].Item1)
+            if (startPos.Item1 == path[1].Item1 && path!= null)
             {
                 if (xSpeed > 0)
                 {
-                    xSpeed -= 10 * time;
+                    xSpeed -= speed / 10 * time;
                 }
                 else if (xSpeed < 0)
                 {
-                    xSpeed += 10 * time;
+                    xSpeed += speed / 10 * time;
                 }
             }
-            else if (startPos.Item1 > path[0].Item1)
+            else if (startPos.Item1 > path[1].Item1)
             {
-                xSpeed -= 10 * time;
+                xSpeed -= speed / 10 * time;
             }
             else
             {
-                xSpeed += 10 * time;
+                xSpeed += speed / 10 * time;
             }
-
+            Console.WriteLine("policepos" + startPos);
+            Console.WriteLine("path" + path[1]);
             moveX(xSpeed);
         }
         
