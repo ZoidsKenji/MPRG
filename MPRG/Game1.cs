@@ -375,7 +375,13 @@ public class Game1 : Game
                 sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
 
             }
-            policesprite.findPath(map);
+            // List<List<int>> testMap = new List<List<int>> {
+            //     new() { 0, 0, 0, 0, 0 },
+            //     new() { 0, 1, 1, 1, 0 },
+            //     new() { 3, 0, 0, 2, 0 }
+            // };
+
+            policesprite.findPath(map, (float)gameTime.ElapsedGameTime.TotalSeconds);
 
             // var map0 = string.Join(",", map[0]);
             // var map1 = string.Join(",", map[1]);as

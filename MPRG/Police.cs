@@ -96,7 +96,7 @@ namespace MPRG{
                 }
             }
 
-            for (int y = 0; y < map.Count(); y++)
+            for (int y = map.Count() - 1; y > -1; y--)
                 {
                     string row = "";
                     for (int x = 0; x < map[0].Count(); x++)
@@ -131,16 +131,40 @@ namespace MPRG{
                 }
         }
 
-        public void findPath(List<List<int>> map)
+        public void findPath(List<List<int>> map, float time)
         {
-            //showPath(map);
-            pathfinder = new PathFind(map);
 
             var startPos = ItemPos(map, 3);
             var endPos = ItemPos(map, 2);
 
+            List<List<int>> newMap = map;
+            newMap[startPos.Item1][startPos.Item2] = 0;
+            newMap[endPos.Item1][endPos.Item2] = 0;
+            pathfinder = new PathFind(newMap);
+
             List<(int, int)> path = pathfinder.findPath(startPos, endPos);
             showPath(map, path);
+            if (startPos.Item1 == path[0].Item1)
+            {
+                if (xSpeed > 0)
+                {
+                    xSpeed -= 10 * time;
+                }
+                else if (xSpeed < 0)
+                {
+                    xSpeed += 10 * time;
+                }
+            }
+            else if (startPos.Item1 > path[0].Item1)
+            {
+                xSpeed -= 10 * time;
+            }
+            else
+            {
+                xSpeed += 10 * time;
+            }
+
+            moveX(xSpeed);
         }
         
     }

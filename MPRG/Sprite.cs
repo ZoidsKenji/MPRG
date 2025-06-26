@@ -62,9 +62,9 @@ namespace MPRG{
 
         public (int, int) ItemPos(List<List<int>> list, int item)
         {
-            for (int y = 0; y < list[0].Count(); y++)
+            for (int x = 0; x < list.Count(); x++)
             {
-                for (int x = 0; x < list.Count(); x++)
+                for (int y = 0; y < list[0].Count(); y++)
                 {
                     if (list[x][y] == item)
                     {

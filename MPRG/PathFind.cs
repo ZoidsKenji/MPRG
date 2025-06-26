@@ -26,10 +26,10 @@ namespace MPRG
             width = map.Count;
             nodes = new List<List<PathNode>>();
 
-            for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
             {
-                List<PathNode> row = [];
-                for (int x = 0; x < width; x++)
+                List<PathNode> row = new List<PathNode>();
+                for (int y = 0; y < height; y++)
                 {
                     bool drivible = map[x][y] == 0;
                     row.Add(new PathNode(x, y, drivible));
@@ -42,26 +42,25 @@ namespace MPRG
         {
             if (0 <= pos.Item1 && pos.Item1 < width && 0 <= pos.Item2 && pos.Item2 < height)
             {
-                return nodes[pos.Item2][pos.Item1];
+                return nodes[pos.Item1][pos.Item2];
             }
             return null;
         }
 
         public List<PathNode> getNeighbors(PathNode node)
         {
-            List<PathNode> neighbors = null;
+            List<PathNode> neighbors = new List<PathNode>();
 
-            List<HashSet<int>> directions = [
-                new HashSet<int> {-1, -1}, new HashSet<int> {-1, 0}, new HashSet<int> {-1, 1},
-                new HashSet<int> {0, -1}, new HashSet<int> {0, 1},
-                new HashSet<int> {1, -1}, new HashSet<int> {1, 0}, new HashSet<int> {1, 1}
+            List<List<int>> directions = [
+                new List<int> {-1, 0},
+                new List<int> {0, -1}, new List<int> {0, 1},
+                new List<int> {1, 0}
             ];
 
-            foreach (HashSet<int> dirHash in directions)
+            foreach (List<int> dirHash in directions)
             {
-                List<int> dirList = dirHash.ToList();
-                int dx = dirList[0];
-                int dy = dirList[1];
+                int dx = dirHash[0];
+                int dy = dirHash[1];
 
                 (int, int) pos = (node.x + dx, node.y + dy);
                 PathNode neighbor = getNode(pos);
@@ -75,12 +74,12 @@ namespace MPRG
             return neighbors;
         }
 
-        public float calDistance(PathNode nodeA, PathNode nodeB)
+        public int calDistance(PathNode nodeA, PathNode nodeB)
         {
             int dx = Math.Abs(nodeA.x - nodeB.x);
             int dy = Math.Abs(nodeA.y - nodeB.y);
 
-            return (float)Math.Sqrt((dx * dx) + (dy * dy));
+            return dx + dy;
         }
 
         public int calHeuristic(PathNode node, PathNode target)
@@ -90,7 +89,7 @@ namespace MPRG
 
         public List<(int, int)> reconstructPath(PathNode endNode)
         {
-            List<(int, int)> path = [];
+            List<(int, int)> path = new List<(int, int)>();
             PathNode current = endNode;
 
             while (current != null)
@@ -105,6 +104,7 @@ namespace MPRG
 
         public List<(int, int)> findPath((int, int) start, (int, int) end)
         {
+
             PathNode startNode = getNode(start);
             PathNode endNode = getNode(end);
 
@@ -114,26 +114,27 @@ namespace MPRG
                 return null;
             }
 
-            if (!startNode.drivible || !endNode.drivible)
-            {
-                return null;
-            }
+            // if (!startNode.drivible || !endNode.drivible)
+            // {
+            //     Console.WriteLine("Not drivible");
+            //     return null;
+            // }
 
             startNode.dCost = 0;
             startNode.hCost = calHeuristic(startNode, endNode);
             startNode.tCost = startNode.dCost + startNode.hCost;
 
             List<PathNode> openSet = [startNode];
-            List<PathNode> closedSet = [];
+            List<PathNode> closedSet = new List<PathNode>();
 
-            while (openSet != null)
+            while (openSet.Count != 0)
             {
                 openSet.Sort((a, b) => a.tCost.CompareTo(b.tCost));
                 PathNode currentNode = openSet[0];
                 openSet.Remove(currentNode);
                 closedSet.Add(currentNode);
 
-                if (currentNode == endNode)
+                if (currentNode.Equal(endNode))
                 {
                     return reconstructPath(currentNode);
                 }
@@ -145,13 +146,13 @@ namespace MPRG
                         continue;
                     }
 
-                    float newDCost = currentNode.dCost + calDistance(currentNode, neighbor);
+                    int newDCost = currentNode.dCost + calDistance(currentNode, neighbor);
 
                     if (!openSet.Contains(neighbor))
                     {
                         openSet.Add(neighbor);
                     }
-                    else if (newDCost > neighbor.dCost)
+                    else if (newDCost >= neighbor.dCost)
                     {
                         continue;
                     }
@@ -159,7 +160,7 @@ namespace MPRG
                     neighbor.parent = currentNode;
                     neighbor.dCost = newDCost;
                     neighbor.hCost = calHeuristic(neighbor, endNode);
-                    neighbor.tCost = neighbor.dCost + neighbor.dCost;
+                    neighbor.tCost = neighbor.dCost + neighbor.hCost;
                 }
             }
             Console.WriteLine("No path");
