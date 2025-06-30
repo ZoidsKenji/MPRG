@@ -11,8 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MPRG
 {
-    internal class OnlineServer
-    { 
-        
+    internal class OpponentAI : Sprite
+    {
+        public OpponentAI(Texture2D texture, Vector2 pos) : base(texture, pos)
+        {
+        }
     }
 }

@@ -167,44 +167,44 @@ namespace MPRG{
             {
                 showPath(map, path);
                 Console.WriteLine(path[1]);
-                float sideSpeed = 1;
-                float sideSlowSpeed = 3;
+                float sideSpeedDiv = 0.75f;
+                float sideSlowSpeedDiv = 3;
                 if (path[1].Item1 == 0)
                 {
                     if (xPos > -360)
                     {
-                        xSpeed = -speed / sideSpeed * time;
+                        xSpeed = -speed / sideSpeedDiv * time;
                     }
                     else
                     {
-                        xSpeed = +speed / sideSlowSpeed * time;
+                        xSpeed = +speed / sideSlowSpeedDiv * time;
                     }
                 }
                 else if (path[1].Item1 == 1)
                 {
                     if (xPos < -200)
                     {
-                        xSpeed = speed / sideSpeed * time;
+                        xSpeed = speed / sideSpeedDiv * time;
                     }
                     else if (xPos > 200)
                     {
-                        xSpeed = -speed / sideSpeed * time;
+                        xSpeed = -speed / sideSpeedDiv * time;
                     }
                     else
                     {
                         float direction = (xPos != 0) ? (xPos / Math.Abs(xPos)) : 1;
-                        xSpeed = direction * -Math.Abs(speed / sideSlowSpeed * time);
+                        xSpeed = direction * -Math.Abs(speed / sideSlowSpeedDiv * time);
                     }
                 }
                 else if (path[1].Item1 == 2)
                 {
                     if (xPos < 360)
                     {
-                        xSpeed = speed / sideSpeed * time;
+                        xSpeed = speed / sideSpeedDiv * time;
                     }
                     else
                     {
-                        xSpeed = -speed / sideSlowSpeed * time;
+                        xSpeed = -speed / sideSlowSpeedDiv * time;
                     }
                 }
 
