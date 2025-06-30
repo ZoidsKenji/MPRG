@@ -29,7 +29,7 @@ namespace MPRG{
         public void accelerate(float accel)
         {
             speed += accel;
-            Console.WriteLine(speed);
+            Console.WriteLine("playerSpeed" + speed);
             // if (speed < 0)
             // {
             //     speed = 10;

@@ -72,7 +72,17 @@ namespace MPRG{
             this.yPos += (playerSpeed - speed) * time;
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
-            Console.WriteLine("police update" + " " + this.yPos + " " + this.speed);
+            Console.WriteLine("police update" + " yPos" + this.yPos + " speed" + this.speed);
+            if (yPos > 1500)
+            {
+                yPos = 1500;
+                speed = playerSpeed;
+            }
+            else if (yPos < -1000)
+            {
+                yPos = -1000;
+                speed = playerSpeed;
+            }
         }
 
         public override void moveX(float velocity)
@@ -97,93 +107,118 @@ namespace MPRG{
             }
 
             for (int y = map.Count() - 1; y > -1; y--)
+            {
+                string row = "";
+                for (int x = 0; x < map[0].Count(); x++)
                 {
-                    string row = "";
-                    for (int x = 0; x < map[0].Count(); x++)
+                    if (pathSet.Contains((y, x)))
                     {
-                        if (pathSet.Contains((y, x)))
+                        if ((y, x) == path[0])
                         {
-                            if ((y, x) == path[0])
-                            {
-                                row += "3";
-                            }
-                            else if ((y, x) == path.Last())
-                            {
-                                row += "2";
-                            }
-                            else
-                            {
-                                row += "4";
-                            }
-
+                            row += "3";
                         }
-                        else if (map[y][x] == 1)
+                        else if ((y, x) == path.Last())
                         {
-                            row += "1";
+                            row += "2";
                         }
                         else
                         {
-                            row += "0";
+                            row += "4";
                         }
-                    }
-                    Console.WriteLine(row);
 
+                    }
+                    else if (map[y][x] == 1)
+                    {
+                        row += "1";
+                    }
+                    else
+                    {
+                        row += "0";
+                    }
                 }
+                Console.WriteLine(row);
+
+            }
         }
 
-        public void findPath(List<List<int>> map, float time)
+        public void findPath(List<List<int>> map, float time, float playerSpeed)
         {
 
             var startPos = ItemPos(map, 3);
             var endPos = ItemPos(map, 2);
 
-            List<List<int>> newMap = map;
-            newMap[startPos.Item1][startPos.Item2] = 0;
-            newMap[endPos.Item1][endPos.Item2] = 0;
-            pathfinder = new PathFind(newMap);
+            List<(int, int)> path = new List<(int, int)>();
+            
+            if (startPos != (-1, -1) && endPos != (-1, -1))
+            {
+                List<List<int>> newMap = map;
+                newMap[startPos.Item1][startPos.Item2] = 0;
+                newMap[endPos.Item1][endPos.Item2] = 0;
+                pathfinder = new PathFind(newMap);
 
-            List<(int, int)> path = pathfinder.findPath(startPos, endPos);
-            if (path.Count > 0)
+                path = pathfinder.findPath(startPos, endPos);
+            }
+            else
+            {
+                path = null;
+            }
+            
+            if (path != null)
             {
                 showPath(map, path);
                 Console.WriteLine(path[1]);
+                float sideSpeed = 1;
+                float sideSlowSpeed = 3;
                 if (path[1].Item1 == 0)
                 {
-                    if (xPos > -350)
+                    if (xPos > -360)
                     {
-                        xSpeed = -speed / 2 * time;
+                        xSpeed = -speed / sideSpeed * time;
                     }
                     else
                     {
-                        xSpeed = +speed / 5 * time;
+                        xSpeed = +speed / sideSlowSpeed * time;
                     }
                 }
                 else if (path[1].Item1 == 1)
                 {
-                    if (xPos < -350)
+                    if (xPos < -200)
                     {
-                        xSpeed = speed / 2 * time;
+                        xSpeed = speed / sideSpeed * time;
                     }
-                    else if (xPos > 350)
+                    else if (xPos > 200)
                     {
-                        xSpeed = -speed / 2 * time;
+                        xSpeed = -speed / sideSpeed * time;
                     }
                     else
                     {
                         float direction = (xPos != 0) ? (xPos / Math.Abs(xPos)) : 1;
-                        xSpeed = direction * -Math.Abs(speed / 5 * time);
+                        xSpeed = direction * -Math.Abs(speed / sideSlowSpeed * time);
                     }
                 }
                 else if (path[1].Item1 == 2)
                 {
-                    if (xPos < 350)
+                    if (xPos < 360)
                     {
-                        xSpeed = speed / 2 * time;
+                        xSpeed = speed / sideSpeed * time;
                     }
                     else
                     {
-                        xSpeed = -speed / 5 * time;
+                        xSpeed = -speed / sideSlowSpeed * time;
                     }
+                }
+
+                if (path[1].Item2 < startPos.Item2)
+                {
+                    speed += 40 * (float)time;
+                }
+                else if (speed > (playerSpeed * 0.8))
+                {
+                    speed -= 40 * (float)time;
+                }
+                else
+                {
+                    speed -= 20 * (float)time;
                 }
             }
             moveX(xSpeed);

@@ -273,6 +273,7 @@ public class Game1 : Game
             {
                 int xGrid = (int)(sprite.xPos / 210) + 1;
                 int yGrid = (int)(sprite.yPos / 40);
+                int y0Grid = yGrid - 1;
                 int y2Grid = yGrid + 1;
                 int y3Grid = y2Grid + 1;
 
@@ -290,6 +291,15 @@ public class Game1 : Game
                     yGrid = 0;
                     y2Grid = 0;
                     y3Grid = 0;
+                }
+
+                if (y0Grid < 0)
+                {
+                    y0Grid = 0;
+                }
+                else if (y0Grid > 24)
+                {
+                    y0Grid = 24;
                 }
 
                 if (yGrid > 24)
@@ -318,6 +328,10 @@ public class Game1 : Game
                     {
                         map[xGrid][y3Grid] = 1;
                     }
+                    if (map[xGrid][y0Grid] == 0)
+                    {
+                        map[xGrid][y0Grid] = 1;
+                    }
                 }
                 
                 if (sprite is Player)
@@ -327,22 +341,22 @@ public class Game1 : Game
 
                 //-- police controller
                 float policeXspeed = 0;
-                if (policesprite.yPos > player.yPos && !policesprite.BackendRect.Intersects(sprite.BackendRect))
-                {
-                    policesprite.setSpeedTo(policesprite.speed + (8 * (float)gameTime.ElapsedGameTime.TotalSeconds));
-                }
-                else if (policesprite.BackendRect.Intersects(sprite.BackendRect))
-                {
-                    policesprite.setSpeedTo(policesprite.speed - (40 * (float)gameTime.ElapsedGameTime.TotalSeconds));
-                }
-                else if (policesprite.speed > (playerSpeed * 0.8))
-                {
-                    policesprite.setSpeedTo(policesprite.speed - (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
-                }
-                else
-                {
-                    policesprite.setSpeedTo(policesprite.speed + (3 * (float)gameTime.ElapsedGameTime.TotalSeconds));
-                }
+                // if (policesprite.yPos > player.yPos && !policesprite.BackendRect.Intersects(sprite.BackendRect))
+                // {
+                //     policesprite.setSpeedTo(policesprite.speed + (8 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                // }
+                // else if (policesprite.BackendRect.Intersects(sprite.BackendRect))
+                // {
+                //     policesprite.setSpeedTo(policesprite.speed - (40 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                // }
+                // else if (policesprite.speed > (playerSpeed * 0.8))
+                // {
+                //     policesprite.setSpeedTo(policesprite.speed - (10 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                // }
+                // else
+                // {
+                //     policesprite.setSpeedTo(policesprite.speed + (3 * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                // }
 
                 //-- police crash physics
                 policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80) / 100;
@@ -387,11 +401,11 @@ public class Game1 : Game
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.W))
                     {
-                        playersprite.accelerate(10 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
                     else if (Keyboard.GetState().IsKeyDown(Keys.S) && playersprite.speed > 0)
                     {
-                        playersprite.accelerate(-20 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
 
 
@@ -419,7 +433,7 @@ public class Game1 : Game
                 policesprite.xSpeed = -Math.Abs(policesprite.xSpeed) * direction;
             }
             policesprite.moveX(policesprite.xSpeed);
-            policesprite.findPath(map, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            policesprite.findPath(map, (float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed);
 
             // var map0 = string.Join(",", map[0]);
             // var map1 = string.Join(",", map[1]);as

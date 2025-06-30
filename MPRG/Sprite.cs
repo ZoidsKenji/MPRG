@@ -73,7 +73,7 @@ namespace MPRG{
                 }
 
             }
-            throw new Exception("");
+            return (-1, -1); //throw new Exception("");
         }
 
         public virtual void updateObject(float time, float playerSpeed, float midPoint)
