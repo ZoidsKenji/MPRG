@@ -11,9 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MPRG
 {
-    internal class OpponentAI : Sprite
+    internal class GenericAlgorithms : Sprite
     {
-        public OpponentAI(Texture2D texture, Vector2 pos) : base(texture, pos)
+        public GenericAlgorithms(Texture2D texture, Vector2 pos) : base(texture, pos)
         {
             
         }
