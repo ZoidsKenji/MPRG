@@ -15,6 +15,7 @@ namespace MPRG
     {
         public OpponentAI(Texture2D texture, Vector2 pos) : base(texture, pos)
         {
+            
         }
     }
 }
