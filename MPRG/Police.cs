@@ -51,6 +51,7 @@ namespace MPRG{
             this.speed = 90;
             this.yPos = 1280;
             this.xSpeed = 0;
+            this.xPos = 0;
 
             // blank map (default)
             // List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
@@ -82,7 +83,6 @@ namespace MPRG{
         public override void setSpeedTo(float Speed)
         {
             speed = Speed;
-            Console.WriteLine($"police {this.speed}");
         }
 
         public void showPath(List<List<int>> map, List<(int x, int y)> path = null)
@@ -143,28 +143,49 @@ namespace MPRG{
             pathfinder = new PathFind(newMap);
 
             List<(int, int)> path = pathfinder.findPath(startPos, endPos);
-            showPath(map, path);
-            if (startPos.Item1 == path[1].Item1 && path!= null)
+            if (path.Count > 0)
             {
-                if (xSpeed > 0)
+                showPath(map, path);
+                Console.WriteLine(path[1]);
+                if (path[1].Item1 == 0)
                 {
-                    xSpeed -= speed / 10 * time;
+                    if (xPos > -350)
+                    {
+                        xSpeed = -speed / 2 * time;
+                    }
+                    else
+                    {
+                        xSpeed = +speed / 5 * time;
+                    }
                 }
-                else if (xSpeed < 0)
+                else if (path[1].Item1 == 1)
                 {
-                    xSpeed += speed / 10 * time;
+                    if (xPos < -350)
+                    {
+                        xSpeed = speed / 2 * time;
+                    }
+                    else if (xPos > 350)
+                    {
+                        xSpeed = -speed / 2 * time;
+                    }
+                    else
+                    {
+                        float direction = (xPos != 0) ? (xPos / Math.Abs(xPos)) : 1;
+                        xSpeed = direction * -Math.Abs(speed / 5 * time);
+                    }
+                }
+                else if (path[1].Item1 == 2)
+                {
+                    if (xPos < 350)
+                    {
+                        xSpeed = speed / 2 * time;
+                    }
+                    else
+                    {
+                        xSpeed = -speed / 5 * time;
+                    }
                 }
             }
-            else if (startPos.Item1 > path[1].Item1)
-            {
-                xSpeed -= speed / 10 * time;
-            }
-            else
-            {
-                xSpeed += speed / 10 * time;
-            }
-            Console.WriteLine("policepos" + startPos);
-            Console.WriteLine("path" + path[1]);
             moveX(xSpeed);
         }
         

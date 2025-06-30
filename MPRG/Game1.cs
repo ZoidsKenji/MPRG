@@ -159,7 +159,8 @@ public class Game1 : Game
                     }
                     else
                     {
-                        actionXspeed = -(Math.Abs(actionXspeed) / actionXspeed);
+                        float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
+                        actionXspeed = -Math.Abs(actionXspeed) * direction;
                         actionSprite.moveX(actionXspeed);
                     }
 
@@ -182,7 +183,8 @@ public class Game1 : Game
                     }
                     else
                     {
-                        actionXspeed = -(Math.Abs(actionXspeed) / actionXspeed);
+                        float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
+                        actionXspeed = -Math.Abs(actionXspeed) * direction;
                         actionSprite.moveX(actionXspeed);
                     }
                 }
@@ -244,7 +246,7 @@ public class Game1 : Game
             }
 
             //put police into the grid
-            int PxGrid = (int)(policesprite.xPos * 0.23) + 150 / 100;
+            int PxGrid = (int)(policesprite.xPos / 210) + 1;
             int PyGrid = (int)(policesprite.yPos / 40);
             if (PyGrid < 0)
             {
@@ -269,14 +271,25 @@ public class Game1 : Game
 
             foreach (Sprite sprite in sprites)
             {
-                int xGrid = (int)((sprite.xPos * 0.23) + 150) / 100;
+                int xGrid = (int)(sprite.xPos / 210) + 1;
                 int yGrid = (int)(sprite.yPos / 40);
                 int y2Grid = yGrid + 1;
+                int y3Grid = y2Grid + 1;
+
+                if (xGrid < 0)
+                {
+                    xGrid = 0;
+                }
+                if (xGrid > 2)
+                {
+                    xGrid = 2;
+                }
 
                 if (yGrid < 0)
                 {
                     yGrid = 0;
                     y2Grid = 0;
+                    y3Grid = 0;
                 }
 
                 if (yGrid > 24)
@@ -289,12 +302,21 @@ public class Game1 : Game
                     y2Grid = 24;
                 }
 
+                if (y3Grid > 24)
+                {
+                    y3Grid = 24;
+                }
+
                 if (map[xGrid][yGrid] == 0 && sprite is not Player)
                 {
                     map[xGrid][yGrid] = 1;
                     if (map[xGrid][y2Grid] == 0)
                     {
                         map[xGrid][y2Grid] = 1;
+                    }
+                    if (map[xGrid][y3Grid] == 0)
+                    {
+                        map[xGrid][y3Grid] = 1;
                     }
                 }
                 
@@ -391,10 +413,12 @@ public class Game1 : Game
             //     new() { 0, 1, 1, 1, 0 },
             //     new() { 3, 0, 0, 2, 0 }
             // };
-            if (policesprite.xPos > 550 || player.xPos < -550)
+            if (policesprite.xPos > 550 || policesprite.xPos < -550)
             {
-                policesprite.xSpeed = -Math.Abs(policesprite.xSpeed) * (policesprite.xPos / Math.Abs(policesprite.xPos));
+                float direction = (policesprite.xSpeed != 0) ? (policesprite.xSpeed / Math.Abs(policesprite.xSpeed)) : 1;
+                policesprite.xSpeed = -Math.Abs(policesprite.xSpeed) * direction;
             }
+            policesprite.moveX(policesprite.xSpeed);
             policesprite.findPath(map, (float)gameTime.ElapsedGameTime.TotalSeconds);
 
             // var map0 = string.Join(",", map[0]);
