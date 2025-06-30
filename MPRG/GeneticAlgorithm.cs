@@ -11,9 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MPRG
 {
-    internal class GenericAlgorithms : Sprite
+    internal class GenericAlgorithm : Sprite
     {
-        public GenericAlgorithms(Texture2D texture, Vector2 pos) : base(texture, pos)
+        public GenericAlgorithm(Texture2D texture, Vector2 pos) : base(texture, pos)
         {
             
         }
