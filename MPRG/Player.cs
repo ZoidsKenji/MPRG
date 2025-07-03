@@ -5,7 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace MPRG{
+namespace MPRG
+{
     internal class Player : Sprite
     {
 
@@ -57,6 +58,5 @@ namespace MPRG{
         }
 
     }
-
 
 }
