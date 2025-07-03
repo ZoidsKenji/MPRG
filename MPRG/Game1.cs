@@ -32,6 +32,8 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private float Xaccel = 300;
     private float Xspeed = 0;
+    
+    public float cameraSpeed = 80;
 
     public int lastlanespawn = 3;
 
@@ -136,6 +138,10 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        int specialEntities = 0;
+        float TotialSpecialEntSpeed = 0;
+
+
         static float crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
         {
             if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
@@ -223,20 +229,25 @@ public class Game1 : Game
             }  
         }
 
-        sprites.RemoveAll(sprite => sprite.yPos > 1280 || sprite.yPos < -90);
+        sprites.RemoveAll(sprite => sprite.yPos > 2000 || sprite.yPos < -1000);
         roadLine.RemoveAll(line => line.Rect.Y > 1000 || line.Rect.Y < 300);
 
         foreach (Police policesprite in polices)
         {
 
             policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
+            if (policesprite.speed < cameraSpeed * 2 && policesprite.speed > cameraSpeed * 0.5 && policesprite.yPos < 960 && policesprite.yPos > -100)
+            {
+                specialEntities += 1;
+                TotialSpecialEntSpeed += policesprite.speed;
+            }
 
             // police maping (0 = road, 1 = traffic, 2 = player, 3 = police, 4 = police path)
-            List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
+                List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
             //Rectangle mapcheckRect = new Rectangle(0, 0, 70, 40);
             for (int i = 0; i < 3; i++)
             {
-                for (int n = 0; n < 25; n++)
+                for (int n = 0; n < 65; n++)
                 {
                     //if (mapcheckRect.Intersects(sprites.BackendRect))
                     map[i].Add(0);
@@ -252,9 +263,9 @@ public class Game1 : Game
             {
                 PyGrid = 0;
             }
-            if (PyGrid > 24)
+            if (PyGrid > 64)
             {
-                PyGrid = 24;
+                PyGrid = 64;
             }
 
             if (PxGrid < 0)
@@ -297,24 +308,24 @@ public class Game1 : Game
                 {
                     y0Grid = 0;
                 }
-                else if (y0Grid > 24)
+                else if (y0Grid > 64)
                 {
-                    y0Grid = 24;
+                    y0Grid = 64;
                 }
 
-                if (yGrid > 24)
+                if (yGrid > 64)
                 {
-                    yGrid = 24;
+                    yGrid = 64;
                 }
 
-                if (y2Grid > 24)
+                if (y2Grid > 64)
                 {
-                    y2Grid = 24;
+                    y2Grid = 64;
                 }
 
-                if (y3Grid > 24)
+                if (y3Grid > 64)
                 {
-                    y3Grid = 24;
+                    y3Grid = 64;
                 }
 
                 if (map[xGrid][yGrid] == 0 && sprite is not Player)
@@ -333,7 +344,7 @@ public class Game1 : Game
                         map[xGrid][y0Grid] = 1;
                     }
                 }
-                
+
                 if (sprite is Player)
                 {
                     map[xGrid][yGrid] = 2;
@@ -368,6 +379,8 @@ public class Game1 : Game
                 {
 
                     float fraction = 10f;
+                    specialEntities += 2;
+                    TotialSpecialEntSpeed += policesprite.speed * 2;
 
                     if (Keyboard.GetState().IsKeyDown(Keys.D) && playersprite.xPos < 500)
                     {
@@ -419,7 +432,7 @@ public class Game1 : Game
 
 
 
-                sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
+                sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, cameraSpeed, -player.xPos);
 
             }
             // List<List<int>> testMap = new List<List<int>> {
@@ -457,7 +470,10 @@ public class Game1 : Game
         // foreach (Sprite line in roadLineR){
         //     line.moveMidPoint(-player.xPos);
         // }
-        
+
+        cameraSpeed = TotialSpecialEntSpeed / specialEntities;
+        Console.WriteLine("camspeed" + cameraSpeed);
+
         base.Update(gameTime);
     }
 

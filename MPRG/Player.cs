@@ -6,21 +6,27 @@ using Microsoft.Xna.Framework.Graphics;
 
 
 namespace MPRG{
-    internal class Player : Sprite{
+    internal class Player : Sprite
+    {
 
-        public override Rectangle Rect{
-            get{
+        public override Rectangle Rect
+        {
+            get
+            {
                 return new Rectangle((int)pos.X, (int)pos.Y, 300, 300);
             }
         }
 
-        public override Rectangle BackendRect{
-            get{
-                return new Rectangle((int)(xPos * 0.23) + (150 - 35), 435, 70, 90);
+        public override Rectangle BackendRect
+        {
+            get
+            {
+                return new Rectangle((int)(xPos * 0.23) + (150 - 35), (int)yPos, 70, 90);
             }
         }
 
-        public Player(Texture2D texture, Vector2 pos) : base(texture, pos){
+        public Player(Texture2D texture, Vector2 pos) : base(texture, pos)
+        {
             this.backendColour = Color.LightGray;
             this.yPos = 435;
             this.speed = 80;
@@ -43,6 +49,11 @@ namespace MPRG{
             {
                 speed = 10;
             }
+        }
+
+        public override void updateObject(float time, float camSpeed, float midPoint)
+        {
+            this.yPos += (camSpeed - speed) * time;
         }
 
     }

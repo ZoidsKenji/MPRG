@@ -65,23 +65,23 @@ namespace MPRG{
             // this.pathfinder = new PathFind(map);
         }
 
-        public override void updateObject(float time, float playerSpeed, float midPointX)
+        public override void updateObject(float time, float camSpeed, float midPointX)
         {
             this.midpoint = (int)midPointX + 640;
-            this.pos.Y += (playerSpeed - speed) * time * (this.pos.Y / 480);
-            this.yPos += (playerSpeed - speed) * time;
+            this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
+            this.yPos += (camSpeed - speed) * time;
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
             Console.WriteLine("police update" + " yPos" + this.yPos + " speed" + this.speed);
             if (yPos > 1500)
             {
                 yPos = 1500;
-                speed = playerSpeed;
+                speed = camSpeed;
             }
             else if (yPos < -1000)
             {
                 yPos = -1000;
-                speed = playerSpeed;
+                speed = camSpeed;
             }
         }
 

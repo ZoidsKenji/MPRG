@@ -45,7 +45,7 @@ namespace MPRG{
             this.colour = Color.White;
             this.backendColour = Color.White;
             this.xPos = 0;
-            this.yPos = 0;
+            this.yPos = -1000;
             this.speed = 0;
             this.rotationAngle = 0;
             this.spriteOrigin.X = texture.Width / 2;

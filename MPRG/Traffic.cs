@@ -84,10 +84,10 @@ namespace MPRG{
             }
         }
 
-        public override void updateObject(float time, float playerSpeed, float midPointX){
+        public override void updateObject(float time, float camSpeed, float midPointX){
             this.midpoint = (int)midPointX + 640;
-            this.pos.Y += (playerSpeed - speed) * time * (this.pos.Y / 480);
-            this.yPos += (playerSpeed - speed) * time;
+            this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
+            this.yPos += (camSpeed - speed) * time;
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
             laneXpos();
