@@ -100,5 +100,15 @@ namespace MPRG
 
             return (left, right, front);
         }
+
+        public override void updateObject(float time, float camSpeed, float midPointX)
+        {
+            score += 1;
+            // if (OvertookTraffic) score += 10;
+            // if (OvertookPlayer) score += 50;
+            // if (CrashedIntoTraffic) score -= 40;
+            // if (CrashedIntoPlayer) score -= 15;
+            // if (CrashedIntoPolice) score -= 10;
+        }
     }
 }
