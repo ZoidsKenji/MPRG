@@ -36,7 +36,7 @@ namespace MPRG
         public void accelerate(float accel)
         {
             speed += accel;
-            Console.WriteLine("playerSpeed" + speed);
+            Console.WriteLine("playerSpeed" + speed + " playerHealth" + health);
             // if (speed < 0)
             // {
             //     speed = 10;
@@ -55,6 +55,11 @@ namespace MPRG
         public override void updateObject(float time, float camSpeed, float midPoint)
         {
             this.yPos += (camSpeed - speed) * time;
+            if (health < 1)
+            {
+                this.yPos = 1001;
+                speed = 0;
+            }
         }
 
     }

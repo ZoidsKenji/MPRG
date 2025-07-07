@@ -132,6 +132,7 @@ public class Game1 : Game
         // }
         sprites.Add(player);
         polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
+        polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
 
         
     }
@@ -144,6 +145,8 @@ public class Game1 : Game
 
         static float crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
         {
+            int actionDiv = 10;
+            int reactDiv = 5;
             if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
             {
                 float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
@@ -155,12 +158,16 @@ public class Game1 : Game
                         if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
                         {
                             actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
+                            actionSprite.health -= (int)speeddifferent / actionDiv;
                             reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
+                            reactionSprite.health -= (int)speeddifferent / reactDiv;
                         }
                         else
                         {
                             actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
+                            actionSprite.health -= (int)speeddifferent / actionDiv;
                             reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
+                            reactionSprite.health -= (int)speeddifferent / reactDiv;
                         }
                     }
                     else
@@ -168,6 +175,7 @@ public class Game1 : Game
                         float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
                         actionXspeed = -Math.Abs(actionXspeed) * direction;
                         actionSprite.moveX(actionXspeed);
+                        actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
                     }
 
 
@@ -179,12 +187,16 @@ public class Game1 : Game
                         if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
                         {
                             actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
+                            actionSprite.health -= (int)speeddifferent / actionDiv;
                             reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
+                            reactionSprite.health -= (int)speeddifferent / reactDiv;
                         }
                         else
                         {
                             actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
+                            actionSprite.health -= (int)speeddifferent / actionDiv;
                             reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
+                            reactionSprite.health -= (int)speeddifferent / reactDiv;
                         }
                     }
                     else
@@ -192,6 +204,7 @@ public class Game1 : Game
                         float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
                         actionXspeed = -Math.Abs(actionXspeed) * direction;
                         actionSprite.moveX(actionXspeed);
+                        actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
                     }
                 }
                 //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -471,10 +484,25 @@ public class Game1 : Game
         //     line.moveMidPoint(-player.xPos);
         // }
 
+        //-- camera control
         cameraSpeed = TotialSpecialEntSpeed / specialEntities;
-        if (player.yPos > 700 || player.yPos < 10)
+        //smooth out the camera movement and helps to get the player closer to the centre to the camera
+        if (player.yPos > 500)
         {
-            cameraSpeed = playerSpeed;
+            cameraSpeed = cameraSpeed * 0.9f;
+        }
+        else
+        {
+            cameraSpeed = cameraSpeed * 1.1f;
+        }
+        //camera clamp
+        if (player.yPos > 800)
+        {
+            cameraSpeed = playerSpeed * 0.7f;
+        }
+        else if (player.yPos < 100)
+        {
+            cameraSpeed = playerSpeed * 1.3f;
         }
         Console.WriteLine("camspeed" + cameraSpeed);
 

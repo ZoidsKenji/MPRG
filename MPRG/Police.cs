@@ -51,7 +51,7 @@ namespace MPRG{
             this.speed = 90;
             this.yPos = 1280;
             this.xSpeed = 0;
-            this.xPos = 0;
+            //this.xPos = 0;
 
             // blank map (default)
             // List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];

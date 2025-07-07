@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -23,9 +24,13 @@ namespace MPRG{
 
         public float xPos = 0;
         public float yPos = 0;
+        [Range(0, 150)]
+        public int health = 100;
 
-        public virtual Rectangle Rect{
-            get{
+        public virtual Rectangle Rect
+        {
+            get
+            {
                 return new Rectangle((int)pos.X, (int)pos.Y, 423, 285);
             }
         }

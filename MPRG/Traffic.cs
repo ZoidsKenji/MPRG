@@ -1,8 +1,10 @@
 using System;
+using System.CodeDom;
 using System.Data;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms.Design;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -35,7 +37,7 @@ namespace MPRG{
             if (setLane != 3){
                 lane = setLane;
             }
-
+            this.health = 50;
             this.midpoint = 1280 / 2;
             this.xPos = (lane - 1) * 500;
             this.backendColour = Color.Orange;
@@ -84,17 +86,27 @@ namespace MPRG{
             }
         }
 
-        public override void updateObject(float time, float camSpeed, float midPointX){
+        public override void updateObject(float time, float camSpeed, float midPointX)
+        {
             this.midpoint = (int)midPointX + 640;
             this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
             this.yPos += (camSpeed - speed) * time;
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
             laneXpos();
-            if (speed > setSpeed){
+            if (speed > setSpeed)
+            {
                 speed = speed / 1.25f;
-            }else{
+            }
+            else
+            {
                 speed = speed * 1.25f;
+            }
+
+            if (health < 1)
+            {
+                this.yPos = 1001;
+                speed = 0;
             }
         }
 
