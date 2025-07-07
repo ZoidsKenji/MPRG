@@ -11,8 +11,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MPRG
 {
-    internal class GenericAlgorithm
+    internal class AiOpponent : Sprite
     {
-        public List<AiOpponent> population;
+        public AiOpponent(Texture2D texture, Vector2 pos) : base(texture, pos)
+        {
+            
+        }
     }
 }
