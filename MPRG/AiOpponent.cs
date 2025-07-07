@@ -7,15 +7,98 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.DXGI;
 
 
 namespace MPRG
 {
-    internal class AiOpponent : Sprite
+    internal class AiOpponent : Player
     {
-        public AiOpponent(Texture2D texture, Vector2 pos) : base(texture, pos)
+        public float[] gemome;
+        public float score;
+
+        public AiOpponent(Texture2D texture, Vector2 pos, float[] genes = null) : base(texture, pos)
         {
-            
+            this.backendColour = Color.LimeGreen;
+            gemome = genes ?? genRandGenes();
+        }
+
+        public float[] genRandGenes()
+        {
+            int genesLength = 8;
+            float[] genes = new float[genesLength];
+            Random random = new Random();
+
+            for (int i = 0; i < genesLength; i++)
+            {
+                genes[i] = (float)random.Next(-1, 1);
+            }
+
+            return genes;
+        }
+
+        public void DecisionMaking(List<Sprite> cars)
+        {
+            (float, float, float) radar = radarDetection(cars);
+            float left = radar.Item1;
+            float right = radar.Item2;
+            float front = radar.Item3;
+
+            float horDec = (gemome[0] * left) + (gemome[1] * right) + (gemome[2] * front);
+            float verDec = (gemome[3] * front) + (gemome[4] * speed);
+
+            if (horDec > 0.5f)
+            {
+                moveX(speed / 10);
+            }
+            else if (horDec < -0.5f)
+            {
+                moveX(-speed / 10);
+            }
+
+            if (verDec > 0.5f)
+            {
+                accelerate(30);
+            }
+            else if (verDec < -0.5f)
+            {
+                accelerate(50);
+            }
+        }
+
+        public (float, float, float) radarDetection(List<Sprite> cars)
+        {
+            float left = 1f;
+            float right = 1f;
+            float front = 1f;
+
+            foreach (Sprite car in cars)
+            {
+                if (car == this)
+                {
+                    continue;
+                }
+                //front
+                if ((yPos - car.yPos) < 360 && yPos > car.yPos && Math.Abs(xPos - car.xPos) < 60)
+                {
+                    front = Math.Min(front, 1 - ((yPos - car.yPos) / 270));
+                }
+                //side
+                if (Math.Abs(yPos + 45 - car.yPos + 45) < 100 && Math.Abs(xPos - car.xPos) > 70)
+                {
+                    if (car.xPos < xPos)
+                    {
+                        left = Math.Min(left, 1 - ((xPos - car.xPos) / 300));
+                    }
+                    else
+                    {
+                        right = Math.Min(right, 1 - (Math.Abs(xPos - car.xPos) / 300));
+                    }
+                }
+
+            }
+
+            return (left, right, front);
         }
     }
 }
