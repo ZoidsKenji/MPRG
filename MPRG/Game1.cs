@@ -243,7 +243,7 @@ public class Game1 : Game
             }
 
             // police maping (0 = road, 1 = traffic, 2 = player, 3 = police, 4 = police path)
-                List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
+            List<List<int>> map = [new List<int>(), new List<int>(), new List<int>()];
             //Rectangle mapcheckRect = new Rectangle(0, 0, 70, 40);
             for (int i = 0; i < 3; i++)
             {
@@ -472,6 +472,10 @@ public class Game1 : Game
         // }
 
         cameraSpeed = TotialSpecialEntSpeed / specialEntities;
+        if (player.yPos > 700 || player.yPos < 10)
+        {
+            cameraSpeed = playerSpeed;
+        }
         Console.WriteLine("camspeed" + cameraSpeed);
 
         base.Update(gameTime);
