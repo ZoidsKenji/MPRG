@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MPRG")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+793d255ff822924bca436692b03c8bb3461ef2e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b710c649f8ab18a8cb1773ff1896a4c995f1407c")]
 [assembly: System.Reflection.AssemblyProductAttribute("MPRG")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MPRG")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

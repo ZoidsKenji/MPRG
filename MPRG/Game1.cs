@@ -145,8 +145,8 @@ public class Game1 : Game
 
         static float crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
         {
-            int actionDiv = 10;
-            int reactDiv = 5;
+            int actionDiv = 20;
+            int reactDiv = 10;
             if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
             {
                 float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
@@ -176,6 +176,8 @@ public class Game1 : Game
                         actionXspeed = -Math.Abs(actionXspeed) * direction;
                         actionSprite.moveX(actionXspeed);
                         actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
+                        reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+
                     }
 
 
@@ -205,6 +207,8 @@ public class Game1 : Game
                         actionXspeed = -Math.Abs(actionXspeed) * direction;
                         actionSprite.moveX(actionXspeed);
                         actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
+                        reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+
                     }
                 }
                 //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);

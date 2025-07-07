@@ -57,7 +57,7 @@ namespace MPRG
             this.yPos += (camSpeed - speed) * time;
             if (health < 1)
             {
-                this.yPos = 1001;
+                //this.yPos = 1001;
                 speed = 0;
             }
         }
