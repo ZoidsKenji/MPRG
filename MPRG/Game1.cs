@@ -63,6 +63,12 @@ public class Game1 : Game
     public float spawnCounter = 3;
     public float counter = 1;
 
+    // ai
+    GenericAlgorithm GA;
+    public bool trainAI = true;
+    public bool AiOpponentON = false;
+    public string AiDataPath = "Data/AI";
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -85,6 +91,15 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
+        if (AiOpponentON || trainAI)
+        {
+            GA = new GenericAlgorithm(Content.Load<Texture2D>("MRS"));
+            GA.loadData(AiDataPath);
+            foreach (AiOpponent ai in GA.population)
+            {
+                sprites.Add(ai);
+            }
+        }
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Texture2D texture = Content.Load<Texture2D>("MRS");
@@ -99,30 +114,38 @@ public class Game1 : Game
         roadLine = new List<Sprite>();
         // roadLineR = new List<Sprite>();
 
-
-        player = new Player(texture, startPos);
-        if (showfrontend){
-
-            for (int i = 0; i < 170; i++){
-                roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
-            }
-            
-            // for (int i = 0; i < 200; i++){
-            //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
-            // }
-            
-            for (int i = 0; i < 30; i++){
-                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3)), 1));
-            }
-
-            for (int i = 0; i < 30; i++){
-                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 590 + (i * 3)), 1));
-            }
-
-            for (int i = 0; i < 30; i++){
-                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
-            }
+        if (!trainAI)
+        {
+            player = new Player(texture, startPos);
+            sprites.Add(player);
         }
+        if (showfrontend)
+            {
+
+                for (int i = 0; i < 170; i++)
+                {
+                    roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
+                }
+
+                // for (int i = 0; i < 200; i++){
+                //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
+                // }
+
+                for (int i = 0; i < 30; i++)
+                {
+                    roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3)), 1));
+                }
+
+                for (int i = 0; i < 30; i++)
+                {
+                    roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 590 + (i * 3)), 1));
+                }
+
+                for (int i = 0; i < 30; i++)
+                {
+                    roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
+                }
+            }
         if (showbackend){
             backendroads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
         }
@@ -130,8 +153,7 @@ public class Game1 : Game
         // for (int i = 0; i < 320; i++){
         //     sprites.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 320 - (i * 2))));
         // }
-        sprites.Add(player);
-        polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
+
         polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
 
         
@@ -480,6 +502,13 @@ public class Game1 : Game
                     {
                         ai.moveX(-ai.Xspeed);
                     }
+
+                    ai.DecisionMaking(sprites);
+
+                    if (ai.health < 1 && GA.alivePopulation.Contains(ai))
+                    {
+                        GA.alivePopulation.Remove(ai);
+                    }
                 }
 
                 //-- player crash physics
@@ -550,6 +579,12 @@ public class Game1 : Game
             cameraSpeed = playerSpeed * 1.3f;
         }
         Console.WriteLine("camspeed" + cameraSpeed);
+
+        if (GA.alivePopulation.Count == 0 && !GA.waitingForNewGen)
+        {
+            GA.newGen();
+            GA.waitingForNewGen = true;
+        }
 
         base.Update(gameTime);
     }

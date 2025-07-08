@@ -15,7 +15,7 @@ namespace MPRG
     internal class AiOpponent : Player
     {
         public float Xspeed = 0;
-        public float[] gemome;
+        public float[] DNA;
         public float score;
 
         public List<Sprite> allCarsNear;
@@ -23,7 +23,7 @@ namespace MPRG
         public AiOpponent(Texture2D texture, Vector2 pos, float[] genes = null) : base(texture, pos)
         {
             this.backendColour = Color.LimeGreen;
-            gemome = genes ?? genRandGenes();
+            DNA = genes ?? genRandGenes();
         }
 
         public float[] genRandGenes()
@@ -34,7 +34,7 @@ namespace MPRG
 
             for (int i = 0; i < genesLength; i++)
             {
-                genes[i] = (float)random.Next(-1, 1);
+                genes[i] = (float)random.NextDouble() * (1 - -1) - 1;
             }
 
             return genes;
@@ -47,8 +47,8 @@ namespace MPRG
             float right = radar.Item2;
             float front = radar.Item3;
 
-            float horDec = (gemome[0] * left) + (gemome[1] * right) + (gemome[2] * front);
-            float verDec = (gemome[3] * front) + (gemome[4] * speed);
+            float horDec = (DNA[0] * left) + (DNA[1] * right) + (DNA[2] * front);
+            float verDec = (DNA[3] * front) + (DNA[4] * speed);
 
             if (horDec > 0.5f)
             {
@@ -109,6 +109,7 @@ namespace MPRG
             score += 1 * time;
         }
 
+        // overtaking
         public void updateCarsPos(List<Sprite> cars)
         {
             foreach (Sprite all in cars)
