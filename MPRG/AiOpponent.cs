@@ -14,6 +14,7 @@ namespace MPRG
 {
     internal class AiOpponent : Player
     {
+        public float Xspeed = 0;
         public float[] gemome;
         public float score;
 
@@ -109,6 +110,16 @@ namespace MPRG
             // if (CrashedIntoTraffic) score -= 40;
             // if (CrashedIntoPlayer) score -= 15;
             // if (CrashedIntoPolice) score -= 10;
+        }
+
+        public override void accelerate(float accel)
+        {
+            speed += accel;
+            Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos);
+            // if (speed < 0)
+            // {
+            //     speed = 10;
+            // }
         }
     }
 }

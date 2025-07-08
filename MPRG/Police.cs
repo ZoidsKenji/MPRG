@@ -97,6 +97,7 @@ namespace MPRG{
 
         public void showPath(List<List<int>> map, List<(int x, int y)> path = null)
         {
+            Console.WriteLine("Path:");
             List<(int x, int y)> pathSet = new();
             if (path != null)
             {
@@ -139,6 +140,7 @@ namespace MPRG{
                 Console.WriteLine(row);
 
             }
+            Console.WriteLine();
         }
 
         public void findPath(List<List<int>> map, float time, float playerSpeed)
@@ -166,7 +168,7 @@ namespace MPRG{
             if (path != null)
             {
                 showPath(map, path);
-                Console.WriteLine(path[1]);
+                //Console.WriteLine(path[1]);
                 float sideSpeedDiv = 0.75f;
                 float sideSlowSpeedDiv = 3;
                 if (path[1].Item1 == 0)

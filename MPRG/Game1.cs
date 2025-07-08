@@ -143,14 +143,16 @@ public class Game1 : Game
         float TotialSpecialEntSpeed = 0;
 
 
-        static float crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
+        static (float, bool) crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
         {
             int actionDiv = 20;
             int reactDiv = 10;
+            bool colision = false;
             if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
             {
+                colision = true;
                 float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
-                Console.WriteLine(speeddifferent);
+                //Console.WriteLine(speeddifferent);
                 if (reactionSprite.yPos < actionSprite.yPos)
                 {
                     if ((actionSprite.yPos - reactionSprite.yPos) > hitboxHeight)
@@ -214,7 +216,7 @@ public class Game1 : Game
                 //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
                 //Console.WriteLine("Crash");
             }
-            return actionXspeed;
+            return (actionXspeed, colision);
         }
 
         Xaccel = player.speed / 10;
@@ -293,8 +295,8 @@ public class Game1 : Game
             {
                 PxGrid = 2;
             }
-            Console.WriteLine(PxGrid);
-            Console.WriteLine(PyGrid);
+            //Console.WriteLine(PxGrid);
+            //Console.WriteLine(PyGrid);
             map[PxGrid][PyGrid] = 3;
 
             foreach (Sprite sprite in sprites)
@@ -362,7 +364,7 @@ public class Game1 : Game
                     }
                 }
 
-                if (sprite is Player)
+                if (sprite is Player && sprite is not AiOpponent)
                 {
                     map[xGrid][yGrid] = 2;
                 }
@@ -387,12 +389,12 @@ public class Game1 : Game
                 // }
 
                 //-- police crash physics
-                policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80) / 100;
+                policeXspeed = crashPhysics(policesprite, sprite, policeXspeed, 50, 80).Item1 / 50;
 
 
 
                 //-- player controller
-                if (sprite is Player playersprite)
+                if (sprite is Player playersprite && sprite is not AiOpponent)
                 {
 
                     float fraction = 10f;
@@ -440,10 +442,49 @@ public class Game1 : Game
 
 
                 }
+                else if (sprite is AiOpponent ai)
+                {
+                    // ai colision punishment
+                    foreach (Sprite spriteTraffic in sprites)
+                    {
+                        if (spriteTraffic != ai)
+                        {
+                            (ai.Xspeed, bool colision) = crashPhysics(ai, spriteTraffic, ai.Xspeed, 35, 80);
+                            ai.moveX(Xspeed);
+                            if (colision)
+                            {
+                                if (spriteTraffic is Player)
+                                {
+                                    ai.score -= 15;
+                                }
+                                else
+                                {
+                                    ai.score -= 40;
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (Police policeCar in polices)
+                    {
+                        (ai.Xspeed, bool colision) = crashPhysics(ai, policeCar, ai.Xspeed, 35, 80);
+                        ai.moveX(ai.Xspeed);
+                        if (colision)
+                        {
+                            ai.score -= 10;
+                        }
+                    }
+
+                    // ai wall bounce
+                    if (ai.xPos > 550 || ai.xPos < -550)
+                    {
+                        ai.moveX(-ai.Xspeed);
+                    }
+                }
 
                 //-- player crash physics
-                Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80);
-                Xspeed = crashPhysics(player, policesprite, Xspeed, 35, 80);
+                Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80).Item1;
+                Xspeed = crashPhysics(player, policesprite, Xspeed, 35, 80).Item1;
 
                 policesprite.moveX(policeXspeed);
 

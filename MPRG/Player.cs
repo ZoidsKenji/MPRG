@@ -33,10 +33,10 @@ namespace MPRG
             this.speed = 80;
         }
 
-        public void accelerate(float accel)
+        public virtual void accelerate(float accel)
         {
             speed += accel;
-            Console.WriteLine("playerSpeed" + speed + " playerHealth" + health);
+            Console.WriteLine("playerSpeed" + speed + " playerHealth" + health + " playerXpos" + xPos);
             // if (speed < 0)
             // {
             //     speed = 10;
