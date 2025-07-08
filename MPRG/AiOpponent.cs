@@ -18,6 +18,8 @@ namespace MPRG
         public float[] gemome;
         public float score;
 
+        public List<Sprite> allCarsNear;
+
         public AiOpponent(Texture2D texture, Vector2 pos, float[] genes = null) : base(texture, pos)
         {
             this.backendColour = Color.LimeGreen;
@@ -104,12 +106,34 @@ namespace MPRG
 
         public override void updateObject(float time, float camSpeed, float midPointX)
         {
-            score += 1;
-            // if (OvertookTraffic) score += 10;
-            // if (OvertookPlayer) score += 50;
-            // if (CrashedIntoTraffic) score -= 40;
-            // if (CrashedIntoPlayer) score -= 15;
-            // if (CrashedIntoPolice) score -= 10;
+            score += 1 * time;
+        }
+
+        public void updateCarsPos(List<Sprite> cars)
+        {
+            foreach (Sprite all in cars)
+            {
+                if (Math.Abs(all.yPos - yPos) < 10 && all.yPos < yPos && !allCarsNear.Contains(all))
+                {
+                    allCarsNear.Add(all);
+                }
+                else if (Math.Abs(all.yPos - yPos) > 10 && all.yPos < yPos && allCarsNear.Contains(all))
+                {
+                    allCarsNear.Remove(all);
+                }
+                else if (allCarsNear.Contains(all) && all.yPos < yPos && Math.Abs(all.yPos - yPos) > 90)
+                {
+                    if (all is Player)
+                    {
+                        score += 50;
+                    }
+                    else
+                    {
+                        score += 10;
+                    }
+                    allCarsNear.Remove(all);
+                }
+            }
         }
 
         public override void accelerate(float accel)
