@@ -91,15 +91,6 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
-        if (AiOpponentON || trainAI)
-        {
-            GA = new GenericAlgorithm(Content.Load<Texture2D>("MRS"));
-            GA.loadData(AiDataPath);
-            foreach (AiOpponent ai in GA.population)
-            {
-                sprites.Add(ai);
-            }
-        }
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Texture2D texture = Content.Load<Texture2D>("MRS");
@@ -114,7 +105,22 @@ public class Game1 : Game
         roadLine = new List<Sprite>();
         // roadLineR = new List<Sprite>();
 
+        if (AiOpponentON || trainAI)
+        {
+            GA = new GenericAlgorithm(Content.Load<Texture2D>("MRS"));
+            GA.loadData(AiDataPath);
+            foreach (AiOpponent ai in GA.population)
+            {
+                sprites.Add(ai);
+            }
+        }
+
         if (!trainAI)
+        {
+            player = new Player(texture, startPos);
+            sprites.Add(player);
+        }
+        else
         {
             player = new Player(texture, startPos);
             sprites.Add(player);
@@ -469,19 +475,22 @@ public class Game1 : Game
                     // ai colision punishment
                     foreach (Sprite spriteTraffic in sprites)
                     {
-                        if (spriteTraffic != ai)
+                        if (spriteTraffic != ai && ((spriteTraffic is AiOpponent ^ trainAI) || !trainAI))
                         {
-                            (ai.Xspeed, bool colision) = crashPhysics(ai, spriteTraffic, ai.Xspeed, 35, 80);
-                            ai.moveX(Xspeed);
-                            if (colision)
+                            if ((spriteTraffic is not Player && trainAI) || !trainAI)
                             {
-                                if (spriteTraffic is Player)
+                                (ai.Xspeed, bool colision) = crashPhysics(ai, spriteTraffic, ai.Xspeed, 35, 80);
+                                ai.moveX(ai.Xspeed);
+                                if (colision)
                                 {
-                                    ai.score -= 15;
-                                }
-                                else
-                                {
-                                    ai.score -= 40;
+                                    if (spriteTraffic is Player)
+                                    {
+                                        ai.score -= 15;
+                                    }
+                                    else
+                                    {
+                                        ai.score -= 40;
+                                    }
                                 }
                             }
                         }
