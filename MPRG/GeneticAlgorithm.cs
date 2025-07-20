@@ -105,7 +105,8 @@ namespace MPRG
                     population.Add(new AiOpponent(texture, new Vector2(640, 390)));
                 }
             }
-            alivePopulation = population;
+            alivePopulation = new List<AiOpponent>(population);
+            population.AsReadOnly();
         }
     }
 }

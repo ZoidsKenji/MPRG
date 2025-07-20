@@ -593,7 +593,10 @@ public class Game1 : Game
         {
             GA.newGen();
             GA.waitingForNewGen = true;
+            GA.saveData("saves/gen1/DNA.txt");
         }
+
+        Console.WriteLine(GA.population.Count + "populaton");
 
         base.Update(gameTime);
     }
