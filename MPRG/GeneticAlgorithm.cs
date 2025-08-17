@@ -16,7 +16,7 @@ namespace MPRG
     {
         public List<AiOpponent> population;
         public List<AiOpponent> alivePopulation;
-        int genSize = 30;
+        int genSize = 20;
         public Texture2D texture;
 
         public bool waitingForNewGen = false;

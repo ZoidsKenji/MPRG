@@ -141,7 +141,7 @@ namespace MPRG
         public override void accelerate(float accel)
         {
             speed += accel;
-            Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos);
+            Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos + " aiXspeed " + Xspeed);
             // if (speed < 0)
             // {
             //     speed = 10;

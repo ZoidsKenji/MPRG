@@ -515,7 +515,7 @@ public class Game1 : Game
                     // ai wall bounce
                     if (ai.xPos > 550 || ai.xPos < -550)
                     {
-                        ai.moveX(-ai.Xspeed / 4);
+                        ai.moveX(-ai.Xspeed / 10);
                         if (ai.xPos > 550)
                         {
                             ai.xPos = 550;
