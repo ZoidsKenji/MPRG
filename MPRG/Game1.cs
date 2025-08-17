@@ -176,8 +176,10 @@ public class Game1 : Game
             int actionDiv = 20;
             int reactDiv = 10;
             bool colision = false;
+
             if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
             {
+                Console.WriteLine("action " + actionSprite + " : reaction " + reactionSprite);
                 colision = true;
                 float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
                 //Console.WriteLine(speeddifferent);
@@ -392,7 +394,11 @@ public class Game1 : Game
                     }
                 }
 
-                if (sprite is Player && sprite is not AiOpponent)
+                if (sprite is Player && sprite is not AiOpponent && !trainAI)
+                {
+                    map[xGrid][yGrid] = 2;
+                }
+                else if (trainAI)
                 {
                     map[xGrid][yGrid] = 2;
                 }
@@ -509,7 +515,15 @@ public class Game1 : Game
                     // ai wall bounce
                     if (ai.xPos > 550 || ai.xPos < -550)
                     {
-                        ai.moveX(-ai.Xspeed);
+                        ai.moveX(-ai.Xspeed / 4);
+                        if (ai.xPos > 550)
+                        {
+                            ai.xPos = 550;
+                        }
+                        else
+                        {
+                            ai.xPos = -550;
+                        }
                     }
 
                     ai.DecisionMaking(sprites);
@@ -521,7 +535,11 @@ public class Game1 : Game
                 }
 
                 //-- player crash physics
-                Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80).Item1;
+                if (trainAI == (sprite is not AiOpponent))
+                {
+                    Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80).Item1;
+                }
+
                 Xspeed = crashPhysics(player, policesprite, Xspeed, 35, 80).Item1;
 
                 policesprite.moveX(policeXspeed);
