@@ -515,7 +515,9 @@ public class Game1 : Game
                     // ai wall bounce
                     if (ai.xPos > 550 || ai.xPos < -550)
                     {
+                        ai.Xspeed = ai.Xspeed / 4;
                         ai.moveX(-ai.Xspeed / 10);
+                        
                         if (ai.xPos > 550)
                         {
                             ai.xPos = 550;
@@ -525,8 +527,13 @@ public class Game1 : Game
                             ai.xPos = -550;
                         }
                     }
+                    float deadZone = 1.1f;
+                    if (ai.xPos > (550 * deadZone) || ai.xPos < (-550 * deadZone))
+                    {
+                        ai.health -= (int)(10 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    }
 
-                    ai.DecisionMaking(sprites);
+                    ai.DecisionMaking(sprites, (float)gameTime.ElapsedGameTime.TotalSeconds);
 
                     if (ai.health < 1 && GA.alivePopulation.Contains(ai))
                     {

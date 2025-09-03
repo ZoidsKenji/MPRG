@@ -41,8 +41,10 @@ namespace MPRG
             return genes;
         }
 
-        public void DecisionMaking(List<Sprite> cars)
+        public void DecisionMaking(List<Sprite> cars, float time)
         {
+            float fraction = 10f;
+
             (float, float, float) radar = radarDetection(cars);
             float left = radar.Item1;
             float right = radar.Item2;
@@ -53,21 +55,32 @@ namespace MPRG
 
             if (horDec > 0.5f)
             {
-                moveX(speed / 10);
+                Xspeed += (speed / 10) * time;
             }
             else if (horDec < -0.5f)
             {
-                moveX(-speed / 10);
+                Xspeed -= (speed / 10) * time;
+            }
+
+            if (Xspeed > 0)
+            {
+                Xspeed -= time * fraction;
+            }
+            else if (Xspeed < 0)
+            {
+                Xspeed += time * fraction;
             }
 
             if (verDec > 0.5f)
             {
-                accelerate(30);
+                accelerate(30 * time);
             }
             else if (verDec < -0.5f)
             {
-                accelerate(50);
+                accelerate(50 * time);
             }
+
+            moveX(Xspeed);
         }
 
         public (float, float, float) radarDetection(List<Sprite> cars)
