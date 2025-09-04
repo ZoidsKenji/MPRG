@@ -121,6 +121,8 @@ namespace MPRG
         public override void updateObject(float time, float camSpeed, float midPointX)
         {
             score += 1 * time;
+            this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
+            this.yPos += (camSpeed - speed) * time;
         }
 
         // overtaking
