@@ -1,6 +1,14 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+<<<<<<< HEAD
 "C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/backendTexture.png","C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/backendTexture.xnb","TextureProcessor","Texture2DContent",189,121,0.1455651
 "C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/FITRS.png","C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/FITRS.xnb","TextureProcessor","Texture2DContent",313766,1522841,0.0735502
 "C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/MRS.png","C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/MRS.xnb","TextureProcessor","Texture2DContent",216431,1406681,0.0534579
 "C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/road.png","C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/road.xnb","TextureProcessor","Texture2DContent",96,213,0.0039329
 "C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/whiteLine.png","C:/Users/user/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/whiteLine.xnb","TextureProcessor","Texture2DContent",84,89,0.0052072
+=======
+"C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/backendTexture.png","C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/backendTexture.xnb","TextureProcessor","Texture2DContent",189,121,0.081107
+"C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/FITRS.png","C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/FITRS.xnb","TextureProcessor","Texture2DContent",313766,1522841,0.0483424
+"C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/MRS.png","C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/MRS.xnb","TextureProcessor","Texture2DContent",216431,1406681,0.0393042
+"C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/road.png","C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/road.xnb","TextureProcessor","Texture2DContent",96,213,0.0023805
+"C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/whiteLine.png","C:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/bin/Windows/Content/whiteLine.xnb","TextureProcessor","Texture2DContent",84,89,0.0030714
+>>>>>>> 0f1cd62 (more fixes)

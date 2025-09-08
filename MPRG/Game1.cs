@@ -32,7 +32,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private float Xaccel = 300;
     private float Xspeed = 0;
-    
+
     public float cameraSpeed = 80;
 
     public int lastlanespawn = 3;
@@ -77,7 +77,7 @@ public class Game1 : Game
     }
 
     protected override void Initialize()
-    {   
+    {
         IsFixedTimeStep = true;
         TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 120.0);
 
@@ -126,33 +126,33 @@ public class Game1 : Game
             sprites.Add(player);
         }
         if (showfrontend)
+        {
+
+            for (int i = 0; i < 170; i++)
             {
-
-                for (int i = 0; i < 170; i++)
-                {
-                    roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
-                }
-
-                // for (int i = 0; i < 200; i++){
-                //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
-                // }
-
-                for (int i = 0; i < 30; i++)
-                {
-                    roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3)), 1));
-                }
-
-                for (int i = 0; i < 30; i++)
-                {
-                    roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 590 + (i * 3)), 1));
-                }
-
-                for (int i = 0; i < 30; i++)
-                {
-                    roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
-                }
+                roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
             }
-        if (showbackend){
+
+            // for (int i = 0; i < 200; i++){
+            //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
+            // }
+
+            for (int i = 0; i < 30; i++)
+            {
+                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3)), 1));
+            }
+
+            for (int i = 0; i < 30; i++)
+            {
+                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 590 + (i * 3)), 1));
+            }
+
+            for (int i = 0; i < 30; i++)
+            {
+                roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
+            }
+        }
+        if (showbackend) {
             backendroads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
         }
 
@@ -162,7 +162,7 @@ public class Game1 : Game
 
         polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
 
-        
+
     }
 
     protected override void Update(GameTime gameTime)
@@ -250,32 +250,32 @@ public class Game1 : Game
         }
 
         Xaccel = player.speed / 10;
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)){
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
             Exit();
         }
-        
+
         spawnCounter += (float)gameTime.ElapsedGameTime.TotalSeconds * playerSpeed;
         counter += (float)gameTime.ElapsedGameTime.TotalSeconds * playerSpeed;
-        if (spawnCounter > 300){
+        if (spawnCounter > 300) {
             int laneToSpawn = new Random().Next(0, 3);
-            if (laneToSpawn != lastlanespawn){
+            if (laneToSpawn != lastlanespawn) {
                 sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390), laneToSpawn));
                 lastlanespawn = laneToSpawn;
-            }else{
+            } else {
                 int laneToSpawn2 = new Random().Next(0, 2);
-                if (laneToSpawn2 != lastlanespawn){
+                if (laneToSpawn2 != lastlanespawn) {
                     sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390), laneToSpawn2));
                     lastlanespawn = laneToSpawn2;
                 }
             }
             spawnCounter = 0;
-            
+
         }
 
-        if ((counter > 200) && showfrontend){
-            for (int i = 0; i < 15; i++){
+        if ((counter > 200) && showfrontend) {
+            for (int i = 0; i < 15; i++) {
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 350), 1));
-            }  
+            }
         }
 
         sprites.RemoveAll(sprite => sprite.yPos > 2000 || sprite.yPos < -1500);
@@ -517,7 +517,7 @@ public class Game1 : Game
                     {
                         ai.Xspeed = ai.Xspeed / 4;
                         ai.moveX(-ai.Xspeed / 10);
-                        
+
                         if (ai.xPos > 550)
                         {
                             ai.xPos = 550;
@@ -577,13 +577,13 @@ public class Game1 : Game
             // Console.WriteLine(map0);
 
         }
-        
+
         foreach (Sprite road in roads)
         {
             road.moveMidPoint(-player.xPos);
         }
 
-        foreach (Sprite line in roadLine){
+        foreach (Sprite line in roadLine) {
             line.moveMidPoint(-player.xPos);
             line.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, player.xPos);
         }
@@ -614,7 +614,11 @@ public class Game1 : Game
         }
         Console.WriteLine("camspeed" + cameraSpeed);
 
+<<<<<<< HEAD
         if ((GA.alivePopulation.Count == 0) && !GA.waitingForNewGen)
+=======
+        if ((GA.alivePopulation.Count == 0 || cameraSpeed == 0) && !GA.waitingForNewGen)
+>>>>>>> 0f1cd62 (more fixes)
         {
             Console.WriteLine("saving data");
             GA.newGen();
@@ -626,7 +630,11 @@ public class Game1 : Game
         Console.WriteLine(GA.alivePopulation.Count + "populaton");
         foreach (AiOpponent ai in GA.alivePopulation)
         {
+<<<<<<< HEAD
             Console.WriteLine("aiSpeed" + ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + "aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed);
+=======
+            Console.WriteLine("aiSpeed" + (int)ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + " aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed + " aiScore" + ai.score);
+>>>>>>> 0f1cd62 (more fixes)
         }
 
         base.Update(gameTime);
