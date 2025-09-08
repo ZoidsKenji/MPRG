@@ -123,6 +123,19 @@ namespace MPRG
             score += 1 * time;
             this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
             this.yPos += (camSpeed - speed) * time;
+            if (yPos < -1000)
+            {
+                yPos = -1000;
+                speed = camSpeed;
+            }
+            else if (yPos > 1800)
+            {
+                health -= (int)(20 * time);
+                if (yPos > 2000)
+                {
+                    health = 0;
+                }
+            }
         }
 
         // overtaking
@@ -156,7 +169,7 @@ namespace MPRG
         public override void accelerate(float accel)
         {
             speed += accel;
-            Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos + " aiXspeed " + Xspeed);
+            //Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos + " aiXspeed " + Xspeed);
             // if (speed < 0)
             // {
             //     speed = 10;

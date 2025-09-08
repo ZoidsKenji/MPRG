@@ -87,6 +87,7 @@ namespace MPRG
         {
             if (Directory.Exists(path))
             {
+                Console.WriteLine("data Found");
                 population = new List<AiOpponent>();
                 string filePath = Path.Combine(path, "DNA.txt");
                 var lines = File.ReadAllLines(filePath);
@@ -99,6 +100,7 @@ namespace MPRG
             }
             else
             {
+                Console.WriteLine("No data Found");
                 population = new List<AiOpponent>();
                 for (int i = 0; i < genSize; i++)
                 {

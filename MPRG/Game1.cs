@@ -278,7 +278,7 @@ public class Game1 : Game
             }  
         }
 
-        sprites.RemoveAll(sprite => sprite.yPos > 2000 || sprite.yPos < -1000);
+        sprites.RemoveAll(sprite => sprite.yPos > 2000 || sprite.yPos < -1500);
         roadLine.RemoveAll(line => line.Rect.Y > 1000 || line.Rect.Y < 300);
 
         foreach (Police policesprite in polices)
@@ -614,14 +614,20 @@ public class Game1 : Game
         }
         Console.WriteLine("camspeed" + cameraSpeed);
 
-        if (GA.alivePopulation.Count == 0 && !GA.waitingForNewGen)
+        if ((GA.alivePopulation.Count == 0) && !GA.waitingForNewGen)
         {
+            Console.WriteLine("saving data");
             GA.newGen();
             GA.waitingForNewGen = true;
             GA.saveData("saves/gen1/DNA.txt");
+            player.health = 100;
         }
 
-        Console.WriteLine(GA.population.Count + "populaton");
+        Console.WriteLine(GA.alivePopulation.Count + "populaton");
+        foreach (AiOpponent ai in GA.alivePopulation)
+        {
+            Console.WriteLine("aiSpeed" + ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + "aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed);
+        }
 
         base.Update(gameTime);
     }
