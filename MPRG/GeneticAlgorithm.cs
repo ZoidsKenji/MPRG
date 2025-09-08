@@ -76,7 +76,6 @@ namespace MPRG
             }
             string filePath = Path.Combine(path, "DNA.txt");
             using StreamWriter streamWriter = new StreamWriter(filePath);
-
             foreach (var ai in population)
             {
                 streamWriter.WriteLine(string.Join(",", ai.DNA));
@@ -94,8 +93,22 @@ namespace MPRG
 
                 foreach (var line in lines)
                 {
-                    float[] genes = line.Split(',').Select(float.Parse).ToArray();
-                    population.Add(new AiOpponent(texture, new Vector2(640, 390), genes));
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+                    try
+                    {
+                        float[] genes = line.Split(',').Select(float.Parse).ToArray();
+                        population.Add(new AiOpponent(texture, new Vector2(640, 390), genes));
+                    }
+                    catch (FormatException exception)
+                    {
+                        Console.WriteLine("Data corruption");
+                        population = new List<AiOpponent>();
+                        for (int i = 0; i < genSize; i++)
+                        {
+                            population.Add(new AiOpponent(texture, new Vector2(640, 390)));
+                        }
+                    }
                 }
             }
             else
