@@ -67,7 +67,7 @@ public class Game1 : Game
     GenericAlgorithm GA;
     public bool trainAI = true;
     public bool AiOpponentON = false;
-    public string AiDataPath = "Data/AI";
+    public string AiDataPath = "saves/gen1";
 
     public Game1()
     {
@@ -619,7 +619,7 @@ public class Game1 : Game
             Console.WriteLine("saving data");
             GA.newGen();
             GA.waitingForNewGen = true;
-            GA.saveData("saves/gen1/DNA.txt");
+            GA.saveData("saves/gen1");
             player.health = 100;
         }
 

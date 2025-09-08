@@ -100,6 +100,7 @@ namespace MPRG
             }
             else
             {
+                Directory.CreateDirectory(path);
                 Console.WriteLine("No data Found");
                 population = new List<AiOpponent>();
                 for (int i = 0; i < genSize; i++)
