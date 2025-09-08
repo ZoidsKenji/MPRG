@@ -123,10 +123,6 @@ namespace MPRG
             score += 1 * time;
             this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
             this.yPos += (camSpeed - speed) * time;
-<<<<<<< HEAD
-=======
-
->>>>>>> 0f1cd62 (more fixes)
             if (yPos < -1000)
             {
                 yPos = -1000;
@@ -140,15 +136,6 @@ namespace MPRG
                     health = 0;
                 }
             }
-<<<<<<< HEAD
-=======
-
-            if (health < 1)
-            {
-                this.backendColour = Color.Green;
-            }
-
->>>>>>> 0f1cd62 (more fixes)
         }
 
         // overtaking

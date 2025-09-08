@@ -614,11 +614,7 @@ public class Game1 : Game
         }
         Console.WriteLine("camspeed" + cameraSpeed);
 
-<<<<<<< HEAD
         if ((GA.alivePopulation.Count == 0) && !GA.waitingForNewGen)
-=======
-        if ((GA.alivePopulation.Count == 0 || cameraSpeed == 0) && !GA.waitingForNewGen)
->>>>>>> 0f1cd62 (more fixes)
         {
             Console.WriteLine("saving data");
             GA.newGen();
@@ -630,11 +626,7 @@ public class Game1 : Game
         Console.WriteLine(GA.alivePopulation.Count + "populaton");
         foreach (AiOpponent ai in GA.alivePopulation)
         {
-<<<<<<< HEAD
-            Console.WriteLine("aiSpeed" + ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + "aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed);
-=======
             Console.WriteLine("aiSpeed" + (int)ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + " aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed + " aiScore" + ai.score);
->>>>>>> 0f1cd62 (more fixes)
         }
 
         base.Update(gameTime);
