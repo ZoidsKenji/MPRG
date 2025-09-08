@@ -108,6 +108,15 @@ namespace MPRG
                         {
                             population.Add(new AiOpponent(texture, new Vector2(640, 390)));
                         }
+
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        else
+                        {
+                            using StreamWriter streamWriter = new StreamWriter(filePath);
+                        }
                     }
                 }
             }
