@@ -15,7 +15,6 @@ namespace MPRG
     internal class GenericAlgorithm
     {
         public List<AiOpponent> population;
-        public List<AiOpponent> alivePopulation;
         int genSize = 10;
         public Texture2D texture;
 
@@ -119,6 +118,23 @@ namespace MPRG
                         }
                     }
                 }
+
+                if (population.Count < genSize)
+                {
+                    int newPopSize = genSize - population.Count;
+                    for (int i = 0; i < newPopSize; i++)
+                    {
+                        population.Add(new AiOpponent(texture, new Vector2(640, 390)));
+                    }
+                }
+                else if (population.Count > genSize)
+                {
+                    int removPopSize = population.Count - genSize;
+                    for (int i = 0; i < removPopSize; i++)
+                    {
+                        population.RemoveAt(population.Count - 1);
+                    }
+                }
             }
             else
             {
@@ -130,13 +146,6 @@ namespace MPRG
                     population.Add(new AiOpponent(texture, new Vector2(640, 390)));
                 }
             }
-            
-            alivePopulation = new List<AiOpponent>();
-            foreach (AiOpponent ai in population)
-            {
-                alivePopulation.Add(ai);
-            }
-            population.AsReadOnly();
         }
     }
 }

@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.DXGI;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 namespace MPRG;
 
@@ -92,6 +94,11 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        string AiDataPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "MPRG", "saves", "gen1"
+        );
 
         Texture2D texture = Content.Load<Texture2D>("MRS");
         backendTexture = Content.Load<Texture2D>("backendTexture");
@@ -534,11 +541,6 @@ public class Game1 : Game
                     }
 
                     ai.DecisionMaking(sprites, (float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                    if (ai.health < 1 && GA.alivePopulation.Contains(ai))
-                    {
-                        GA.alivePopulation.Remove(ai);
-                    }
                 }
 
                 //-- player crash physics
@@ -614,17 +616,23 @@ public class Game1 : Game
         }
         Console.WriteLine("camspeed" + cameraSpeed);
 
-        if ((GA.alivePopulation.Count == 0) && !GA.waitingForNewGen)
+        var alivePopulation = GA.population.Where(ai => ai.health > 0).ToList();
+
+        if ((alivePopulation.Count <= 0) && !GA.waitingForNewGen)
         {
+            string AiDataPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "MPRG", "saves", "gen1"
+            );
             Console.WriteLine("saving data");
             GA.newGen();
             GA.waitingForNewGen = true;
-            GA.saveData("saves/gen1");
+            GA.saveData(AiDataPath);
             player.health = 100;
         }
 
-        Console.WriteLine(GA.alivePopulation.Count + "populaton");
-        foreach (AiOpponent ai in GA.alivePopulation)
+        Console.WriteLine(alivePopulation.Count + "populaton");
+        foreach (AiOpponent ai in alivePopulation)
         {
             Console.WriteLine("aiSpeed" + (int)ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + " aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed + " aiScore" + ai.score);
         }

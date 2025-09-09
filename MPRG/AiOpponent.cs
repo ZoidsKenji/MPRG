@@ -136,6 +136,11 @@ namespace MPRG
                     health = 0;
                 }
             }
+
+            if (health <= 0 )
+            {
+                this.backendColour = Color.DarkGreen;
+            }
         }
 
         // overtaking
