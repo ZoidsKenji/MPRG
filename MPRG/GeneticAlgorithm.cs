@@ -15,7 +15,7 @@ namespace MPRG
     internal class GenericAlgorithm
     {
         public List<AiOpponent> population;
-        int genSize = 10;
+        int genSize = 20;
         public Texture2D texture;
 
         public bool waitingForNewGen = false;
@@ -140,6 +140,8 @@ namespace MPRG
             {
                 Directory.CreateDirectory(path);
                 Console.WriteLine("No data Found");
+                string filePath = Path.Combine(path, "DNA.txt");
+                using StreamWriter streamWriter = new StreamWriter(filePath);
                 population = new List<AiOpponent>();
                 for (int i = 0; i < genSize; i++)
                 {

@@ -32,6 +32,8 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private SpriteFont spriteFont;
+    private Vector2 fontPos;
     private float Xaccel = 300;
     private float Xspeed = 0;
 
@@ -94,6 +96,9 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        spriteFont = Content.Load<SpriteFont>("font");
+
+        fontPos = new Vector2(0, 0);
 
         string AiDataPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -691,6 +696,13 @@ public class Game1 : Game
                 _spriteBatch.Draw(backendTexture, police.BackendRect, police.backendColour);
             }
         }
+
+        string healthHUD = "Health: " + player.health.ToString();
+
+        Vector2 FontOrigin = new Vector2();//spriteFont.MeasureString(healthHUD) / 2;
+        FontOrigin.X = -5;
+        FontOrigin.Y = -5;
+        _spriteBatch.DrawString(spriteFont, healthHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
         
 
