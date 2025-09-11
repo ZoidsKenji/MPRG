@@ -12,7 +12,8 @@ using System.Linq;
 namespace MPRG;
 
 // other than the c# code (.cs) and the image (of sprite), the rest are built in (or part of the monogame framework porject template)
-// so for now The code that I've done is Game1.cs, Player.cs, Road.cs, Sprite.cs and Traffic.cs
+// so for now The code that I've done is Game1.cs, Player.cs, Road.cs, Sprite.cs and Traffic.cs...
+// The .spritefont is code found online for the font and edit by me
 
 // -- git update command--
 //
@@ -164,7 +165,8 @@ public class Game1 : Game
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
             }
         }
-        if (showbackend) {
+        if (showbackend)
+        {
             backendroads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
         }
 
@@ -188,94 +190,107 @@ public class Game1 : Game
             int actionDiv = 20;
             int reactDiv = 10;
             bool colision = false;
+            float iFrameAdd = 3;
 
-            if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
+            if (actionSprite.iFrame == 0 || reactionSprite.iFrame == 0)
             {
-                Console.WriteLine("action " + actionSprite + " : reaction " + reactionSprite);
-                colision = true;
-                float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
-                //Console.WriteLine(speeddifferent);
-                if (reactionSprite.yPos < actionSprite.yPos)
+                if (reactionSprite.BackendRect.Intersects(actionSprite.BackendRect) && reactionSprite != actionSprite)
                 {
-                    if ((actionSprite.yPos - reactionSprite.yPos) > hitboxHeight)
+                    Console.WriteLine("action " + actionSprite + " : reaction " + reactionSprite);
+                    actionSprite.iFrame = iFrameAdd;
+                    reactionSprite.iFrame = iFrameAdd;
+                    colision = true;
+                    float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
+                    //Console.WriteLine(speeddifferent);
+                    if (reactionSprite.yPos < actionSprite.yPos)
                     {
-                        if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
+                        if ((actionSprite.yPos - reactionSprite.yPos) > hitboxHeight)
                         {
-                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
-                            actionSprite.health -= (int)speeddifferent / actionDiv;
-                            reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
-                            reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
+                            {
+                                actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
+                                actionSprite.health -= (int)speeddifferent / actionDiv;
+                                reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
+                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            }
+                            else
+                            {
+                                actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
+                                actionSprite.health -= (int)speeddifferent / actionDiv;
+                                reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
+                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            }
                         }
                         else
                         {
-                            actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
-                            actionSprite.health -= (int)speeddifferent / actionDiv;
-                            reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
-                            reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
+                            actionXspeed = -Math.Abs(actionXspeed) * direction;
+                            actionSprite.moveX(actionXspeed);
+                            actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
+                            reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+
                         }
-                    }
-                    else
-                    {
-                        float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
-                        actionXspeed = -Math.Abs(actionXspeed) * direction;
-                        actionSprite.moveX(actionXspeed);
-                        actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
-                        reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+
 
                     }
-
-
-                }
-                else if (reactionSprite.yPos > actionSprite.yPos)
-                {
-                    if ((reactionSprite.yPos - actionSprite.yPos) > hitboxHeight)
+                    else if (reactionSprite.yPos > actionSprite.yPos)
                     {
-                        if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
+                        if ((reactionSprite.yPos - actionSprite.yPos) > hitboxHeight)
                         {
-                            actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
-                            actionSprite.health -= (int)speeddifferent / actionDiv;
-                            reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
-                            reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
+                            {
+                                actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
+                                actionSprite.health -= (int)speeddifferent / actionDiv;
+                                reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
+                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            }
+                            else
+                            {
+                                actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
+                                actionSprite.health -= (int)speeddifferent / actionDiv;
+                                reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
+                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            }
                         }
                         else
                         {
-                            actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
-                            actionSprite.health -= (int)speeddifferent / actionDiv;
-                            reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
-                            reactionSprite.health -= (int)speeddifferent / reactDiv;
+                            float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
+                            actionXspeed = -Math.Abs(actionXspeed) * direction;
+                            actionSprite.moveX(actionXspeed);
+                            actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
+                            reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+
                         }
                     }
-                    else
-                    {
-                        float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
-                        actionXspeed = -Math.Abs(actionXspeed) * direction;
-                        actionSprite.moveX(actionXspeed);
-                        actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
-                        reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
-
-                    }
+                    //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    //Console.WriteLine("Crash");
                 }
-                //player.accelerate(((player.Rect.Y - sprite.Rect.Y) / 2) * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                //Console.WriteLine("Crash");
+
             }
             return (actionXspeed, colision);
         }
 
         Xaccel = player.speed / 10;
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
             Exit();
         }
 
         spawnCounter += (float)gameTime.ElapsedGameTime.TotalSeconds * playerSpeed;
         counter += (float)gameTime.ElapsedGameTime.TotalSeconds * playerSpeed;
-        if (spawnCounter > 300) {
+        if (spawnCounter > 300)
+        {
             int laneToSpawn = new Random().Next(0, 3);
-            if (laneToSpawn != lastlanespawn) {
+            if (laneToSpawn != lastlanespawn)
+            {
                 sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390), laneToSpawn));
                 lastlanespawn = laneToSpawn;
-            } else {
+            }
+            else
+            {
                 int laneToSpawn2 = new Random().Next(0, 2);
-                if (laneToSpawn2 != lastlanespawn) {
+                if (laneToSpawn2 != lastlanespawn)
+                {
                     sprites.Add(new Traffic(Content.Load<Texture2D>("FITRS"), new Vector2(640, 390), laneToSpawn2));
                     lastlanespawn = laneToSpawn2;
                 }
@@ -284,8 +299,10 @@ public class Game1 : Game
 
         }
 
-        if ((counter > 200) && showfrontend) {
-            for (int i = 0; i < 15; i++) {
+        if ((counter > 200) && showfrontend)
+        {
+            for (int i = 0; i < 15; i++)
+            {
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 350), 1));
             }
         }
@@ -553,6 +570,10 @@ public class Game1 : Game
                 {
                     Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80).Item1;
                 }
+                else if (sprite is not AiOpponent)
+                {
+                    Xspeed = crashPhysics(player, sprite, Xspeed, 35, 80).Item1;
+                }
 
                 Xspeed = crashPhysics(player, policesprite, Xspeed, 35, 80).Item1;
 
@@ -590,7 +611,8 @@ public class Game1 : Game
             road.moveMidPoint(-player.xPos);
         }
 
-        foreach (Sprite line in roadLine) {
+        foreach (Sprite line in roadLine)
+        {
             line.moveMidPoint(-player.xPos);
             line.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, player.xPos);
         }
@@ -621,25 +643,28 @@ public class Game1 : Game
         }
         Console.WriteLine("camspeed" + cameraSpeed);
 
-        var alivePopulation = GA.population.Where(ai => ai.health > 0).ToList();
-
-        if ((alivePopulation.Count <= 0) && !GA.waitingForNewGen)
+        if (trainAI)
         {
-            string AiDataPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "MPRG", "saves", "gen1"
-            );
-            Console.WriteLine("saving data");
-            GA.newGen();
-            GA.waitingForNewGen = true;
-            GA.saveData(AiDataPath);
-            player.health = 100;
-        }
+            var alivePopulation = GA.population.Where(ai => ai.health > 0).ToList();
 
-        Console.WriteLine(alivePopulation.Count + "populaton");
-        foreach (AiOpponent ai in alivePopulation)
-        {
-            Console.WriteLine("aiSpeed" + (int)ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + " aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed + " aiScore" + ai.score);
+            if ((alivePopulation.Count <= 0) && !GA.waitingForNewGen)
+            {
+                string AiDataPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "MPRG", "saves", "gen1"
+                );
+                Console.WriteLine("saving data");
+                GA.newGen();
+                GA.waitingForNewGen = true;
+                GA.saveData(AiDataPath);
+                player.health = 100;
+            }
+
+            Console.WriteLine(alivePopulation.Count + "populaton");
+            foreach (AiOpponent ai in alivePopulation)
+            {
+                Console.WriteLine("aiSpeed" + (int)ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + " aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed + " aiScore" + ai.score);
+            }
         }
 
         base.Update(gameTime);
@@ -651,13 +676,13 @@ public class Game1 : Game
 
         allSprites = [.. sprites, .. polices];
 
-        _spriteBatch.Begin(samplerState : SamplerState.PointClamp);
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         sprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
 
         allSprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
 
-        
+
 
         if (showfrontend)
         { //show front end(ray casting)
@@ -698,13 +723,18 @@ public class Game1 : Game
         }
 
         string healthHUD = "Health: " + player.health.ToString();
+        string speedHUD = "Speed: " + ((int)player.speed).ToString();
 
         Vector2 FontOrigin = new Vector2();//spriteFont.MeasureString(healthHUD) / 2;
         FontOrigin.X = -5;
         FontOrigin.Y = -5;
         _spriteBatch.DrawString(spriteFont, healthHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
-        
+        FontOrigin.X = -5;
+        FontOrigin.Y = -25;
+        _spriteBatch.DrawString(spriteFont, speedHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+
 
         _spriteBatch.End();
 

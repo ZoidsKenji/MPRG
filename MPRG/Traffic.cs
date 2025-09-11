@@ -108,6 +108,15 @@ namespace MPRG{
                 this.yPos = 1001;
                 speed = 0;
             }
+
+            if (iFrame > 0)
+            {
+                iFrame -= 1;
+            }
+            else
+            {
+                iFrame = 0;
+            }
         }
 
         public override void moveX(float velocity){

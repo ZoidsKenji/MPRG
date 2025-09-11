@@ -137,9 +137,18 @@ namespace MPRG
                 }
             }
 
-            if (health <= 0 )
+            if (health <= 0)
             {
                 this.backendColour = Color.DarkGreen;
+            }
+            
+            if (iFrame > 0)
+            {
+                iFrame -= 1;
+            }
+            else
+            {
+                iFrame = 0;
             }
         }
 

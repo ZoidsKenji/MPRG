@@ -83,6 +83,15 @@ namespace MPRG{
                 yPos = -1000;
                 speed = camSpeed;
             }
+
+            if (iFrame > 0)
+            {
+                iFrame -= 1;
+            }
+            else
+            {
+                iFrame = 0;
+            }
         }
 
         public override void moveX(float velocity)

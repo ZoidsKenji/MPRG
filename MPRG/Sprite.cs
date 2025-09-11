@@ -17,6 +17,8 @@ namespace MPRG{
         public Color colour;
         public Color backendColour;
 
+        public float iFrame;
+
         public float rotationAngle;
         public Vector2 spriteOrigin;
 
@@ -83,7 +85,14 @@ namespace MPRG{
 
         public virtual void updateObject(float time, float playerSpeed, float midPoint)
         {
-
+            if (iFrame > 0)
+            {
+                iFrame -= 1;
+            }
+            else
+            {
+                iFrame = 0;
+            }
         }
 
         public virtual void setSpeedTo(float Speed){
