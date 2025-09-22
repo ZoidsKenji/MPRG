@@ -55,6 +55,7 @@ public class Game1 : Game
     List<Sprite> roads;
     List<Police> polices;
     List<Sprite> backendroads;
+    List<Sprite> background;
 
     List<Sprite> roadLine;
     // List<Sprite> roadLineR;
@@ -116,6 +117,7 @@ public class Game1 : Game
         polices = new List<Police>();
         backendroads = new List<Sprite>();
         roadLine = new List<Sprite>();
+        background = new List<Sprite>();
         // roadLineR = new List<Sprite>();
 
         if (AiOpponentON || trainAI)
@@ -144,7 +146,9 @@ public class Game1 : Game
             for (int i = 0; i < 170; i++)
             {
                 roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
+
             }
+            background.Add(new background(Content.Load<Texture2D>("whiteLine")));
 
             // for (int i = 0; i < 200; i++){
             //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
@@ -165,6 +169,7 @@ public class Game1 : Game
                 roadLine.Add(new RoadLine(Content.Load<Texture2D>("road"), new Vector2(0, 790 + (i * 3)), 1));
             }
         }
+
         if (showbackend)
         {
             backendroads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 0)));
@@ -184,6 +189,8 @@ public class Game1 : Game
         int specialEntities = 0;
         float TotialSpecialEntSpeed = 0;
 
+        // Name : crashPhysics
+        // Parameter : 
 
         static (float, bool) crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
         {
@@ -682,16 +689,23 @@ public class Game1 : Game
 
         allSprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
 
-
+        
 
         if (showfrontend)
         { //show front end(ray casting)
-            // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
-            // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
+          // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
+          // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
+
+            foreach (Sprite back in background)
+            {
+                _spriteBatch.Draw(back.texture, back.BackendRect, back.backendColour);
+            }
+
             foreach (Sprite road in roads)
             {
                 _spriteBatch.Draw(road.texture, road.Rect, road.colour);
             }
+
             foreach (Sprite line in roadLine)
             {
                 _spriteBatch.Draw(line.texture, line.Rect, line.colour);
