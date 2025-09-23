@@ -38,6 +38,8 @@ public class Game1 : Game
     private float Xaccel = 300;
     private float Xspeed = 0;
 
+    public int wincondition = 0; // 0 = nothing, 1 = win, 2 = lose
+
     public float cameraSpeed = 80;
 
     public int lastlanespawn = 3;
@@ -180,6 +182,7 @@ public class Game1 : Game
         // }
 
         polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
+
 
 
     }
@@ -661,16 +664,25 @@ public class Game1 : Game
                     "MPRG", "saves", "gen1"
                 );
                 Console.WriteLine("saving data");
-                GA.newGen();
-                GA.waitingForNewGen = true;
-                GA.saveData(AiDataPath);
-                player.health = 100;
+                //GA.newGen();
+                //GA.waitingForNewGen = true;
+                //GA.saveData(AiDataPath);
+                //player.health = 100;
             }
 
             Console.WriteLine(alivePopulation.Count + "populaton");
             foreach (AiOpponent ai in alivePopulation)
             {
                 Console.WriteLine("aiSpeed" + (int)ai.speed + " aiHealth" + ai.health + " aiXpos" + ai.xPos + " aiYpos" + ai.yPos + " aiXspeed " + ai.Xspeed + " aiScore" + ai.score);
+            }
+
+            if (player.health <= 0 && wincondition == 0)
+            {
+                wincondition = 2;
+            }
+            else if (alivePopulation.Count == 0 && wincondition == 0)
+            {
+                wincondition = 1;
             }
         }
 
@@ -738,6 +750,28 @@ public class Game1 : Game
 
         string healthHUD = "Health: " + player.health.ToString();
         string speedHUD = "Speed: " + ((int)player.speed).ToString();
+        if (wincondition != 0)
+        {
+            string wincon = "Game Over";
+            if (wincondition == 1)
+            {
+                wincon = "You Win!!!";
+                Console.WriteLine("win");
+            }
+            else
+            {
+                Console.WriteLine("lose");
+                wincon = "Game Over";
+            }
+
+            Vector2 WinFontOrigin = new Vector2();
+            Vector2 winTextPos = new Vector2();
+            winTextPos.X = 480;
+            winTextPos.Y = 960;
+            WinFontOrigin.X = -5;
+            WinFontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, wincon, fontPos, Color.Red, 0, WinFontOrigin, 10.0f, SpriteEffects.None, 0.5f);
+        }
 
         Vector2 FontOrigin = new Vector2();//spriteFont.MeasureString(healthHUD) / 2;
         FontOrigin.X = -5;
