@@ -65,6 +65,12 @@ namespace MPRG{
             // this.pathfinder = new PathFind(map);
         }
 
+        // ```
+        // Name : updateObject
+        // Parameter : float time, float camSpeed, float midPointX
+        // Return : --
+        // Purpose : it override from Sprite class, and updates the sprite
+        // ```
         public override void updateObject(float time, float camSpeed, float midPointX)
         {
             this.midpoint = (int)midPointX + 640;

@@ -28,6 +28,14 @@ namespace MPRG;
 // or:
 // git push --force origin main (Use with Caution)
 
+//commenting example
+// ```
+// Name : --
+// Parameter : --
+// Return : --
+// Purpose : --
+// ```
+
 
 public class Game1 : Game
 {
@@ -688,7 +696,7 @@ public class Game1 : Game
                 Console.WriteLine("saving data");
                 //GA.newGen();
                 //GA.waitingForNewGen = true;
-                //GA.saveData(AiDataPath);
+                GA.saveData(AiDataPath);
                 //player.health = 100;
             }
 
@@ -706,6 +714,7 @@ public class Game1 : Game
                     "MPRG", "saves", "gen1"
                 );
                 Console.WriteLine("saving data");
+                GA.saveData(AiDataPath);
             }
             else if (alivePopulation.Count == 0 && wincondition == 0)
             {

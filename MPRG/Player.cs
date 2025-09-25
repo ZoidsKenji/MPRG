@@ -52,6 +52,12 @@ namespace MPRG
             }
         }
 
+        // ```
+        // Name : updateObject
+        // Parameter : float time, float camSpeed, float midPointX
+        // Return : --
+        // Purpose : it override from Sprite class, and updates the sprite
+        // ```
         public override void updateObject(float time, float camSpeed, float midPoint)
         {
             this.yPos += (camSpeed - speed) * time;

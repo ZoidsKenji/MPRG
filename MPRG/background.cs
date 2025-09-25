@@ -30,18 +30,6 @@ namespace MPRG{
 
         }
 
-        public override void moveMidPoint(float xMove){
-            this.midpoint = (int)xMove + 640;
-            width = (int)Math.Floor((pos.Y - 480) * 6.0);
-
-            float curveFactor = (midpoint - (1280 / 2)) / (1280 / 2.0f);
-            float curveStrength = 600;
-            float yFactor = Math.Max(0, (pos.Y - 480) / 480.0f);
-
-            xPos = (int)Math.Floor(midpoint - (width / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
-
-        }
-
     }
 
 
