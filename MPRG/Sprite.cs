@@ -64,7 +64,7 @@ namespace MPRG{
         }
 
         public virtual void moveMidPoint(float xPos){
-
+            
         }
 
         public (int, int) ItemPos(List<List<int>> list, int item)

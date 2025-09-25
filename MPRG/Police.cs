@@ -100,16 +100,12 @@ namespace MPRG{
             }
         }
 
-        public override void moveX(float velocity)
-        {
-            this.xPos += velocity;
-        }
-
-        public override void setSpeedTo(float Speed)
-        {
-            speed = Speed;
-        }
-
+        // ```
+        // Name : showPath
+        // Parameter : List<List<int>> map, List<(int x, int y)> path = null
+        // Return : --
+        // Purpose : print out the path for debug
+        // ```
         public void showPath(List<List<int>> map, List<(int x, int y)> path = null)
         {
             Console.WriteLine("Path:");
@@ -158,6 +154,12 @@ namespace MPRG{
             Console.WriteLine();
         }
 
+        // ```
+        // Name : findPath
+        // Parameter : List<List<int>> map, float time, float playerSpeed
+        // Return : --
+        // Purpose : runs the A* path find algrithm and controls the police car
+        // ```
         public void findPath(List<List<int>> map, float time, float playerSpeed)
         {
 
@@ -165,7 +167,7 @@ namespace MPRG{
             var endPos = ItemPos(map, 2);
 
             List<(int, int)> path = new List<(int, int)>();
-            
+
             if (startPos != (-1, -1) && endPos != (-1, -1))
             {
                 List<List<int>> newMap = map;
@@ -179,7 +181,7 @@ namespace MPRG{
             {
                 path = null;
             }
-            
+
             if (path != null)
             {
                 showPath(map, path);

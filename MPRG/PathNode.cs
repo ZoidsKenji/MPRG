@@ -26,16 +26,34 @@ namespace MPRG
             this.drivible = drivible;
         }
 
+        // ```
+        // Name : LargerThan
+        // Parameter : PathNode other
+        // Return : --
+        // Purpose : check if the other has a larger cost
+        // ```
         public bool LargerThan(PathNode other)
         {
             return this.tCost < other.tCost;
         }
 
+        // ```
+        // Name : SmallerThan
+        // Parameter : PathNode other
+        // Return : --
+        // Purpose : check if the other has a smaller cost
+        // ```
         public bool SmallerThan(PathNode other)
         {
             return this.tCost > other.tCost;
         }
 
+        // ```
+        // Name : Equal
+        // Parameter : PathNode other
+        // Return : --
+        // Purpose : check if the other is the same path
+        // ```
         public bool Equal(PathNode other)
         {
             return x == other.x && y == other.y;

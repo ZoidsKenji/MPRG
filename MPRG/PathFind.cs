@@ -38,6 +38,12 @@ namespace MPRG
             }
         }
 
+        // ```
+        // Name : getNode
+        // Parameter : (int, int) pos
+        // Return : --
+        // Purpose : check if the other is the same path
+        // ```
         public PathNode getNode((int, int) pos)
         {
             if (0 <= pos.Item1 && pos.Item1 < width && 0 <= pos.Item2 && pos.Item2 < height)
