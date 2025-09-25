@@ -84,6 +84,12 @@ public class Game1 : Game
         IsMouseVisible = true;
     }
 
+    // ```
+    // Name : Initialize
+    // Parameter : --
+    // Return : --
+    // Purpose : initialise the game, set the screen size, fps, VSync
+    // ```
     protected override void Initialize()
     {
         IsFixedTimeStep = true;
@@ -97,6 +103,12 @@ public class Game1 : Game
         base.Initialize();
     }
 
+    // ```
+    // Name : LoadContent
+    // Parameter : --
+    // Return : --
+    // Purpose : it runs at the very start and loads all the content such as texture, and create class
+    // ```
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -150,7 +162,7 @@ public class Game1 : Game
                 roads.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 480 + (i * 3))));
 
             }
-            background.Add(new background(Content.Load<Texture2D>("whiteLine")));
+            background.Add(new Background(Content.Load<Texture2D>("whiteLine")));
 
             // for (int i = 0; i < 200; i++){
             //     roadLineR.Add(new RoadLine(Content.Load<Texture2D>("whiteLine"), new Vector2(0, 390 + (i * 3)), 0));
@@ -187,14 +199,23 @@ public class Game1 : Game
 
     }
 
+    // ```
+    // Name : Update
+    // Parameter : GameTime gameTime
+    // Return : --
+    // Purpose : it runs every frame and deals with most of the stuff in game, update the sprites, controlls the player.
+    // ```
     protected override void Update(GameTime gameTime)
     {
         int specialEntities = 0;
         float TotialSpecialEntSpeed = 0;
 
+        // ```
         // Name : crashPhysics
-        // Parameter : 
-
+        // Parameter : Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight
+        // Return : (actionXspeed, colision)
+        // Purpose : It deals with all the car crash physic by changing the speed / velocity and also deals with the damage
+        // ```
         static (float, bool) crashPhysics(Sprite actionSprite, Sprite reactionSprite, float actionXspeed, int hitboxWidth, int hitboxHeight)
         {
             int actionDiv = 20;
@@ -517,6 +538,7 @@ public class Game1 : Game
                 }
                 else if (sprite is AiOpponent ai)
                 {
+                    ai.updateCarsPos(sprites);
                     // ai colision punishment
                     foreach (Sprite spriteTraffic in sprites)
                     {
@@ -679,6 +701,11 @@ public class Game1 : Game
             if (player.health <= 0 && wincondition == 0)
             {
                 wincondition = 2;
+                string AiDataPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "MPRG", "saves", "gen1"
+                );
+                Console.WriteLine("saving data");
             }
             else if (alivePopulation.Count == 0 && wincondition == 0)
             {
@@ -689,6 +716,12 @@ public class Game1 : Game
         base.Update(gameTime);
     }
 
+    // ```
+    // Name : Draw
+    // Parameter : GameTime gameTime
+    // Return : --
+    // Purpose : it runs every frame, it draw and display the screen. Also deals with the layer of drawing sprite.
+    // ```
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -701,7 +734,7 @@ public class Game1 : Game
 
         allSprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
 
-        
+
 
         if (showfrontend)
         { //show front end(ray casting)

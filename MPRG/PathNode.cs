@@ -31,6 +31,11 @@ namespace MPRG
             return this.tCost < other.tCost;
         }
 
+        public bool SmallerThan(PathNode other)
+        {
+            return this.tCost > other.tCost;
+        }
+
         public bool Equal(PathNode other)
         {
             return x == other.x && y == other.y;
