@@ -17,6 +17,8 @@ namespace MPRG{
         public Color colour;
         public Color backendColour;
 
+        public float mass = 0;
+
         public float iFrame;
 
         public float rotationAngle;

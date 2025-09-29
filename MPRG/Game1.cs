@@ -201,7 +201,7 @@ public class Game1 : Game
         //     sprites.Add(new Road(Content.Load<Texture2D>("road"), new Vector2(0, 320 - (i * 2))));
         // }
 
-        polices.Add(new Police(Content.Load<Texture2D>("MRS"), new Vector2(640, 390)));
+        polices.Add(new Police(Content.Load<Texture2D>("RS6Police"), new Vector2(640, 390)));
 
 
 
@@ -239,7 +239,7 @@ public class Game1 : Game
                     actionSprite.iFrame = iFrameAdd;
                     reactionSprite.iFrame = iFrameAdd;
                     colision = true;
-                    float speeddifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
+                    float energydifferent = Math.Abs(actionSprite.speed - reactionSprite.speed);
                     //Console.WriteLine(speeddifferent);
                     if (reactionSprite.yPos < actionSprite.yPos)
                     {
@@ -247,17 +247,17 @@ public class Game1 : Game
                         {
                             if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
                             {
-                                actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
-                                actionSprite.health -= (int)speeddifferent / actionDiv;
-                                reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
-                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                                actionSprite.setSpeedTo(reactionSprite.speed - ((energydifferent / 4) + 0.5f));
+                                actionSprite.health -= (int)energydifferent / actionDiv;
+                                reactionSprite.setSpeedTo(reactionSprite.speed + (energydifferent + 3));
+                                reactionSprite.health -= (int)energydifferent / reactDiv;
                             }
                             else
                             {
-                                actionSprite.setSpeedTo(reactionSprite.speed - ((speeddifferent / 4) + 0.5f));
-                                actionSprite.health -= (int)speeddifferent / actionDiv;
-                                reactionSprite.setSpeedTo(reactionSprite.speed + (speeddifferent + 3));
-                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                                actionSprite.setSpeedTo(reactionSprite.speed - ((energydifferent / 4) + 0.5f));
+                                actionSprite.health -= (int)energydifferent / actionDiv;
+                                reactionSprite.setSpeedTo(reactionSprite.speed + (energydifferent + 3));
+                                reactionSprite.health -= (int)energydifferent / reactDiv;
                             }
                         }
                         else
@@ -265,8 +265,8 @@ public class Game1 : Game
                             float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
                             actionXspeed = -Math.Abs(actionXspeed) * direction;
                             actionSprite.moveX(actionXspeed);
-                            actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
-                            reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+                            actionSprite.health -= (int)energydifferent / (actionDiv * 2);
+                            reactionSprite.health -= (int)energydifferent / (reactDiv * 2);
 
                         }
 
@@ -278,17 +278,17 @@ public class Game1 : Game
                         {
                             if (Math.Abs(actionSprite.BackendRect.X - reactionSprite.BackendRect.X) < hitboxWidth)
                             {
-                                actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
-                                actionSprite.health -= (int)speeddifferent / actionDiv;
-                                reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
-                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                                actionSprite.setSpeedTo(reactionSprite.speed + ((energydifferent / 2) + 0.5f));
+                                actionSprite.health -= (int)energydifferent / actionDiv;
+                                reactionSprite.setSpeedTo(actionSprite.speed - (energydifferent + 3));
+                                reactionSprite.health -= (int)energydifferent / reactDiv;
                             }
                             else
                             {
-                                actionSprite.setSpeedTo(reactionSprite.speed + ((speeddifferent / 2) + 0.5f));
-                                actionSprite.health -= (int)speeddifferent / actionDiv;
-                                reactionSprite.setSpeedTo(actionSprite.speed - (speeddifferent + 3));
-                                reactionSprite.health -= (int)speeddifferent / reactDiv;
+                                actionSprite.setSpeedTo(reactionSprite.speed + ((energydifferent / 2) + 0.5f));
+                                actionSprite.health -= (int)energydifferent / actionDiv;
+                                reactionSprite.setSpeedTo(actionSprite.speed - (energydifferent + 3));
+                                reactionSprite.health -= (int)energydifferent / reactDiv;
                             }
                         }
                         else
@@ -296,8 +296,8 @@ public class Game1 : Game
                             float direction = (actionXspeed != 0) ? (actionXspeed / Math.Abs(actionXspeed)) : 1;
                             actionXspeed = -Math.Abs(actionXspeed) * direction;
                             actionSprite.moveX(actionXspeed);
-                            actionSprite.health -= (int)speeddifferent / (actionDiv * 2);
-                            reactionSprite.health -= (int)speeddifferent / (reactDiv * 2);
+                            actionSprite.health -= (int)energydifferent / (actionDiv * 2);
+                            reactionSprite.health -= (int)energydifferent / (reactDiv * 2);
 
                         }
                     }

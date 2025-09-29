@@ -28,7 +28,8 @@ namespace MPRG
             allCarsNear = new List<Sprite>();
 
             this.rpm = 800;
-            this.rpmLimit = 6500;
+            this.redLine = 6500;
+            this.rpmLim = 7500;
             this.idleRpm = 800;
             this.gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
             this.torque = new List<float> {60, 70, 120, 160, 171, 170, 160, 130, 120, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
@@ -178,7 +179,12 @@ namespace MPRG
                 rpm = 810;
             }
 
-            if (rpm >= rpmLimit && gear < gearRatio.Count)
+            if (rpm > rpmLim)
+            {
+                rpm = rpmLim;
+            }
+
+            if (rpm >= redLine && gear < gearRatio.Count)
             {
                 gear += 1;
                 rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];

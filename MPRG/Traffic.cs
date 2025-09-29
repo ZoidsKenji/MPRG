@@ -18,6 +18,7 @@ namespace MPRG{
 
         public int midpoint = 1280 / 2;
 
+        public float mass = 1050;
         public int lane = new Random().Next(0, 3);
 
         public override Rectangle Rect{
@@ -42,6 +43,7 @@ namespace MPRG{
             this.xPos = (lane - 1) * 500;
             this.backendColour = Color.Orange;
             this.speed = 30;
+            this.mass = 1050;
             setSpeed = 40;
             if (lane == 0){
                 this.speed = 40;

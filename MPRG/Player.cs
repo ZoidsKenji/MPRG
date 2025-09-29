@@ -12,7 +12,8 @@ namespace MPRG
     {
         // these value are for toyota mrs
         public float rpm = 800;
-        public float rpmLimit = 6500;
+        public float redLine = 6500;
+        public float rpmLim = 7500;
         public float idleRpm = 800;
         public List<float> gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
         public List<float> torque = new List<float> {60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
@@ -46,6 +47,7 @@ namespace MPRG
             this.backendColour = Color.LightGray;
             this.yPos = 435;
             this.speed = 80;
+            this.mass = 1050;
         }
 
         public virtual void accelerate(float accel, float time, float throttle)
@@ -117,7 +119,12 @@ namespace MPRG
                 rpm = 810;
             }
 
-            if (rpm >= rpmLimit && gear < gearRatio.Count)
+            if (rpm > rpmLim)
+            {
+                rpm = rpmLim;
+            }
+
+            if (rpm >= redLine && gear < gearRatio.Count)
             {
                 gear += 1;
                 rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];

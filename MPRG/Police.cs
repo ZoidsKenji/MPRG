@@ -20,15 +20,17 @@ namespace MPRG{
 
         public PathFind pathfinder;
 
+        // rs6
         public float rpm = 800;
-        public float rpmLimit = 6500;
+        public float redLine = 6500;
+        public float rpmLim = 7000;
         public float idleRpm = 800;
-        public List<float> gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
-        public List<float> torque = new List<float> {60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
-        public float finalDriveRatio = 4.285f;
-        public float tyreCircumference = 1.893f;
+        public List<float> gearRatio = new List<float> { 4.714f, 3.143f, 21.06f, 1.667f, 1.285f, 1, 0.839f, 0.667f};
+        public List<float> torque = new List<float> {70, 100, 250, 450, 600, 700, 750, 800, 850, 0, 0, 0, 0, 0}; // for every 1000 rpm in Nm
+        public float finalDriveRatio = 3.2f;
+        public float tyreCircumference = 2.255f;
         public float gear = 1;
-        public float mass = 1050;
+        public float mass = 2075;
 
         public override Rectangle Rect
         {
@@ -61,6 +63,7 @@ namespace MPRG{
             this.speed = 90;
             this.yPos = 1280;
             this.xSpeed = 0;
+            this.mass = 2075;
             //this.xPos = 0;
 
             // blank map (default)
@@ -125,7 +128,12 @@ namespace MPRG{
                 rpm = 810;
             }
 
-            if (rpm >= rpmLimit && gear < gearRatio.Count)
+            if (rpm > rpmLim)
+            {
+                rpm = rpmLim;
+            }
+
+            if (rpm >= redLine && gear < gearRatio.Count)
             {
                 gear += 1;
                 rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];
@@ -282,6 +290,10 @@ namespace MPRG{
 
         public void accelerate(float accel, float time, float throttle)
         {
+            if (rpm > rpmLim)
+            {
+                rpm = rpmLim;
+            }
             float momentOfInertia = 0.18f;
             float viscousDampingCoefficent = 0.05f;
             double pi = Math.PI;
