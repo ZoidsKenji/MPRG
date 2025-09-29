@@ -531,15 +531,15 @@ public class Game1 : Game
 
                     if (playersprite.speed > 0)
                     {
-                        playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.W))
                     {
-                        playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0.9f);
                     }
                     else if (Keyboard.GetState().IsKeyDown(Keys.S) && playersprite.speed > 0)
                     {
-                        playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, -1);
                     }
 
 
@@ -791,7 +791,7 @@ public class Game1 : Game
         }
 
         string healthHUD = "Health: " + player.health.ToString();
-        string speedHUD = "Speed: " + ((int)player.speed).ToString();
+        string speedHUD = "Speed: " + ((int)(player.speed / 2.5f)).ToString();
         string gearHUD = "Gear: " + ((int)player.gear).ToString();
         string rpmHUD = "Rpm: " + ((int)player.rpm).ToString();
         if (wincondition != 0)

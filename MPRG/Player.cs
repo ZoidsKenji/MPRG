@@ -10,11 +10,20 @@ namespace MPRG
 {
     internal class Player : Sprite
     {
-
+        // these value are for toyota mrs
         public float rpm = 800;
-        public float rpmLimit = 7800;
-        public List<float> gearRatio = new List<float> { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f };
+        public float rpmLimit = 6500;
+        public float idleRpm = 800;
+        public List<float> gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
+        public List<float> torque = new List<float> {60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
+        public float finalDriveRatio = 4.285f;
+        public float tyreCircumference = 1.893f;
         public float gear = 1;
+        public float mass = 1050; // in kg
+
+        // rpm equation:
+        // rpm = (speed * gearRatio * finalDriveRatio * 60) / tyreCircumference
+        // speed = (rpm * tyreCircumference) / (gearRatio * finalDriveRatio * 60)
 
         public override Rectangle Rect
         {
@@ -39,13 +48,19 @@ namespace MPRG
             this.speed = 80;
         }
 
-        public virtual void accelerate(float accel)
+        public virtual void accelerate(float accel, float time, float throttle)
         {
-            speed += accel;
-            if (rpm < rpmLimit)
-            {
-                rpm += accel * 200;
-            }
+            float momentOfInertia = 0.18f;
+            float viscousDampingCoefficent = 0.05f;
+            double pi = Math.PI;
+            float rpmtorque = torque[(int)rpm / 1000] * throttle;
+            float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
+            float netTorque = rpmtorque - viscousLoss;
+            float angularAccel = netTorque / momentOfInertia;
+            float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
+            rpm += rpmPerSec * time;
+
+            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 2.5f * 2.237f; // the 2.237 makes it mph
             Console.WriteLine("playerSpeed" + speed + " playerHealth" + health + " playerXpos" + xPos);
             // if (speed < 0)
             // {
@@ -86,20 +101,31 @@ namespace MPRG
                 iFrame = 0;
             }
 
-            if (rpm > 800)
+            if (rpm > idleRpm)
             {
-                rpm -= time * 150;
+                float momentOfInertia = 0.18f;
+                float viscousDampingCoefficent = 0.05f;
+                double pi = Math.PI;
+                float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
+                float netTorque = - viscousLoss;
+                float angularAccel = netTorque / momentOfInertia;
+                float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
+                rpm += rpmPerSec * time;
+            }
+            else
+            {
+                rpm = 810;
             }
 
             if (rpm >= rpmLimit && gear < gearRatio.Count)
             {
                 gear += 1;
-                rpm = rpmLimit * gearRatio[(int)gear - 1];
+                rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];
             }
-            else if (rpm < (rpmLimit * gearRatio[(int)gear - 1] - 100) && gear > 1)
+            else if (rpm < 1500 && gear > 1)
             {
                 gear -= 1;
-                rpm = rpmLimit * (1 - gearRatio[(int)gear - 1]);
+                rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear];
             }
         }
 
