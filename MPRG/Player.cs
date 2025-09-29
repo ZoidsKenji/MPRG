@@ -20,7 +20,6 @@ namespace MPRG
         public float finalDriveRatio = 4.285f;
         public float tyreCircumference = 1.893f;
         public float gear = 1;
-        public float mass = 1050; // in kg
 
         // rpm equation:
         // rpm = (speed * gearRatio * finalDriveRatio * 60) / tyreCircumference

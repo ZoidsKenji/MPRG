@@ -18,7 +18,7 @@ namespace MPRG{
 
         public int midpoint = 1280 / 2;
 
-        public float mass = 1050;
+
         public int lane = new Random().Next(0, 3);
 
         public override Rectangle Rect{

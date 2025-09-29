@@ -101,7 +101,7 @@ namespace MPRG
                     }
                     catch (FormatException exception)
                     {
-                        Console.WriteLine("Data corruption");
+                        Console.WriteLine("Data corruption" + exception);
                         population = new List<AiOpponent>();
                         for (int i = 0; i < genSize; i++)
                         {

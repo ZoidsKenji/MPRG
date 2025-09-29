@@ -30,7 +30,6 @@ namespace MPRG{
         public float finalDriveRatio = 3.2f;
         public float tyreCircumference = 2.255f;
         public float gear = 1;
-        public float mass = 2075;
 
         public override Rectangle Rect
         {
