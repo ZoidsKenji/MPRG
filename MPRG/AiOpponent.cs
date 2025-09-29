@@ -27,16 +27,17 @@ namespace MPRG
             DNA = genes ?? genRandGenes();
             allCarsNear = new List<Sprite>();
 
+            //s2k
             this.rpm = 800;
-            this.redLine = 6500;
-            this.rpmLim = 7500;
+            this.redLine = 6800;
+            this.rpmLim = 8800;
             this.idleRpm = 800;
-            this.gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
-            this.torque = new List<float> {60, 70, 120, 160, 171, 170, 160, 130, 120, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
-            this.finalDriveRatio = 4.285f;
-            this.tyreCircumference = 1.893f;
+            this.gearRatio = new List<float> { 3.133f, 2.045f, 1.481f, 1.161f, 0.970f, 0.810f };
+            this.torque = new List<float> {30, 50, 100, 150, 180, 200, 210, 208, 200, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
+            this.finalDriveRatio = 4.1f;
+            this.tyreCircumference = 2.1f;
             this.gear = 1;
-            this.mass = 1050; // in kg
+            this.mass = 1270; // in kg
         }
 
         public float[] genRandGenes()

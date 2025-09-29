@@ -144,7 +144,7 @@ public class Game1 : Game
 
         if (AiOpponentON || trainAI)
         {
-            GA = new GenericAlgorithm(Content.Load<Texture2D>("MRS"));
+            GA = new GenericAlgorithm(Content.Load<Texture2D>("S2K"));
             GA.loadData(AiDataPath);
             foreach (AiOpponent ai in GA.population)
             {
@@ -540,6 +540,15 @@ public class Game1 : Game
                     else if (Keyboard.GetState().IsKeyDown(Keys.S) && playersprite.speed > 0)
                     {
                         playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, -1);
+                    }
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                    {
+                        playersprite.GearChange(1);
+                    }
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                    {
+                        playersprite.GearChange(-1);
                     }
 
 

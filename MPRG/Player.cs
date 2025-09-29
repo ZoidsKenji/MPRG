@@ -16,10 +16,13 @@ namespace MPRG
         public float rpmLim = 7500;
         public float idleRpm = 800;
         public List<float> gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
-        public List<float> torque = new List<float> {60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
+        public List<float> torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
         public float finalDriveRatio = 4.285f;
         public float tyreCircumference = 1.893f;
         public float gear = 1;
+
+        public bool manualGear = false;
+        public float gearFrame = 0;
 
         // rpm equation:
         // rpm = (speed * gearRatio * finalDriveRatio * 60) / tyreCircumference
@@ -47,6 +50,7 @@ namespace MPRG
             this.yPos = 435;
             this.speed = 80;
             this.mass = 1050;
+
         }
 
         public virtual void accelerate(float accel, float time, float throttle)
@@ -102,13 +106,22 @@ namespace MPRG
                 iFrame = 0;
             }
 
+            if (gearFrame > 0)
+            {
+                gearFrame -= 1;
+            }
+            else
+            {
+                gearFrame = 0;
+            }
+
             if (rpm > idleRpm)
             {
                 float momentOfInertia = 0.18f;
                 float viscousDampingCoefficent = 0.05f;
                 double pi = Math.PI;
                 float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-                float netTorque = - viscousLoss;
+                float netTorque = -viscousLoss;
                 float angularAccel = netTorque / momentOfInertia;
                 float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
                 rpm += rpmPerSec * time;
@@ -123,15 +136,38 @@ namespace MPRG
                 rpm = rpmLim;
             }
 
-            if (rpm >= redLine && gear < gearRatio.Count)
+            if (!manualGear)
             {
-                gear += 1;
-                rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];
+                if (rpm >= redLine && gear < gearRatio.Count)
+                {
+                    gear += 1;
+                    rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];
+                }
+                else if (rpm < 1500 && gear > 1)
+                {
+                    gear -= 1;
+                    rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear];
+                }
             }
-            else if (rpm < 1500 && gear > 1)
+        }
+
+        public void GearChange(int gearUp)
+        {
+            if (manualGear && gearFrame == 0)
             {
-                gear -= 1;
-                rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear];
+                if (gearUp == 1 && gear < gearRatio.Count)
+                {
+                    gear += 1;
+                    rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear - 2];
+                    gearFrame = 120;
+                }
+                else if (gearUp == -1 && gear > 1)
+                {
+                    gear -= 1;
+                    rpm = (rpm * gearRatio[(int)gear - 1]) / gearRatio[(int)gear];
+                    gearFrame = 120;
+
+                }
             }
         }
 

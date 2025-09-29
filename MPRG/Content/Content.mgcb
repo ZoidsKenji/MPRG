@@ -80,6 +80,18 @@
 /processorParam:TextureFormat=Color
 /build:RS6Police.png
 
+#begin S2K.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:S2K.png
+
 #begin whiteLine.png
 /importer:TextureImporter
 /processor:TextureProcessor
