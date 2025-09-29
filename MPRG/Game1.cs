@@ -792,6 +792,8 @@ public class Game1 : Game
 
         string healthHUD = "Health: " + player.health.ToString();
         string speedHUD = "Speed: " + ((int)player.speed).ToString();
+        string gearHUD = "Gear: " + ((int)player.gear).ToString();
+        string rpmHUD = "Rpm: " + ((int)player.rpm).ToString();
         if (wincondition != 0)
         {
             string wincon = "Game Over";
@@ -823,6 +825,14 @@ public class Game1 : Game
         FontOrigin.X = -5;
         FontOrigin.Y = -25;
         _spriteBatch.DrawString(spriteFont, speedHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+        FontOrigin.X = -5;
+        FontOrigin.Y = -45;
+        _spriteBatch.DrawString(spriteFont, gearHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+        FontOrigin.X = -5;
+        FontOrigin.Y = -65;
+        _spriteBatch.DrawString(spriteFont, rpmHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
 
 
