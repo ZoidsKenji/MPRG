@@ -89,8 +89,15 @@ namespace MPRG{
             this.yPos += (camSpeed - speed) * time;
 
             float playerYPercentage = yPos / (playerY - renderDistance);
-            float frontEnd = 480 + (playerYPercentage * (750 - 480));
-            this.pos.Y = frontEnd;
+            float frontEnd = 180 + (playerYPercentage * (750 - 480));
+            if (yPos > playerY - renderDistance)
+            {
+                this.pos.Y = frontEnd;
+            }
+            else
+            {
+                this.pos.Y = 0;
+            }
 
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
@@ -307,7 +314,7 @@ namespace MPRG{
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
 
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 2.5f * 2.237f;
+            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f;
         }
         
     }

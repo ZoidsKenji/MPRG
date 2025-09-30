@@ -802,7 +802,7 @@ public class Game1 : Game
         }
 
         string healthHUD = "Health: " + player.health.ToString();
-        string speedHUD = "Speed: " + ((int)(player.speed / 2.5f)).ToString();
+        string speedHUD = "Speed: " + ((int)(player.speed / 3f)).ToString();
         string gearHUD = "Gear: " + ((int)player.gear).ToString();
         string rpmHUD = "Rpm: " + ((int)player.rpm).ToString();
         if (wincondition != 0)

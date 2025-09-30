@@ -4,9 +4,11 @@ using System.Data;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct2D1;
 
 
 namespace MPRG{
@@ -88,14 +90,24 @@ namespace MPRG{
             }
         }
 
+        public (float, float) showGraphics(float carY, float playerY)
+        {
+            float distance = Math.Clamp(playerY - carY, 0, renderDistance);
+            float disPercent = 1f - (distance / renderDistance);
+
+            float curvedDis = MathF.Pow(disPercent, 2.2f);
+
+            float showY = 150f + curvedDis * (780f - 330f);
+
+            return (showY, showY);
+        }
+
         public override void updateObject(float time, float camSpeed, float midPointX, float playerY)
         {
             this.midpoint = (int)midPointX + 640;
             this.yPos += (camSpeed - speed) * time;
 
-            float playerYPercentage = yPos / (playerY - renderDistance);
-            float frontEnd = 480 + (playerYPercentage * (750 - 480));
-            this.pos.Y = frontEnd;
+            this.pos.Y = showGraphics(yPos, playerY).Item1;
 
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);

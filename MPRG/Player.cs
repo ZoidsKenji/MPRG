@@ -75,7 +75,7 @@ namespace MPRG
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
 
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 2.5f * 2.237f; // the 2.237 makes it mph
+            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
             Console.WriteLine("playerSpeed" + speed + " playerHealth" + health + " playerXpos" + xPos);
             // if (speed < 0)
             // {
@@ -127,14 +127,14 @@ namespace MPRG
 
             if (rpm > idleRpm)
             {
-                float momentOfInertia = 0.18f;
-                float viscousDampingCoefficent = 0.05f;
-                double pi = Math.PI;
-                float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-                float netTorque = -viscousLoss;
-                float angularAccel = netTorque / momentOfInertia;
-                float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
-                rpm += rpmPerSec * time;
+                // float momentOfInertia = 0.18f;
+                // float viscousDampingCoefficent = 0.05f;
+                // double pi = Math.PI;
+                // float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
+                // float netTorque = -viscousLoss;
+                // float angularAccel = netTorque / momentOfInertia;
+                // float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
+                // rpm += rpmPerSec * time;
             }
             else
             {

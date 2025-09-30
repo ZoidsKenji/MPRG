@@ -25,7 +25,7 @@ namespace MPRG{
         public Vector2 spriteOrigin;
 
         public float speed;
-        public float renderDistance = 200;
+        public float renderDistance = 1000;
 
         public float xPos = 0;
         public float yPos = 0;

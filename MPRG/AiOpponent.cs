@@ -134,8 +134,19 @@ namespace MPRG
         public override void updateObject(float time, float camSpeed, float midPointX, float playerY)
         {
             score += 1 * time;
-            this.pos.Y += (camSpeed - speed) * time * (this.pos.Y / 480);
             this.yPos += (camSpeed - speed) * time;
+
+            float playerYPercentage = yPos / (playerY - renderDistance);
+            float frontEnd = 180 + (playerYPercentage * (750 - 480));
+            if (yPos > playerY - renderDistance)
+            {
+                this.pos.Y = frontEnd;
+            }
+            else
+            {
+                this.pos.Y = 0;
+            }
+
             if (yPos < -1000)
             {
                 yPos = -1000;
@@ -237,7 +248,7 @@ namespace MPRG
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
 
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 2.5f * 2.237f;
+            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f;
             //Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos + " aiXspeed " + Xspeed);
             // if (speed < 0)
             // {
