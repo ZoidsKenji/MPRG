@@ -43,7 +43,7 @@ namespace MPRG{
 
         }
 
-        public override void updateObject(float time, float playerSpeed, float midPoint){
+        public override void updateObject(float time, float playerSpeed, float midPoint, float playerY){
             float speedFactor = 6;
             this.pos.Y += time * playerSpeed * (this.pos.Y / 480) * speedFactor;
         }

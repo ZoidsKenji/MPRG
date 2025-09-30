@@ -353,7 +353,7 @@ public class Game1 : Game
         foreach (Police policesprite in polices)
         {
 
-            policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos);
+            policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos, player.yPos);
             if (policesprite.speed < cameraSpeed * 2 && policesprite.speed > cameraSpeed * 0.5 && policesprite.yPos < 960 && policesprite.yPos > -100)
             {
                 specialEntities += 1;
@@ -632,7 +632,7 @@ public class Game1 : Game
 
 
 
-                sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, cameraSpeed, -player.xPos);
+                sprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, cameraSpeed, -player.xPos, player.yPos);
 
             }
             // List<List<int>> testMap = new List<List<int>> {
@@ -665,7 +665,7 @@ public class Game1 : Game
         foreach (Sprite line in roadLine)
         {
             line.moveMidPoint(-player.xPos);
-            line.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, player.xPos);
+            line.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, player.xPos, player.yPos);
         }
 
         // foreach (Sprite line in roadLineR){

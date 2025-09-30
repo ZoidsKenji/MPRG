@@ -25,6 +25,7 @@ namespace MPRG{
         public Vector2 spriteOrigin;
 
         public float speed;
+        public float renderDistance = 200;
 
         public float xPos = 0;
         public float yPos = 0;
@@ -85,7 +86,7 @@ namespace MPRG{
             return (-1, -1); //throw new Exception("");
         }
 
-        public virtual void updateObject(float time, float playerSpeed, float midPoint)
+        public virtual void updateObject(float time, float playerSpeed, float midPoint, float playerY)
         {
             if (iFrame > 0)
             {
