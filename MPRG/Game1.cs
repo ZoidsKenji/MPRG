@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
+using SharpDX.XInput;
 
 namespace MPRG;
 
@@ -502,12 +503,13 @@ public class Game1 : Game
                     float fraction = 10f;
                     specialEntities += 2;
                     TotialSpecialEntSpeed += policesprite.speed * 2;
+                    GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.D) && playersprite.xPos < 500)
+                    if ((Keyboard.GetState().IsKeyDown(Keys.D) || gamePadState.ThumbSticks.Left.X >= 0.5f) && playersprite.xPos < 500)
                     {
                         Xspeed += Xaccel * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.A) && playersprite.xPos > -500)
+                    else if ((Keyboard.GetState().IsKeyDown(Keys.A) || gamePadState.ThumbSticks.Left.X <= -0.5f) && playersprite.xPos > -500)
                     {
                         Xspeed -= Xaccel * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
@@ -533,20 +535,20 @@ public class Game1 : Game
                     {
                         playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    if (Keyboard.GetState().IsKeyDown(Keys.W) || gamePadState.Triggers.Right > 0)
                     {
                         playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0.9f);
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.S) && playersprite.speed > 0)
+                    else if ((Keyboard.GetState().IsKeyDown(Keys.S) || gamePadState.Triggers.Left > 0) && playersprite.speed > 0)
                     {
                         playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, -1);
                     }
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up) || gamePadState.Buttons.B == ButtonState.Pressed)
                     {
                         playersprite.GearChange(1);
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Down) || gamePadState.Buttons.X == ButtonState.Pressed)
                     {
                         playersprite.GearChange(-1);
                     }
