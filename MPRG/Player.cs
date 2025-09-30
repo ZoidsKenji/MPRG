@@ -49,7 +49,17 @@ namespace MPRG
             this.backendColour = Color.LightGray;
             this.yPos = 435;
             this.speed = 80;
-            this.mass = 1050;
+
+            this.rpm = 800;
+            this.redLine = 6500;
+            this.rpmLim = 7500;
+            this.idleRpm = 800;
+            this.gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
+            this.torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
+            this.finalDriveRatio = 4.285f;
+            this.tyreCircumference = 1.893f;
+            this.gear = 1;
+            this.mass = 1050; // in kg
 
         }
 
