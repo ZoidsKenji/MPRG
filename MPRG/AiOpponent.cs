@@ -164,6 +164,7 @@ namespace MPRG
             if (health <= 0)
             {
                 this.backendColour = Color.DarkGreen;
+                this.speed = 0;
             }
 
             if (iFrame > 0)
