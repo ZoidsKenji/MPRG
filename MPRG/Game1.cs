@@ -609,15 +609,15 @@ public class Game1 : Game
 
                         if (playersprite.speed > 0)
                         {
-                            playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                            playersprite.accelerate(-1 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0, 0);
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.W) || gamePadState.Triggers.Right > 0)
                         {
-                            playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0.9f);
+                            playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0.9f, 0);
                         }
                         else if ((Keyboard.GetState().IsKeyDown(Keys.S) || gamePadState.Triggers.Left > 0) && playersprite.speed > 0)
                         {
-                            playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, -1);
+                            playersprite.accelerate(-50 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0, 1);
                         }
 
                         if (Keyboard.GetState().IsKeyDown(Keys.Up) || gamePadState.Buttons.B == ButtonState.Pressed)

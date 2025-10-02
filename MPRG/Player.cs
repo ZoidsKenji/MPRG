@@ -29,6 +29,8 @@ namespace MPRG
 
         public float rollingResistanceCoefficient = 0.007f;
 
+        public float brakingForce = 200;
+
         // rpm equation:
         // rpm = (speed * gearRatio * finalDriveRatio * 60) / tyreCircumference
         // speed = (rpm * tyreCircumference) / (gearRatio * finalDriveRatio * 60)
@@ -68,7 +70,7 @@ namespace MPRG
 
         }
 
-        public virtual void accelerate(float accel, float time, float throttle)
+        public virtual void accelerate(float accel, float time, float throttle, float brake)
         {
             // Engine & Gear
             float momentOfInertia = 0.18f;
@@ -76,20 +78,27 @@ namespace MPRG
             double pi = Math.PI;
             float rpmtorque = torque[(int)rpm / 1000] * throttle;
             float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-            float netTorque = rpmtorque - viscousLoss;
+            // braking
+            float brakeTorque = brakingForce * brake * (float)(tyreCircumference / (2 * pi));
+            float crankBrakeTorque = -brakeTorque / (gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f);
+            float brakeNetTorque = rpmtorque + crankBrakeTorque - viscousLoss;
+            // total rpm
+            float netTorque = rpmtorque + brakeNetTorque - viscousLoss;
             float angularAccel = netTorque / momentOfInertia;
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
-
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
+            
 
             // drag (air resistance)
             float wheelTorque = rpmtorque * gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f; // 0.95 is drive train lost
             float engineForce = wheelTorque / (float)(tyreCircumference / (2 * pi));
 
             float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
-
             float dragForce = airDens * frontalArea * dragCoefficient * speed * speed * 0.5f;
+
+            float longitudinalAcceleration = (engineForce - dragForce - rollingResistance - brakeTorque) / mass;
+
+            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
             
 
             Console.WriteLine("playerSpeed" + speed + " playerHealth" + health + " playerXpos" + xPos);

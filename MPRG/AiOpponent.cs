@@ -86,11 +86,11 @@ namespace MPRG
 
             if (verDec > 0.5f)
             {
-                accelerate(30 * time, time, 1);
+                accelerate(30 * time, time, 1, 0);
             }
             else if (verDec < -0.5f)
             {
-                accelerate(50 * time, time, -1);
+                accelerate(50 * time, time, -1, 0);
             }
 
             moveX(Xspeed);
@@ -237,7 +237,7 @@ namespace MPRG
             }
         }
 
-        public override void accelerate(float accel, float time, float throttle)
+        public override void accelerate(float accel, float time, float throttle, float brake)
         {
             float momentOfInertia = 0.18f;
             float viscousDampingCoefficent = 0.05f;
