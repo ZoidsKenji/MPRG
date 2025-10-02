@@ -24,6 +24,11 @@ namespace MPRG
         public bool manualGear = false;
         public float gearFrame = 0;
 
+        public float dragCoefficient = 0.28f;
+        public float frontalArea = 1.8f;
+
+        public float rollingResistanceCoefficient = 0.007f;
+
         // rpm equation:
         // rpm = (speed * gearRatio * finalDriveRatio * 60) / tyreCircumference
         // speed = (rpm * tyreCircumference) / (gearRatio * finalDriveRatio * 60)
@@ -65,6 +70,7 @@ namespace MPRG
 
         public virtual void accelerate(float accel, float time, float throttle)
         {
+            // Engine & Gear
             float momentOfInertia = 0.18f;
             float viscousDampingCoefficent = 0.05f;
             double pi = Math.PI;
@@ -76,6 +82,16 @@ namespace MPRG
             rpm += rpmPerSec * time;
 
             speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
+
+            // drag (air resistance)
+            float wheelTorque = rpmtorque * gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f; // 0.95 is drive train lost
+            float engineForce = wheelTorque / (float)(tyreCircumference / (2 * pi));
+
+            float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
+
+            float dragForce = airDens * frontalArea * dragCoefficient * speed * speed * 0.5f;
+            
+
             Console.WriteLine("playerSpeed" + speed + " playerHealth" + health + " playerXpos" + xPos);
             // if (speed < 0)
             // {

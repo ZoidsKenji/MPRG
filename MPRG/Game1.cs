@@ -79,7 +79,7 @@ public class Game1 : Game
 
     public bool pauseGame = false;
     public float pauseTimer = 0f;
-    public float TimeMultipier = 10000f;
+    public float TimeMultipier = 1f;
     public (int, int, float) game_time = (0, 0, 0);
 
     public float spawnCounter = 3;

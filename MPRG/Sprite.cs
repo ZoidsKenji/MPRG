@@ -27,6 +27,8 @@ namespace MPRG{
         public float speed;
         public float renderDistance = 1000;
 
+        public float airDens = 1.225f; // sea level air density
+
         public float xPos = 0;
         public float yPos = 0;
         [Range(0, 150)]
