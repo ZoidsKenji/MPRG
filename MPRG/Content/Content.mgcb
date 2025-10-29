@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:backendTexture.png
 
+#begin Bigfont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Bigfont.spritefont
+
 #begin FITRS.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -44,6 +44,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private Microsoft.Xna.Framework.Graphics.SpriteBatch _spriteBatch;
     private SpriteFont spriteFont;
+    private SpriteFont bigFont;
     private Vector2 fontPos;
     private float Xaccel = 300;
     private float Xspeed = 0;
@@ -78,6 +79,7 @@ public class Game1 : Game
     Player player;
 
     public bool pauseGame = false;
+    public bool ingame = true;
     public float pauseTimer = 0f;
     public float TimeMultipier = 1f;
     public (int, int, float) game_time = (0, 0, 0);
@@ -88,7 +90,7 @@ public class Game1 : Game
     // ai
     GenericAlgorithm GA;
     public bool trainAI = true;
-    public bool AiOpponentON = false;
+    public bool AiOpponentON = true;
     public string AiDataPath = "saves/gen1";
 
     public Game1()
@@ -130,6 +132,7 @@ public class Game1 : Game
 
         _spriteBatch = new Microsoft.Xna.Framework.Graphics.SpriteBatch(GraphicsDevice);
         spriteFont = Content.Load<SpriteFont>("font");
+        bigFont = Content.Load<SpriteFont>("Bigfont");
 
         fontPos = new Vector2(0, 0);
 
@@ -383,7 +386,7 @@ public class Game1 : Game
         }
         pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (!pauseGame)
+        if (!pauseGame && ingame)
         {
 
             Xaccel = player.speed / 10;
@@ -809,6 +812,10 @@ public class Game1 : Game
                 }
             }
         }
+        else if (!ingame)
+        {
+            
+        }
 
         base.Update(gameTime);
     }
@@ -821,136 +828,208 @@ public class Game1 : Game
     // ```
     protected override void Draw(GameTime gameTime)
     {
-        Color textColour = Color.Black;
-
-        if (game_time.Item1 < 6 || game_time.Item1 > 18)
-        {
-            GraphicsDevice.Clear(Color.MidnightBlue);
-            textColour = Color.White;
-        }
-        else
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            textColour = Color.Black;
-
-        }
-
-        allSprites = [.. sprites, .. polices];
-
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        sprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
-
-        allSprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
-
-
-
-        if (showfrontend)
-        { //show front end(ray casting)
-          // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
-          // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
-
-            foreach (Sprite back in background)
-            {
-                _spriteBatch.Draw(back.texture, back.BackendRect, back.backendColour);
-            }
-
-            foreach (Sprite road in roads)
-            {
-                _spriteBatch.Draw(road.texture, road.Rect, road.colour);
-            }
-
-            foreach (Sprite line in roadLine)
-            {
-                _spriteBatch.Draw(line.texture, line.Rect, line.colour);
-            }
-            // foreach(Sprite line in roadLineR){
-            //     _spriteBatch.Draw(line.texture, line.Rect, line.colour);
-            // }
-            foreach (Sprite sprite in allSprites)
-            {
-                _spriteBatch.Draw(sprite.texture, sprite.Rect, sprite.colour);
-            }
-        }
-        if (showbackend)
-        { //show back end
-            foreach (Sprite road in backendroads)
-            {
-                _spriteBatch.Draw(backendTexture, road.BackendRect, road.backendColour);
-            }
-
-            foreach (Sprite sprite in sprites)
-            {
-                _spriteBatch.Draw(backendTexture, sprite.BackendRect, sprite.backendColour);
-            }
-
-            foreach (Sprite police in polices)
-            {
-                _spriteBatch.Draw(backendTexture, police.BackendRect, police.backendColour);
-            }
-        }
-
-        string healthHUD = "Health: " + player.health.ToString();
-        string speedHUD = "Speed: " + ((int)(player.speed / 3f)).ToString();
-        string gearHUD = "Gear: " + ((int)player.gear).ToString();
-        string rpmHUD = "Rpm: " + ((int)player.rpm).ToString();
-        string timeHUD = "Time: " + game_time.Item1 + " : " + game_time.Item2 + " : " + (int)game_time.Item3;
-        if (wincondition != 0)
+        if (ingame)
         {
-            string wincon = "Game Over";
-            if (wincondition == 1)
+            Color glitchLeft = Color.Aqua;
+            int glitchPosDif = 2;
+            Color glitchRight = Color.DeepPink;
+
+            if (game_time.Item1 < 6 || game_time.Item1 > 18)
             {
-                wincon = "You Win!!!";
-                Console.WriteLine("win");
+                GraphicsDevice.Clear(Color.MidnightBlue);
             }
             else
             {
-                Console.WriteLine("lose");
-                wincon = "Game Over";
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+
             }
 
-            Vector2 WinFontOrigin = new Vector2();
-            Vector2 winTextPos = new Vector2();
-            winTextPos.X = 480;
-            winTextPos.Y = 960;
-            WinFontOrigin.X = -5;
-            WinFontOrigin.Y = -5;
-            _spriteBatch.DrawString(spriteFont, wincon, fontPos, Color.Red, 0, WinFontOrigin, 10.0f, SpriteEffects.None, 0.5f);
-        }
+            allSprites = [.. sprites, .. polices];
 
-        if (pauseGame)
+            sprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
+
+            allSprites.Sort((a, b) => a.Rect.Y.CompareTo(b.Rect.Y));
+
+
+
+            if (showfrontend)
+            { //show front end(ray casting)
+              // _spriteBatch.Draw(road, new Rectangle(400, 400, 100, 200), Color.White);
+              // _spriteBatch.Draw(mrs, new Rectangle(400, 400, 282, 190), Color.White);
+
+                foreach (Sprite back in background)
+                {
+                    _spriteBatch.Draw(back.texture, back.BackendRect, back.backendColour);
+                }
+
+                foreach (Sprite road in roads)
+                {
+                    _spriteBatch.Draw(road.texture, road.Rect, road.colour);
+                }
+
+                foreach (Sprite line in roadLine)
+                {
+                    _spriteBatch.Draw(line.texture, line.Rect, line.colour);
+                }
+                // foreach(Sprite line in roadLineR){
+                //     _spriteBatch.Draw(line.texture, line.Rect, line.colour);
+                // }
+                foreach (Sprite sprite in allSprites)
+                {
+                    _spriteBatch.Draw(sprite.texture, sprite.Rect, sprite.colour);
+                }
+            }
+            if (showbackend)
+            { //show back end
+                foreach (Sprite road in backendroads)
+                {
+                    _spriteBatch.Draw(backendTexture, road.BackendRect, road.backendColour);
+                }
+
+                foreach (Sprite sprite in sprites)
+                {
+                    _spriteBatch.Draw(backendTexture, sprite.BackendRect, sprite.backendColour);
+                }
+
+                foreach (Sprite police in polices)
+                {
+                    _spriteBatch.Draw(backendTexture, police.BackendRect, police.backendColour);
+                }
+            }
+
+            string healthHUD = "Health: " + player.health.ToString();
+            string speedHUD = "Speed: " + ((int)(player.speed / 3f)).ToString();
+            string gearHUD = "Gear: " + ((int)player.gear).ToString();
+            string rpmHUD = "Rpm: " + ((int)player.rpm).ToString();
+            string timeHUD = "Time: " + game_time.Item1 + " : " + game_time.Item2 + " : " + (int)game_time.Item3;
+
+            List<AiOpponent> ingameplayers = GA.population.Where(ai => ai.health > 0).ToList();
+            int playerPos = 1;
+            foreach(AiOpponent ai in ingameplayers)
+            {
+                if (ai.yPos < player.yPos)
+                {
+                    playerPos++;
+                }
+            }
+
+            string positionHUD = "Pos: " + playerPos.ToString() + " / " + (ingameplayers.Count + 1).ToString();
+
+            if (wincondition != 0)
+            {
+                string wincon = "Game Over";
+                if (wincondition == 1)
+                {
+                    wincon = "You Win!!!";
+                    Console.WriteLine("win");
+                }
+                else
+                {
+                    Console.WriteLine("lose");
+                    wincon = "Game Over";
+                }
+
+                Rectangle rectangle = new Rectangle(460, 300, 400, 90);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Blue * 0.2f);
+                rectangle = new Rectangle(400, 305, 520, 80);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Blue * 0.2f);
+                rectangle = new Rectangle(360, 310, 600, 70);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Blue * 0.2f);
+                rectangle = new Rectangle(330, 315, 660, 60);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Blue * 0.2f);
+
+                Vector2 WinFontOrigin = new Vector2();
+                Vector2 winTextPos = new Vector2();
+                winTextPos.X = 480;
+                winTextPos.Y = 960;
+                WinFontOrigin.X = -503;
+                WinFontOrigin.Y = -300;
+                _spriteBatch.DrawString(bigFont, wincon, fontPos, glitchLeft, 0, WinFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                WinFontOrigin.X = -497;
+                _spriteBatch.DrawString(bigFont, wincon, fontPos, glitchRight, 0, WinFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                WinFontOrigin.X = -500;
+                _spriteBatch.DrawString(bigFont, wincon, fontPos, Color.White, 0, WinFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            }
+
+            if (pauseGame && ingame)
+            {
+                Vector2 WinFontOrigin = new Vector2();
+                Vector2 winTextPos = new Vector2();
+                winTextPos.X = 480;
+                winTextPos.Y = 0;
+                WinFontOrigin.X = -540;
+                WinFontOrigin.Y = -5;
+                _spriteBatch.DrawString(spriteFont, "Game Paused", fontPos, Color.Red, 0, WinFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            }
+
+            Vector2 FontOrigin = new Vector2();//spriteFont.MeasureString(healthHUD) / 2;
+            FontOrigin.X = -5 - glitchPosDif;
+            FontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, healthHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5 + glitchPosDif;
+            FontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, healthHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5;
+            FontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, healthHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            FontOrigin.X = -5 - glitchPosDif;
+            FontOrigin.Y = -25;
+            _spriteBatch.DrawString(spriteFont, speedHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5 + glitchPosDif;
+            FontOrigin.Y = -25;
+            _spriteBatch.DrawString(spriteFont, speedHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5;
+            FontOrigin.Y = -25;
+            _spriteBatch.DrawString(spriteFont, speedHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            FontOrigin.X = -5 - glitchPosDif;
+            FontOrigin.Y = -45;
+            _spriteBatch.DrawString(spriteFont, gearHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5 + glitchPosDif;
+            FontOrigin.Y = -45;
+            _spriteBatch.DrawString(spriteFont, gearHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5;
+            FontOrigin.Y = -45;
+            _spriteBatch.DrawString(spriteFont, gearHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            FontOrigin.X = -5 - glitchPosDif;
+            FontOrigin.Y = -65;
+            _spriteBatch.DrawString(spriteFont, rpmHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5 + glitchPosDif;
+            FontOrigin.Y = -65;
+            _spriteBatch.DrawString(spriteFont, rpmHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5;
+            FontOrigin.Y = -65;
+            _spriteBatch.DrawString(spriteFont, rpmHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            FontOrigin.X = -1100 - glitchPosDif;
+            FontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, timeHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -1100 + glitchPosDif;
+            FontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, timeHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -1100;
+            FontOrigin.Y = -5;
+            _spriteBatch.DrawString(spriteFont, timeHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            FontOrigin.X = -1100 - glitchPosDif;
+            FontOrigin.Y = -25;
+            _spriteBatch.DrawString(spriteFont, positionHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -1100 + glitchPosDif;
+            FontOrigin.Y = -25;
+            _spriteBatch.DrawString(spriteFont, positionHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -1100;
+            FontOrigin.Y = -25;
+            _spriteBatch.DrawString(spriteFont, positionHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+        }
+        else
         {
-            Vector2 WinFontOrigin = new Vector2();
-            Vector2 winTextPos = new Vector2();
-            winTextPos.X = 480;
-            winTextPos.Y = 0;
-            WinFontOrigin.X = -540;
-            WinFontOrigin.Y = -5;
-            _spriteBatch.DrawString(spriteFont, "Game Paused", fontPos, Color.Red, 0, WinFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            GraphicsDevice.Clear(Color.SlateBlue);
         }
-
-        Vector2 FontOrigin = new Vector2();//spriteFont.MeasureString(healthHUD) / 2;
-        FontOrigin.X = -5;
-        FontOrigin.Y = -5;
-        _spriteBatch.DrawString(spriteFont, healthHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-
-        FontOrigin.X = -5;
-        FontOrigin.Y = -25;
-        _spriteBatch.DrawString(spriteFont, speedHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-
-        FontOrigin.X = -5;
-        FontOrigin.Y = -45;
-        _spriteBatch.DrawString(spriteFont, gearHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-
-        FontOrigin.X = -5;
-        FontOrigin.Y = -65;
-        _spriteBatch.DrawString(spriteFont, rpmHUD, fontPos, Color.Black, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-
-        FontOrigin.X = -1100;
-        FontOrigin.Y = -5;
-        _spriteBatch.DrawString(spriteFont, timeHUD, fontPos, textColour, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-
-
 
         _spriteBatch.End();
 

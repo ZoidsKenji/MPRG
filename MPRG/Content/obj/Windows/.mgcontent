@@ -5,6 +5,7 @@
   <Config />
   <SourceFiles>
     <File>c:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/backendTexture.png</File>
+    <File>c:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/Bigfont.spritefont</File>
     <File>c:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/FITRS.png</File>
     <File>c:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/font.spritefont</File>
     <File>c:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/MRS.png</File>
@@ -14,6 +15,7 @@
     <File>c:/Users/User/OneDrive - King Edward VI College, Stourbridge/MPRG/MPRG/Content/whiteLine.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
