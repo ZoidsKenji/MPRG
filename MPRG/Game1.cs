@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using SharpDX.XInput;
 using SharpDX.Direct2D1;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 
 namespace MPRG;
 
@@ -79,7 +80,7 @@ public class Game1 : Game
     Player player;
 
     public bool pauseGame = false;
-    public bool ingame = true;
+    public bool ingame = false;
     public float pauseTimer = 0f;
     public float TimeMultipier = 1f;
     public (int, int, float) game_time = (0, 0, 0);
@@ -838,7 +839,11 @@ public class Game1 : Game
 
             if (game_time.Item1 < 6 || game_time.Item1 > 18)
             {
-                GraphicsDevice.Clear(Color.MidnightBlue);
+                byte redValue = 20;
+                byte greenValue = 23;
+                byte blueValue = 72;
+                Color darkBlue = new Color(redValue, greenValue, blueValue);
+                GraphicsDevice.Clear(darkBlue); //MidnightBlue
             }
             else
             {
@@ -1028,7 +1033,35 @@ public class Game1 : Game
         }
         else
         {
-            GraphicsDevice.Clear(Color.SlateBlue);
+            byte redValue = 33;
+            byte greenValue = 9;
+            byte blueValue = 72;
+            Color darkBlue = new Color(redValue, greenValue, blueValue);
+            GraphicsDevice.Clear(darkBlue); 
+
+            Color glitchLeft = Color.Aqua;
+            int glitchPosDif = 2;
+            Color glitchRight = Color.DeepPink;
+
+            Vector2 WinFontOrigin = new Vector2();
+            Vector2 winTextPos = new Vector2();
+            winTextPos.X = 480;
+            winTextPos.Y = 960;
+            int xpostemp = -130;
+            WinFontOrigin.X = xpostemp - glitchPosDif;
+            WinFontOrigin.Y = -40;
+            _spriteBatch.DrawString(bigFont, "MPRG", fontPos, glitchLeft, 0, WinFontOrigin, 3.0f, SpriteEffects.None, 0.5f);
+            WinFontOrigin.X = xpostemp + glitchPosDif;
+            _spriteBatch.DrawString(bigFont, "MPRG", fontPos, glitchRight, 0, WinFontOrigin, 3.0f, SpriteEffects.None, 0.5f);
+            WinFontOrigin.X = xpostemp;
+            _spriteBatch.DrawString(bigFont, "MPRG", fontPos, Color.White, 0, WinFontOrigin, 3.0f, SpriteEffects.None, 0.5f);
+
+            Vector2 FontOrigin = new Vector2();
+            FontOrigin.X = -440;
+            FontOrigin.Y = -340;
+            _spriteBatch.DrawString(spriteFont, "Motorway Pursuit Racing Game", fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            
         }
 
         _spriteBatch.End();

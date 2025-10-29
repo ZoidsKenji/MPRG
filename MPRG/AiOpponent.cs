@@ -26,6 +26,7 @@ namespace MPRG
             this.backendColour = Color.LimeGreen;
             DNA = genes ?? genRandGenes();
             allCarsNear = new List<Sprite>();
+            health = 150;
 
             //s2k
             this.rpm = 800;
