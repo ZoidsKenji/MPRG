@@ -240,22 +240,39 @@ namespace MPRG
 
         public override void accelerate(float accel, float time, float throttle, float brake)
         {
+            // Engine & Gear
             float momentOfInertia = 0.18f;
             float viscousDampingCoefficent = 0.05f;
             double pi = Math.PI;
             float rpmtorque = torque[(int)rpm / 1000] * throttle;
             float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-            float netTorque = rpmtorque - viscousLoss;
+            // braking
+            float brakeTorque = brakingForce * brake * (float)(tyreCircumference / (2 * pi));
+            float crankBrakeTorque = -brakeTorque / (gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f);
+            float brakeNetTorque = rpmtorque + crankBrakeTorque - viscousLoss;
+            // total rpm
+            float netTorque = rpmtorque + brakeNetTorque - viscousLoss;
             float angularAccel = netTorque / momentOfInertia;
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
+            
 
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f;
-            //Console.WriteLine("aiSpeed" + speed + " aiHealth" + health + " aiXpos" + xPos + " aiXspeed " + Xspeed);
-            // if (speed < 0)
-            // {
-            //     speed = 10;
-            // }
+            // drag (air resistance)
+            float wheelTorque = rpmtorque * gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f; // 0.95 is drive train lost
+
+            float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
+            float dragForce = 0.5f * 1.225f * dragCoefficient * frontalArea * (speed / 2.237f) * (speed / 2.237f);
+            float netResisForce = dragForce + rollingResistance;
+
+            float wheelRadius = tyreCircumference / (2 * (float)pi);
+            float drivingForce = wheelTorque / wheelRadius * 16f;
+
+            float netForce = drivingForce - netResisForce;
+            float netAccel = netForce / mass;
+
+            //speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
+            speed += netAccel * time * 2.237f;
+
         }
     }
 }

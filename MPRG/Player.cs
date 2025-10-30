@@ -21,6 +21,8 @@ namespace MPRG
         public float tyreCircumference = 1.893f;
         public float gear = 1;
 
+        protected (float, float, float) radar = (1f, 1f, 1f);
+
         //private float oldWheelSpeed;
 
         public bool manualGear = false;
@@ -95,14 +97,17 @@ namespace MPRG
             float wheelTorque = rpmtorque * gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f; // 0.95 is drive train lost
 
             float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
-            float dragForce = airDens * frontalArea * dragCoefficient * speed * speed * 0.5f;
-            float totalResistance = rollingResistance + dragForce + 9.81f;
+            float dragForce = 0.5f * 1.225f * dragCoefficient * frontalArea * (speed / 2.237f) * (speed / 2.237f);
+            float netResisForce = dragForce + rollingResistance;
 
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
-            //float driveForce = (wheelSpeed - oldWheelSpeed) * mass / time;
+            float wheelRadius = tyreCircumference / (2 * (float)pi);
+            float drivingForce = wheelTorque / wheelRadius * 16f;
 
-            //float netAccel = (driveForce - totalResistance) / mass;
-            //speed = speed + (netAccel * time * 2.237f);
+            float netForce = drivingForce - (netResisForce * radar.Item3);
+            float netAccel = netForce / mass;
+
+            //speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
+            speed += netAccel * time * 2.237f;
 
             
 
@@ -226,18 +231,20 @@ namespace MPRG
                 this.tyreCircumference = 1.893f;
                 this.mass = 1050;
 
-            }else if (car == 1) // Honda S2000
+            }
+            else if (car == 1) // Honda S2000
             {
                 this.redLine = 6800;
                 this.rpmLim = 8800;
                 this.idleRpm = 800;
                 this.gearRatio = new List<float> { 3.133f, 2.045f, 1.481f, 1.161f, 0.970f, 0.810f };
-                this.torque = new List<float> {30, 50, 100, 150, 180, 200, 210, 208, 200, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
+                this.torque = new List<float> { 30, 50, 100, 150, 180, 200, 210, 208, 200, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
                 this.finalDriveRatio = 4.1f;
                 this.tyreCircumference = 2.1f;
                 this.mass = 1270;
 
-            }else if (car == 2) // Toyota Supra
+            }
+            else if (car == 2) // Toyota Supra
             {
                 this.redLine = 6800;
                 this.rpmLim = 7200;
@@ -248,7 +255,8 @@ namespace MPRG
                 this.tyreCircumference = 2.10f;
                 this.mass = 1560;
 
-            }else if (car == 3) // Nissan Skyline GTR r34
+            }
+            else if (car == 3) // Nissan Skyline GTR r34
             {
                 this.redLine = 8000;
                 this.rpmLim = 8300;
@@ -259,7 +267,8 @@ namespace MPRG
                 this.tyreCircumference = 2.05f;
                 this.mass = 1560;
 
-            }else if (car == 4) // Mazda rx7 fd
+            }
+            else if (car == 4) // Mazda rx7 fd
             {
                 this.redLine = 8000;
                 this.rpmLim = 8500;
@@ -270,7 +279,8 @@ namespace MPRG
                 this.tyreCircumference = 2.00f;
                 this.mass = 1280;
 
-            }else if (car == 5) // Honda NSX gen 1
+            }
+            else if (car == 5) // Honda NSX gen 1
             {
                 this.redLine = 7800;
                 this.rpmLim = 8200;
@@ -282,6 +292,41 @@ namespace MPRG
                 this.mass = 1370;
 
             }
+        }
+        
+        public void radarDetection(List<Sprite> cars)
+        {
+            float left = 1f;
+            float right = 1f;
+            float front = 1f;
+
+            foreach (Sprite car in cars)
+            {
+                if (car == this)
+                {
+                    continue;
+                }
+                //front
+                if ((yPos - car.yPos) < 360 && yPos > car.yPos && Math.Abs(xPos - car.xPos) < 60)
+                {
+                    front = Math.Min(front, 1 - ((yPos - car.yPos) / 270));
+                }
+                //side
+                if (Math.Abs(yPos + 45 - car.yPos + 45) < 100 && Math.Abs(xPos - car.xPos) > 70)
+                {
+                    if (car.xPos < xPos)
+                    {
+                        left = Math.Min(left, 1 - ((xPos - car.xPos) / 300));
+                    }
+                    else
+                    {
+                        right = Math.Min(right, 1 - (Math.Abs(xPos - car.xPos) / 300));
+                    }
+                }
+
+            }
+
+            radar = (left, right, front);
         }
 
     }

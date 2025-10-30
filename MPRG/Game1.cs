@@ -705,6 +705,8 @@ public class Game1 : Game
                             playersprite.GearChange(-1);
                         }
 
+                        playersprite.radarDetection(sprites);
+
 
                     }
                     else if (sprite is AiOpponent ai)
