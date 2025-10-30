@@ -59,6 +59,7 @@ public class Game1 : Game
 
     public bool showbackend = true;
     public bool showfrontend = true;
+    public string tips = "";
 
     public int policespawnnum = 1;
 
@@ -323,6 +324,33 @@ public class Game1 : Game
             {
                 line.colour = Color.White;
             }
+        }
+
+        List<AiOpponent> ingameplayers = GA.population.Where(ai => ai.health > 0).ToList();
+        int playerPos = 1;
+        foreach(AiOpponent ai in ingameplayers)
+        {
+            if (ai.yPos < player.yPos)
+            {
+                playerPos++;
+            }
+        }
+
+        if (player.radar.Item3 < 1f)
+        {
+            tips = "Draft behind cars to go faster.";
+        }else if (player.health < 40 && player.health > 20)
+        {
+            tips = "Low health! Drive carefully.";
+        }else if (playerPos == ingameplayers.Count() + 1)
+        {
+            tips = "Don't give up! Use boosts and pick your battles.";
+        }else if (ingameplayers.Count() == 1)
+        {
+            tips = "Stay defensive and watch your opponent closely.";
+        }else
+        {
+            tips = "";
         }
 
         // ```
@@ -1146,6 +1174,32 @@ public class Game1 : Game
             FontOrigin.X = -1100;
             FontOrigin.Y = -25;
             _spriteBatch.DrawString(spriteFont, positionHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            if (tips != "")
+            {
+                Rectangle rectangle = new Rectangle(460, 860, 400, 60);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+                rectangle = new Rectangle(400, 865, 520, 50);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+                rectangle = new Rectangle(360, 870, 600, 40);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+                rectangle = new Rectangle(330, 875, 660, 30);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+
+                FontOrigin.X = 0 - glitchPosDif;
+                FontOrigin.Y = 0;
+
+                Vector2 tipsPos = new Vector2(460 - tips.Count(), 870);
+
+                _spriteBatch.DrawString(spriteFont, tips, tipsPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                FontOrigin.X = 0 + glitchPosDif;
+                FontOrigin.Y = 0;
+                _spriteBatch.DrawString(spriteFont, tips, tipsPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                FontOrigin.X = 0;
+                FontOrigin.Y = 0;
+                _spriteBatch.DrawString(spriteFont, tips, tipsPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                
+            }
 
             foreach (Button button in ingameButtons)
             {

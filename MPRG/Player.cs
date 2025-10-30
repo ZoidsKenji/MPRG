@@ -21,7 +21,7 @@ namespace MPRG
         public float tyreCircumference = 1.893f;
         public float gear = 1;
 
-        protected (float, float, float) radar = (1f, 1f, 1f);
+        public (float, float, float) radar = (1f, 1f, 1f);
 
         //private float oldWheelSpeed;
 
