@@ -705,7 +705,7 @@ public class Game1 : Game
                             playersprite.GearChange(-1);
                         }
 
-                        playersprite.radarDetection(sprites);
+                        playersprite.radarDetect(sprites);
 
 
                     }

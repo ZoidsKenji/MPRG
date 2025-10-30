@@ -294,7 +294,7 @@ namespace MPRG
             }
         }
         
-        public void radarDetection(List<Sprite> cars)
+        public void radarDetect(List<Sprite> cars)
         {
             float left = 1f;
             float right = 1f;

@@ -129,6 +129,7 @@ namespace MPRG
 
             }
 
+            radar = (left, right, front);
             return (left, right, front);
         }
 
@@ -267,7 +268,7 @@ namespace MPRG
             float wheelRadius = tyreCircumference / (2 * (float)pi);
             float drivingForce = wheelTorque / wheelRadius * 16f;
 
-            float netForce = drivingForce - netResisForce;
+            float netForce = drivingForce - (netResisForce * radar.Item3);
             float netAccel = netForce / mass;
 
             //speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
