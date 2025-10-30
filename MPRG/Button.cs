@@ -26,7 +26,7 @@ namespace MPRG
             }
         }
 
-        
+
 
         public Button(Texture2D texture, Vector2 pos, Vector2 size, string text, Color colour, Color textcolour)
         {
@@ -36,6 +36,42 @@ namespace MPRG
             this.text = text;
             this.colour = colour;
             this.textcolour = textcolour;
+        }
+        
+        public (bool, bool, bool, bool) Pressed()
+        {
+            bool startGame = false;
+            bool openOpt = false;
+            bool quitGame = false;
+            bool changeCar = false;
+
+            if (text == "Play")
+            {
+                startGame = true;
+            }
+            else if (text == "Options" || text == "Pause")
+            {
+                openOpt = true;
+                if (text == "Pause")
+                {
+                    text = "Resume";
+                    startGame = true;
+                }
+            }
+            else if (text == "Quit")
+            {
+                quitGame = true;
+            }else if (text == "Resume")
+            {
+                text = "Pause";
+                startGame = true;
+            }else if (text == "Next")
+            {
+                changeCar = true;
+            }
+
+            return (startGame, openOpt, quitGame, changeCar);
+
         }
 
         

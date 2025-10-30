@@ -206,6 +206,79 @@ namespace MPRG
             }
         }
 
+        public void changeCar(int car, Texture2D cartexture)
+        {
+            this.texture = cartexture;
+
+            if (car == 0) // Toyota Mrs
+            {
+                this.redLine = 6500;
+                this.rpmLim = 7500;
+                this.idleRpm = 800;
+                this.gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
+                this.torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120 };
+                this.finalDriveRatio = 4.285f;
+                this.tyreCircumference = 1.893f;
+                this.mass = 1050;
+
+            }else if (car == 1) // Honda S2000
+            {
+                this.redLine = 6800;
+                this.rpmLim = 8800;
+                this.idleRpm = 800;
+                this.gearRatio = new List<float> { 3.133f, 2.045f, 1.481f, 1.161f, 0.970f, 0.810f };
+                this.torque = new List<float> {30, 50, 100, 150, 180, 200, 210, 208, 200, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
+                this.finalDriveRatio = 4.1f;
+                this.tyreCircumference = 2.1f;
+                this.mass = 1270;
+
+            }else if (car == 2) // Toyota Supra
+            {
+                this.redLine = 6800;
+                this.rpmLim = 7200;
+                this.idleRpm = 800;
+                this.gearRatio = new List<float> { 3.827f, 2.360f, 1.685f, 1.312f, 1.000f, 0.793f };
+                this.torque = new List<float> { 80, 120, 200, 280, 340, 400, 440, 450, 440, 420, 380, 340, 300, 0, 0 }; // Nm per 1000 rpm
+                this.finalDriveRatio = 3.266f;
+                this.tyreCircumference = 2.10f;
+                this.mass = 1560;
+
+            }else if (car == 3) // Nissan Skyline GTR r34
+            {
+                this.redLine = 8000;
+                this.rpmLim = 8300;
+                this.idleRpm = 900;
+                this.gearRatio = new List<float> { 3.827f, 2.360f, 1.685f, 1.312f, 1.000f, 0.793f };
+                this.torque = new List<float> { 70, 120, 220, 300, 360, 400, 395, 380, 350, 320, 280, 0, 0, 0, 0 };
+                this.finalDriveRatio = 4.111f;
+                this.tyreCircumference = 2.05f;
+                this.mass = 1560;
+
+            }else if (car == 4) // Mazda rx7 fd
+            {
+                this.redLine = 8000;
+                this.rpmLim = 8500;
+                this.idleRpm = 850;
+                this.gearRatio = new List<float> { 3.483f, 2.015f, 1.391f, 1.000f, 0.719f };
+                this.torque = new List<float> { 60, 90, 140, 210, 260, 290, 305, 310, 300, 280, 250, 0, 0, 0, 0 }; // Nm per 1000 rpm
+                this.finalDriveRatio = 4.100f;
+                this.tyreCircumference = 2.00f;
+                this.mass = 1280;
+
+            }else if (car == 5) // Honda NSX gen 1
+            {
+                this.redLine = 7800;
+                this.rpmLim = 8200;
+                this.idleRpm = 850;
+                this.gearRatio = new List<float> { 3.071f, 1.727f, 1.230f, 0.970f, 0.771f };
+                this.torque = new List<float> { 70, 110, 160, 200, 230, 250, 265, 270, 260, 240, 210, 0, 0, 0, 0 }; // Nm per 1000 rpm
+                this.finalDriveRatio = 4.062f;
+                this.tyreCircumference = 2.03f;
+                this.mass = 1370;
+
+            }
+        }
+
     }
 
 }

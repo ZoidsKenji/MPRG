@@ -75,6 +75,7 @@ public class Game1 : Game
     List<Sprite> roadLine;
 
     List<Button> mainMenuButtons;
+    List<Button> ingameButtons;
     // List<Sprite> roadLineR;
 
     private MouseState lastMouseState;
@@ -82,6 +83,9 @@ public class Game1 : Game
 
     public float playerSpeed;
     Player player;
+    public int car = 0;
+    List<Texture2D> carIconTexture;
+    List<Texture2D> carTextures;
 
     public bool pauseGame = false;
     public bool ingame = false;
@@ -157,12 +161,39 @@ public class Game1 : Game
         roadLine = new List<Sprite>();
         background = new List<Sprite>();
         mainMenuButtons = new List<Button>();
+        ingameButtons = new List<Button>();
         // roadLineR = new List<Sprite>();
 
         Texture2D buttonTexture = Content.Load<Texture2D>("backendTexture");
-        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 700), new Vector2(300, 100), "Play", Color.Black * 0.5f, Color.White));
-        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(160, 700), new Vector2(300, 100), "Options", Color.Black * 0.5f, Color.White));
-        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(760, 700), new Vector2(300, 100), "Quit", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 750), new Vector2(300, 100), "Play", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(160, 750), new Vector2(300, 100), "Options", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(760, 750), new Vector2(300, 100), "Quit", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 640), new Vector2(270, 60), "Next", Color.Black * 0.5f, Color.White));
+
+        ingameButtons.Add(new Button(buttonTexture, new Vector2(1155, 890), new Vector2(120, 60), "Pause", Color.Black * 0.5f, Color.White));
+
+        carIconTexture =
+        [
+            Content.Load<Texture2D>("MRSicon"),
+            Content.Load<Texture2D>("S2Kicon"),
+            Content.Load<Texture2D>("SupraIcon"),
+            Content.Load<Texture2D>("R34Icon"),
+            Content.Load<Texture2D>("Rx7Icon"),
+            Content.Load<Texture2D>("NSXicon"),
+        ];
+
+        carTextures =
+        [
+            Content.Load<Texture2D>("MRS"),
+            Content.Load<Texture2D>("S2K"),
+            Content.Load<Texture2D>("Supra"),
+            Content.Load<Texture2D>("R34"),
+            Content.Load<Texture2D>("Rx7"),
+            Content.Load<Texture2D>("NSX"),
+        ];
+
+
+
 
         if (AiOpponentON || trainAI)
         {
@@ -394,6 +425,37 @@ public class Game1 : Game
             else
             {
                 pauseGame = true;
+            }
+        }
+        if (ingame)
+        {
+            foreach (Button button in ingameButtons)
+            {
+                if (mouseRect.Intersects(button.Rect))
+                {
+                    button.colour = Color.White;
+                    button.textcolour = Color.Black;
+
+                    if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        (bool, bool, bool, bool) buttonOutput = button.Pressed();
+                        ingame = buttonOutput.Item1;
+                        pauseGame = buttonOutput.Item2;
+                    }
+                }
+                else
+                {
+                    button.colour = Color.Black * 0.5f;
+                    button.textcolour = Color.White;
+                }
+
+                if (button.text == "Resume" && pauseGame == false)
+                {
+                    button.text = "Pause";
+                }else if (button.text == "Pause" && pauseGame == true)
+                {
+                    button.text = "Resume";
+                }
             }
         }
 
@@ -822,6 +884,8 @@ public class Game1 : Game
                     wincondition = 1;
                 }
             }
+
+            
         }
         else if (!ingame)
         {
@@ -835,7 +899,25 @@ public class Game1 : Game
 
                     if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
+                        (bool, bool, bool, bool) buttonOutput = button.Pressed();
+                        ingame = buttonOutput.Item1;
+                        pauseGame = buttonOutput.Item2;
 
+                        if (buttonOutput.Item3)
+                        {
+                            Exit();
+                        }
+
+                        if (buttonOutput.Item4)
+                        {
+                            car += 1;
+                            if (car > 5)
+                            {
+                                car = 0;
+                            }
+                            player.changeCar(car, carTextures[car]);
+
+                        }
                     }
                 }
                 else
@@ -1063,6 +1145,12 @@ public class Game1 : Game
             FontOrigin.Y = -25;
             _spriteBatch.DrawString(spriteFont, positionHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
+            foreach (Button button in ingameButtons)
+            {
+                _spriteBatch.Draw(button.texture, button.Rect, button.colour);
+                _spriteBatch.DrawString(spriteFont, button.text, new Vector2(button.pos.X + (button.size.X / 2) - 30, button.pos.Y + (button.size.Y / 2) - 20), button.textcolour, 0, new Vector2(0, 0), 1f, SpriteEffects.None, 0.5f);
+            }
+
         }
         else
         {
@@ -1094,12 +1182,15 @@ public class Game1 : Game
             FontOrigin.Y = -340;
             _spriteBatch.DrawString(spriteFont, "Motorway Pursuit Racing Game", fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
-            foreach(Button button in mainMenuButtons)
+            foreach (Button button in mainMenuButtons)
             {
                 _spriteBatch.Draw(button.texture, button.Rect, button.colour);
                 _spriteBatch.DrawString(spriteFont, button.text, new Vector2(button.pos.X + (button.size.X / 2) - 35, button.pos.Y + (button.size.Y / 2) - 30), button.textcolour, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0.5f);
 
             }
+
+            Rectangle carIconRect = new Rectangle(450, 460, carIconTexture[car].Width / 3, carIconTexture[car].Height / 3);
+            _spriteBatch.Draw(carIconTexture[car], carIconRect, Color.White);
         }
 
         _spriteBatch.End();

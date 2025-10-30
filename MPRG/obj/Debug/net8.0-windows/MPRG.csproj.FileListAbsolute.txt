@@ -34,3 +34,13 @@ C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\obj\Debug
 C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\RS6Police.xnb
 C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\S2K.xnb
 C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\Bigfont.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\MRSicon.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\S2Kicon.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\SupraIcon.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\NSX.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\NSXicon.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\R34.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\R34Icon.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\Rx7.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\Rx7Icon.xnb
+C:\Users\User\OneDrive - King Edward VI College, Stourbridge\MPRG\MPRG\bin\Debug\net8.0-windows\Content\Supra.xnb
