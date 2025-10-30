@@ -21,6 +21,8 @@ namespace MPRG
         public float tyreCircumference = 1.893f;
         public float gear = 1;
 
+        //private float oldWheelSpeed;
+
         public bool manualGear = false;
         public float gearFrame = 0;
 
@@ -91,14 +93,17 @@ namespace MPRG
 
             // drag (air resistance)
             float wheelTorque = rpmtorque * gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f; // 0.95 is drive train lost
-            float engineForce = wheelTorque / (float)(tyreCircumference / (2 * pi));
 
             float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
             float dragForce = airDens * frontalArea * dragCoefficient * speed * speed * 0.5f;
-
-            float longitudinalAcceleration = (engineForce - dragForce - rollingResistance - brakeTorque) / mass;
+            float totalResistance = rollingResistance + dragForce + 9.81f;
 
             speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
+            //float driveForce = (wheelSpeed - oldWheelSpeed) * mass / time;
+
+            //float netAccel = (driveForce - totalResistance) / mass;
+            //speed = speed + (netAccel * time * 2.237f);
+
             
 
             Console.WriteLine("playerSpeed" + speed + " playerHealth" + health + " playerXpos" + xPos);
