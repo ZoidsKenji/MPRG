@@ -11,6 +11,7 @@ using System.Linq;
 using SharpDX.XInput;
 using SharpDX.Direct2D1;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
+using MonoGame;
 
 namespace MPRG;
 
@@ -72,16 +73,18 @@ public class Game1 : Game
     List<Sprite> background;
 
     List<Sprite> roadLine;
+
+    List<Button> mainMenuButtons;
     // List<Sprite> roadLineR;
 
-
+    private MouseState lastMouseState;
+    private KeyboardState lastKeyboardState;
 
     public float playerSpeed;
     Player player;
 
     public bool pauseGame = false;
     public bool ingame = false;
-    public float pauseTimer = 0f;
     public float TimeMultipier = 1f;
     public (int, int, float) game_time = (0, 0, 0);
 
@@ -153,7 +156,13 @@ public class Game1 : Game
         backendroads = new List<Sprite>();
         roadLine = new List<Sprite>();
         background = new List<Sprite>();
+        mainMenuButtons = new List<Button>();
         // roadLineR = new List<Sprite>();
+
+        Texture2D buttonTexture = Content.Load<Texture2D>("backendTexture");
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 700), new Vector2(300, 100), "Play", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(160, 700), new Vector2(300, 100), "Options", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(760, 700), new Vector2(300, 100), "Quit", Color.Black * 0.5f, Color.White));
 
         if (AiOpponentON || trainAI)
         {
@@ -230,6 +239,9 @@ public class Game1 : Game
     {
         int specialEntities = 0;
         float TotialSpecialEntSpeed = 0;
+
+        MouseState mouseState = Mouse.GetState();
+        Rectangle mouseRect = new(mouseState.X, mouseState.Y, 1, 1);
 
         game_time.Item3 += TimeMultipier * (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (game_time.Item3 >= 60)
@@ -373,9 +385,8 @@ public class Game1 : Game
             return (actionXspeed, colision);
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.P) && pauseTimer <= 0)
+        if (Keyboard.GetState().IsKeyDown(Keys.P) && lastKeyboardState.IsKeyUp(Keys.P))
         {
-            pauseTimer = 1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (pauseGame)
             {
                 pauseGame = false;
@@ -385,7 +396,6 @@ public class Game1 : Game
                 pauseGame = true;
             }
         }
-        pauseTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (!pauseGame && ingame)
         {
@@ -815,8 +825,31 @@ public class Game1 : Game
         }
         else if (!ingame)
         {
-            
+
+            foreach (Button button in mainMenuButtons)
+            {
+                if (mouseRect.Intersects(button.Rect))
+                {
+                    button.colour = Color.White;
+                    button.textcolour = Color.Black;
+
+                    if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    {
+
+                    }
+                }
+                else
+                {
+                    button.colour = Color.Black * 0.5f;
+                    button.textcolour = Color.White;
+                }
+            }
+
+
         }
+
+        lastMouseState = mouseState;
+        lastKeyboardState = Keyboard.GetState();
 
         base.Update(gameTime);
     }
@@ -1061,7 +1094,12 @@ public class Game1 : Game
             FontOrigin.Y = -340;
             _spriteBatch.DrawString(spriteFont, "Motorway Pursuit Racing Game", fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
-            
+            foreach(Button button in mainMenuButtons)
+            {
+                _spriteBatch.Draw(button.texture, button.Rect, button.colour);
+                _spriteBatch.DrawString(spriteFont, button.text, new Vector2(button.pos.X + (button.size.X / 2) - 35, button.pos.Y + (button.size.Y / 2) - 30), button.textcolour, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0.5f);
+
+            }
         }
 
         _spriteBatch.End();
