@@ -1189,7 +1189,7 @@ public class Game1 : Game
 
             }
 
-            Rectangle carIconRect = new Rectangle(450, 460, carIconTexture[car].Width / 3, carIconTexture[car].Height / 3);
+            Rectangle carIconRect = new Rectangle(360, 380, carIconTexture[car].Width/ 2, carIconTexture[car].Height / 2);
             _spriteBatch.Draw(carIconTexture[car], carIconRect, Color.White);
         }
 
