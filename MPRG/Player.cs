@@ -163,7 +163,7 @@ namespace MPRG
             }
             else
             {
-                rpm = 810;
+                rpm = idleRpm + 10;
             }
 
             if (rpm > rpmLim)

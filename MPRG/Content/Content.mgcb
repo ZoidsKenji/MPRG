@@ -87,6 +87,18 @@
 /processorParam:TextureFormat=Color
 /build:NSX.png
 
+#begin NSX.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:NSX.png
+
 #begin NSXicon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -98,6 +110,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:NSXicon.png
+
+#begin R34.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:R34.png
 
 #begin R34.png
 /importer:TextureImporter
@@ -159,6 +183,18 @@
 /processorParam:TextureFormat=Color
 /build:Rx7.png
 
+#begin Rx7.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Rx7.png
+
 #begin Rx7Icon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -183,6 +219,18 @@
 /processorParam:TextureFormat=Color
 /build:S2K.png
 
+#begin S2K.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:S2K.png
+
 #begin S2Kicon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -194,6 +242,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:S2Kicon.png
+
+#begin Supra.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Supra.png
 
 #begin Supra.png
 /importer:TextureImporter
