@@ -90,28 +90,35 @@ namespace MPRG{
             }
         }
 
-        public (float, float) showGraphics(float carY, float playerY)
+        public (float, float) showGraphics(float playerY, float playerX)
         {
-            float distance = Math.Clamp(playerY - carY, 0, renderDistance);
+            
+            float xDif = xPos - playerX;
+            float yDif = yPos - playerY;
+
+            float distance = Math.Clamp(playerY - yPos, 0, renderDistance);
             float disPercent = 1f - (distance / renderDistance);
 
             float curvedDis = MathF.Pow(disPercent, 2.2f);
 
             float showY = 150f + curvedDis * (780f - 330f);
 
-            return (showY, showY);
+            float curveFactor = (midpoint - 640) / (1280 / 2.0f);
+            float curveStrength = 600;
+            float yFactor = Math.Max(0, (pos.Y - 470) / 470.0f);
+
+            float showX = (int)Math.Floor(midpoint + xDif - (scale * 300 / 2.0) - curveFactor * Math.Pow(1 - yFactor, 3) * curveStrength);
+
+            return (showX, showY);
         }
 
-        public override void updateObject(float time, float camSpeed, float midPointX, float playerY)
+        public override void updateObject(float time, float camSpeed, float midPointX, float playerY, float playerX)
         {
             this.midpoint = (int)midPointX + 640;
             this.yPos += (camSpeed - speed) * time;
 
-            this.pos.Y = showGraphics(yPos, playerY).Item1;
-
-            //scale = (int)Math.Floor(((pos.Y) * 0.01));
-            scale = Math.Max((pos.Y - 480) / 120f, 0f);
-            laneXpos();
+            (this.pos.X, this.pos.Y) = showGraphics(playerX, playerY);
+            //laneXpos();
             if (speed > setSpeed)
             {
                 speed = speed / 1.25f;

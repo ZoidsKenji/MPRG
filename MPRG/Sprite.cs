@@ -88,7 +88,7 @@ namespace MPRG{
             return (-1, -1); //throw new Exception("");
         }
 
-        public virtual void updateObject(float time, float playerSpeed, float midPoint, float playerY)
+        public virtual void updateObject(float time, float playerSpeed, float midPoint, float playerY, float playerX)
         {
             if (iFrame > 0)
             {

@@ -133,7 +133,7 @@ namespace MPRG
         // Return : --
         // Purpose : it override from Sprite class, and updates the sprite
         // ```
-        public override void updateObject(float time, float camSpeed, float midPoint, float playerY)
+        public override void updateObject(float time, float camSpeed, float midPoint, float playerY, float playerX)
         {
             this.yPos += (camSpeed - speed) * time;
             if (health < 1)
