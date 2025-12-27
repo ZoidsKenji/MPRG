@@ -60,6 +60,7 @@ public class Game1 : Game
     public bool showbackend = true;
     public bool showfrontend = true;
     public string tips = "";
+    public float tipsTimer = 0;
 
     public int policespawnnum = 1;
 
@@ -166,9 +167,11 @@ public class Game1 : Game
         // roadLineR = new List<Sprite>();
 
         Texture2D buttonTexture = Content.Load<Texture2D>("backendTexture");
-        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 750), new Vector2(300, 100), "Play", Color.Black * 0.5f, Color.White));
-        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(160, 750), new Vector2(300, 100), "Options", Color.Black * 0.5f, Color.White));
-        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(760, 750), new Vector2(300, 100), "Quit", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(550, 750), new Vector2(260, 80), "Online", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(280, 750), new Vector2(260, 80), "Play", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(10, 750), new Vector2(260, 80), "Options", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(820, 750), new Vector2(260, 80), "Upgrade", Color.Black * 0.5f, Color.White));
+        mainMenuButtons.Add(new Button(buttonTexture, new Vector2(1090, 750), new Vector2(180, 80), "Quit", Color.Black * 0.5f, Color.White));
         mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 640), new Vector2(270, 60), "Next", Color.Black * 0.5f, Color.White));
 
         ingameButtons.Add(new Button(buttonTexture, new Vector2(1155, 890), new Vector2(120, 60), "Pause", Color.Black * 0.5f, Color.White));
@@ -275,6 +278,8 @@ public class Game1 : Game
         MouseState mouseState = Mouse.GetState();
         Rectangle mouseRect = new(mouseState.X, mouseState.Y, 1, 1);
 
+        tipsTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
         game_time.Item3 += TimeMultipier * (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (game_time.Item3 >= 60)
         {
@@ -348,7 +353,7 @@ public class Game1 : Game
         }else if (ingameplayers.Count() == 1)
         {
             tips = "Stay defensive and watch your opponent closely.";
-        }else
+        }else if (ingame)
         {
             tips = "";
         }
@@ -466,7 +471,7 @@ public class Game1 : Game
 
                     if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
-                        (bool, bool, bool, bool) buttonOutput = button.Pressed();
+                        (bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
                         ingame = buttonOutput.Item1;
                         pauseGame = buttonOutput.Item2;
                     }
@@ -929,7 +934,7 @@ public class Game1 : Game
 
                     if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
-                        (bool, bool, bool, bool) buttonOutput = button.Pressed();
+                        (bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
                         ingame = buttonOutput.Item1;
                         pauseGame = buttonOutput.Item2;
 
@@ -947,6 +952,17 @@ public class Game1 : Game
                             }
                             player.changeCar(car, carTextures[car]);
 
+                        }
+
+                        if (buttonOutput.Item5)
+                        {
+                            tips = "Online is not avalible";
+                            tipsTimer = 0;
+                        }
+                        if (buttonOutput.Item6)
+                        {
+                            tips = player.Upgrade();
+                            tipsTimer = 0;
                         }
                     }
                 }
@@ -1247,6 +1263,32 @@ public class Game1 : Game
 
             Rectangle carIconRect = new Rectangle(360, 380, carIconTexture[car].Width/ 2, carIconTexture[car].Height / 2);
             _spriteBatch.Draw(carIconTexture[car], carIconRect, Color.White);
+
+            if (tips != "" && tipsTimer < 2)
+            {
+                Rectangle rectangle = new Rectangle(460, 860, 400, 60);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+                rectangle = new Rectangle(400, 865, 520, 50);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+                rectangle = new Rectangle(360, 870, 600, 40);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+                rectangle = new Rectangle(330, 875, 660, 30);
+                _spriteBatch.Draw(backendTexture, rectangle, Color.Red * 0.2f);
+
+                FontOrigin.X = 0 - glitchPosDif;
+                FontOrigin.Y = 0;
+
+                Vector2 tipsPos = new Vector2(460 - tips.Count(), 870);
+
+                _spriteBatch.DrawString(spriteFont, tips, tipsPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                FontOrigin.X = 0 + glitchPosDif;
+                FontOrigin.Y = 0;
+                _spriteBatch.DrawString(spriteFont, tips, tipsPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                FontOrigin.X = 0;
+                FontOrigin.Y = 0;
+                _spriteBatch.DrawString(spriteFont, tips, tipsPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                
+            }
         }
 
         _spriteBatch.End();

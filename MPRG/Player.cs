@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 
 
 namespace MPRG
@@ -20,6 +22,8 @@ namespace MPRG
         public float finalDriveRatio = 4.285f;
         public float tyreCircumference = 1.893f;
         public float gear = 1;
+
+        public int stage = 0;
 
         public (float, float, float) radar = (1f, 1f, 1f);
 
@@ -80,7 +84,15 @@ namespace MPRG
             float momentOfInertia = 0.18f;
             float viscousDampingCoefficent = 0.05f;
             double pi = Math.PI;
-            float rpmtorque = torque[(int)rpm / 1000] * throttle;
+            float rpmtorque = 0;
+            if (torque.Count > (int)rpm/1000)
+            {
+                rpmtorque = torque[(int)rpm / 1000] * throttle;
+            }
+            else
+            {
+                rpmtorque = 0;
+            }
             float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
             // braking
             float brakeTorque = brakingForce * brake * (float)(tyreCircumference / (2 * pi));
@@ -219,6 +231,7 @@ namespace MPRG
         public void changeCar(int car, Texture2D cartexture)
         {
             this.texture = cartexture;
+            stage = 0;
 
             if (car == 0) // Toyota Mrs
             {
@@ -226,7 +239,7 @@ namespace MPRG
                 this.rpmLim = 7500;
                 this.idleRpm = 800;
                 this.gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
-                this.torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120 };
+                this.torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0};
                 this.finalDriveRatio = 4.285f;
                 this.tyreCircumference = 1.893f;
                 this.mass = 1050;
@@ -238,7 +251,7 @@ namespace MPRG
                 this.rpmLim = 8800;
                 this.idleRpm = 800;
                 this.gearRatio = new List<float> { 3.133f, 2.045f, 1.481f, 1.161f, 0.970f, 0.810f };
-                this.torque = new List<float> { 30, 50, 100, 150, 180, 200, 210, 208, 200, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
+                this.torque = new List<float> { 30, 50, 100, 150, 180, 200, 210, 208, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // for every 1000 rpm in Nm
                 this.finalDriveRatio = 4.1f;
                 this.tyreCircumference = 2.1f;
                 this.mass = 1270;
@@ -250,7 +263,7 @@ namespace MPRG
                 this.rpmLim = 7200;
                 this.idleRpm = 800;
                 this.gearRatio = new List<float> { 3.827f, 2.360f, 1.685f, 1.312f, 1.000f, 0.793f };
-                this.torque = new List<float> { 80, 120, 200, 280, 340, 400, 440, 450, 440, 420, 380, 340, 300, 0, 0 }; // Nm per 1000 rpm
+                this.torque = new List<float> { 80, 120, 200, 280, 340, 400, 440, 450, 440, 420, 380, 340, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // Nm per 1000 rpm
                 this.finalDriveRatio = 3.266f;
                 this.tyreCircumference = 2.10f;
                 this.mass = 1560;
@@ -262,7 +275,7 @@ namespace MPRG
                 this.rpmLim = 8300;
                 this.idleRpm = 900;
                 this.gearRatio = new List<float> { 3.827f, 2.360f, 1.685f, 1.312f, 1.000f, 0.793f };
-                this.torque = new List<float> { 70, 120, 220, 300, 360, 400, 395, 380, 350, 320, 280, 0, 0, 0, 0 };
+                this.torque = new List<float> { 70, 120, 220, 300, 360, 400, 395, 380, 350, 320, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                 this.finalDriveRatio = 4.111f;
                 this.tyreCircumference = 2.05f;
                 this.mass = 1560;
@@ -274,7 +287,7 @@ namespace MPRG
                 this.rpmLim = 8500;
                 this.idleRpm = 850;
                 this.gearRatio = new List<float> { 3.483f, 2.015f, 1.391f, 1.000f, 0.719f };
-                this.torque = new List<float> { 60, 90, 140, 210, 260, 290, 305, 310, 300, 280, 250, 0, 0, 0, 0 }; // Nm per 1000 rpm
+                this.torque = new List<float> { 60, 90, 140, 210, 260, 290, 305, 310, 300, 280, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // Nm per 1000 rpm
                 this.finalDriveRatio = 4.100f;
                 this.tyreCircumference = 2.00f;
                 this.mass = 1280;
@@ -286,7 +299,7 @@ namespace MPRG
                 this.rpmLim = 8200;
                 this.idleRpm = 850;
                 this.gearRatio = new List<float> { 3.071f, 1.727f, 1.230f, 0.970f, 0.771f };
-                this.torque = new List<float> { 70, 110, 160, 200, 230, 250, 265, 270, 260, 240, 210, 0, 0, 0, 0 }; // Nm per 1000 rpm
+                this.torque = new List<float> { 70, 110, 160, 200, 230, 250, 265, 270, 260, 240, 210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // Nm per 1000 rpm
                 this.finalDriveRatio = 4.062f;
                 this.tyreCircumference = 2.03f;
                 this.mass = 1370;
@@ -294,6 +307,49 @@ namespace MPRG
             }
         }
         
+        public string Upgrade()
+        {
+            float boost = 1;
+            string message = "";
+            if (stage == 3)
+            {
+                return "stage 3 already";
+            }
+            else
+            {
+                stage += 1;
+                if (stage == 1)
+                {
+                    boost = 1.5f;
+                    message = "**ecu remap**";
+                }else if (stage == 2)
+                {
+                    boost = 1.5f;
+                    rpmLim += 100000000;
+                    mass -= 50;
+                    message = "**rev limiter has removed & weight reduction**";
+                }else if (stage == 3)
+                {
+                    boost = 2f;
+                    rpmLim += 100000000;
+                    mass -= 80;
+                    message = "**turbo kit install**";
+                }
+
+                for(int t = 0; t >= torque.Count; t++)
+                {
+                    torque[t] = torque[t] * boost;
+                    if (torque[t] == 0 && stage == 3)
+                    {
+                        torque[t] = 60;
+                    }
+
+                }
+
+                return "stage " + stage + " upgrade complete " + message;
+            }
+        }
+
         public void radarDetect(List<Sprite> cars)
         {
             float left = 1f;
