@@ -73,11 +73,13 @@ public class Game1 : Game
     List<Police> polices;
     List<Sprite> backendroads;
     List<Sprite> background;
+    List<Sprite> uiBackground;
 
     List<Sprite> roadLine;
 
     List<Button> mainMenuButtons;
     List<Button> ingameButtons;
+    List<Button> OptionMenuButton;
     // List<Sprite> roadLineR;
 
     private MouseState lastMouseState;
@@ -162,8 +164,10 @@ public class Game1 : Game
         backendroads = new List<Sprite>();
         roadLine = new List<Sprite>();
         background = new List<Sprite>();
+        uiBackground = new List<Sprite>();
         mainMenuButtons = new List<Button>();
         ingameButtons = new List<Button>();
+        OptionMenuButton = new List<Button>();
         // roadLineR = new List<Sprite>();
 
         Texture2D buttonTexture = Content.Load<Texture2D>("backendTexture");
@@ -175,6 +179,20 @@ public class Game1 : Game
         mainMenuButtons.Add(new Button(buttonTexture, new Vector2(460, 640), new Vector2(270, 60), "Next", Color.Black * 0.5f, Color.White));
 
         ingameButtons.Add(new Button(buttonTexture, new Vector2(1155, 890), new Vector2(120, 60), "Pause", Color.Black * 0.5f, Color.White));
+
+        OptionMenuButton.Add(new Button(buttonTexture, new Vector2(440, 270), new Vector2(400, 70), "Manual", Color.Black * 0.5f, Color.White));
+        OptionMenuButton.Add(new Button(buttonTexture, new Vector2(440, 650), new Vector2(400, 70), "End", Color.Black * 0.5f, Color.White));
+
+        uiBackground.Add(new Background(Content.Load<Texture2D>("whiteLine"), new Vector2(100, 100)));
+        foreach (Background uiBack in uiBackground)
+        {
+            uiBack.backendColour = Color.Gray;
+            uiBack.width = 900;
+            uiBack.height = 500;
+            uiBack.xPos = 190;
+            uiBack.ypos = 230;
+        }
+
 
         carIconTexture =
         [
@@ -340,22 +358,24 @@ public class Game1 : Game
                 playerPos++;
             }
         }
-
-        if (player.radar.Item3 < 1f)
+        if (tipsTimer > 3)
         {
-            tips = "Draft behind cars to go faster.";
-        }else if (player.health < 40 && player.health > 20)
-        {
-            tips = "Low health! Drive carefully.";
-        }else if (playerPos == ingameplayers.Count() + 1)
-        {
-            tips = "Don't give up! Use boosts and pick your battles.";
-        }else if (ingameplayers.Count() == 1)
-        {
-            tips = "Stay defensive and watch your opponent closely.";
-        }else if (ingame)
-        {
-            tips = "";
+            if (player.radar.Item3 < 1f)
+            {
+                tips = "Draft behind cars to go faster.";
+            }else if (player.health < 40 && player.health > 20)
+            {
+                tips = "Low health! Drive carefully.";
+            }else if (playerPos == ingameplayers.Count() + 1)
+            {
+                tips = "Don't give up! Use boosts and pick your battles.";
+            }else if (ingameplayers.Count() == 1)
+            {
+                tips = "Stay defensive and watch your opponent closely.";
+            }else if (ingame)
+            {
+                tips = "";
+            }
         }
 
         // ```
@@ -471,7 +491,7 @@ public class Game1 : Game
 
                     if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                     {
-                        (bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
+                        (bool, bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
                         ingame = buttonOutput.Item1;
                         pauseGame = buttonOutput.Item2;
                     }
@@ -488,6 +508,41 @@ public class Game1 : Game
                 }else if (button.text == "Pause" && pauseGame == true)
                 {
                     button.text = "Resume";
+                }
+            }
+
+            if (pauseGame)
+            {
+                foreach (Button button in OptionMenuButton)
+                {
+                    if (mouseRect.Intersects(button.Rect))
+                    {
+                        button.colour = Color.White;
+                        button.textcolour = Color.Black;
+
+                        if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                        {
+                            (bool, bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
+                            ingame = buttonOutput.Item1;
+                            //pauseGame = buttonOutput.Item2;
+                            player.manualGear = buttonOutput.Item7;
+                        }
+                    }
+                    else
+                    {
+                        button.colour = Color.Black * 0.5f;
+                        button.textcolour = Color.White;
+                    }
+
+                    if (button.text == "Auto" && player.manualGear == false)
+                    {
+                        button.text = "Manual";
+                    }else if (button.text == "Manual" && player.manualGear == true)
+                    {
+                        button.text = "Auto";
+                        tips = "use arrow key up and down to shift gear";
+                        tipsTimer = 0;
+                    }
                 }
             }
         }
@@ -924,52 +979,90 @@ public class Game1 : Game
         }
         else if (!ingame)
         {
-
-            foreach (Button button in mainMenuButtons)
-            {
-                if (mouseRect.Intersects(button.Rect))
+            if (!pauseGame){
+                foreach (Button button in mainMenuButtons)
                 {
-                    button.colour = Color.White;
-                    button.textcolour = Color.Black;
-
-                    if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                    if (mouseRect.Intersects(button.Rect))
                     {
-                        (bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
-                        ingame = buttonOutput.Item1;
-                        pauseGame = buttonOutput.Item2;
+                        button.colour = Color.White;
+                        button.textcolour = Color.Black;
 
-                        if (buttonOutput.Item3)
+                        if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
                         {
-                            Exit();
-                        }
+                            (bool, bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
+                            ingame = buttonOutput.Item1;
+                            pauseGame = buttonOutput.Item2;
 
-                        if (buttonOutput.Item4)
-                        {
-                            car += 1;
-                            if (car > 5)
+                            if (buttonOutput.Item3)
                             {
-                                car = 0;
+                                Exit();
                             }
-                            player.changeCar(car, carTextures[car]);
 
-                        }
+                            if (buttonOutput.Item4)
+                            {
+                                car += 1;
+                                if (car > 5)
+                                {
+                                    car = 0;
+                                }
+                                player.changeCar(car, carTextures[car]);
+                                tips = "Car tune has reset if it has been upgrade";
+                                tipsTimer = 0;
 
-                        if (buttonOutput.Item5)
-                        {
-                            tips = "Online is not avalible";
-                            tipsTimer = 0;
-                        }
-                        if (buttonOutput.Item6)
-                        {
-                            tips = player.Upgrade();
-                            tipsTimer = 0;
+                            }
+
+                            if (buttonOutput.Item5)
+                            {
+                                tips = "Online is not avalible";
+                                tipsTimer = 0;
+                            }
+                            if (buttonOutput.Item6)
+                            {
+                                tips = player.Upgrade();
+                                tipsTimer = 0;
+                            }
                         }
                     }
+                    else
+                    {
+                        button.colour = Color.Black * 0.5f;
+                        button.textcolour = Color.White;
+                    }
                 }
-                else
+            }
+            else
+            {
+                foreach (Button button in OptionMenuButton)
                 {
-                    button.colour = Color.Black * 0.5f;
-                    button.textcolour = Color.White;
+                    if (mouseRect.Intersects(button.Rect))
+                    {
+                        button.colour = Color.White;
+                        button.textcolour = Color.Black;
+
+                        if (mouseState.LeftButton == ButtonState.Pressed && lastMouseState.LeftButton == ButtonState.Released)
+                        {
+                            (bool, bool, bool, bool, bool, bool, bool) buttonOutput = button.Pressed();
+
+                            //ingame = buttonOutput.Item1;
+                            pauseGame = buttonOutput.Item2;
+                            player.manualGear = buttonOutput.Item7;
+                        }
+                    }
+                    else
+                    {
+                        button.colour = Color.Black * 0.5f;
+                        button.textcolour = Color.White;
+                    }
+
+                    if (button.text == "Auto" && player.manualGear == false)
+                    {
+                        button.text = "Manual";
+                    }else if (button.text == "Manual" && player.manualGear == true)
+                    {
+                        button.text = "Auto";
+                        tips = "use arrow key up and down to shift gear";
+                        tipsTimer = 0;
+                    }
                 }
             }
 
@@ -1128,6 +1221,17 @@ public class Game1 : Game
                 WinFontOrigin.X = -540;
                 WinFontOrigin.Y = -5;
                 _spriteBatch.DrawString(spriteFont, "Game Paused", fontPos, Color.Red, 0, WinFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+                foreach(Sprite uiback in uiBackground)
+                {
+                    _spriteBatch.Draw(uiback.texture, uiback.BackendRect, uiback.backendColour);
+                }
+
+                foreach(Button optButton in OptionMenuButton)
+                {
+                    _spriteBatch.Draw(optButton.texture, optButton.Rect, optButton.colour);
+                    _spriteBatch.DrawString(spriteFont, optButton.text, new Vector2(optButton.pos.X + (optButton.size.X / 2) - 35, optButton.pos.Y + (optButton.size.Y / 2) - 30), optButton.textcolour, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0.5f);
+                }
             }
 
             Vector2 FontOrigin = new Vector2();//spriteFont.MeasureString(healthHUD) / 2;
@@ -1263,6 +1367,19 @@ public class Game1 : Game
 
             Rectangle carIconRect = new Rectangle(360, 380, carIconTexture[car].Width/ 2, carIconTexture[car].Height / 2);
             _spriteBatch.Draw(carIconTexture[car], carIconRect, Color.White);
+
+            if (pauseGame){
+                foreach(Sprite uiback in uiBackground)
+                {
+                    _spriteBatch.Draw(uiback.texture, uiback.BackendRect, uiback.backendColour);
+                }
+
+                foreach(Button optButton in OptionMenuButton)
+                {
+                    _spriteBatch.Draw(optButton.texture, optButton.Rect, optButton.colour);
+                    _spriteBatch.DrawString(spriteFont, optButton.text, new Vector2(optButton.pos.X + (optButton.size.X / 2) - 35, optButton.pos.Y + (optButton.size.Y / 2) - 30), optButton.textcolour, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0.5f);
+                }
+            }
 
             if (tips != "" && tipsTimer < 2)
             {

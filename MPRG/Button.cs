@@ -38,7 +38,7 @@ namespace MPRG
             this.textcolour = textcolour;
         }
         
-        public (bool, bool, bool, bool, bool, bool) Pressed()
+        public (bool, bool, bool, bool, bool, bool, bool) Pressed()
         {
             bool startGame = false;
             bool openOpt = false;
@@ -46,6 +46,7 @@ namespace MPRG
             bool changeCar = false;
             bool online = false;
             bool upgrade = false;
+            bool manual = false;
 
             if (text == "Play")
             {
@@ -77,8 +78,17 @@ namespace MPRG
             {
                 upgrade = true;
             }
+            else if (text == "Auto")
+            {
+                startGame = true;
+                manual = false;
+            }else if (text == "Manual")
+            {
+                startGame = true;
+                manual = true;
+            }
 
-            return (startGame, openOpt, quitGame, changeCar, online, upgrade);
+            return (startGame, openOpt, quitGame, changeCar, online, upgrade, manual);
 
         }
 

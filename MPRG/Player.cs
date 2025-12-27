@@ -327,12 +327,14 @@ namespace MPRG
                     boost = 1.5f;
                     rpmLim += 100000000;
                     mass -= 50;
+                    redLine += 500;
                     message = "**rev limiter has removed & weight reduction**";
                 }else if (stage == 3)
                 {
                     boost = 2f;
                     rpmLim += 100000000;
                     mass -= 80;
+                    redLine += 1000;
                     message = "**turbo kit install**";
                 }
 
@@ -341,7 +343,7 @@ namespace MPRG
                     torque[t] = torque[t] * boost;
                     if (torque[t] == 0 && stage == 3)
                     {
-                        torque[t] = 60;
+                        torque[t] = 100;
                     }
 
                 }
