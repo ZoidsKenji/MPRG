@@ -39,6 +39,7 @@ namespace MPRG
 
         public float brakingForce = 200;
 
+
         // rpm equation:
         // rpm = (speed * gearRatio * finalDriveRatio * 60) / tyreCircumference
         // speed = (rpm * tyreCircumference) / (gearRatio * finalDriveRatio * 60)
@@ -82,44 +83,38 @@ namespace MPRG
         {
             // Engine & Gear
             float momentOfInertia = 0.18f;
-            float viscousDampingCoefficent = 0.05f;
             double pi = Math.PI;
-            float rpmtorque = 0;
+            float engineDriveTorque = 0;
             if (torque.Count > (int)rpm/1000)
             {
-                rpmtorque = torque[(int)rpm / 1000] * throttle;
+                engineDriveTorque = torque[(int)rpm / 1000] * throttle;
             }
             else
             {
-                rpmtorque = 0;
+                engineDriveTorque = 0;
             }
-            float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
+
             // braking
-            float brakeTorque = brakingForce * brake * (float)(tyreCircumference / (2 * pi));
-            float crankBrakeTorque = -brakeTorque / (gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f);
-            float brakeNetTorque = rpmtorque + crankBrakeTorque - viscousLoss;
-            // total rpm
-            float netTorque = rpmtorque + brakeNetTorque - viscousLoss;
-            float angularAccel = netTorque / momentOfInertia;
+            brakingForce = 1.2f * mass;
+            float ForceOnBrake = brakingForce * brake; // the resistance force from braking
+
+            // drag and rolling resistance
+            float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
+            float dragForce = 0.5f * 1.225f * dragCoefficient * frontalArea * (speed / (2.237f * 3)) * (speed / (2.237f * 3)) * radar.Item3; // radar.Item3 is front radar for the air stream thingy
+            float netResisForce = dragForce + rollingResistance + ForceOnBrake;
+
+            float wheelResisTorque = netResisForce * (tyreCircumference / (2 * (float)pi)); // the resistance torque at the wheels caused by drag, rolling resistance and braking
+            // net torque at engine
+            float engineResistTorque = wheelResisTorque / (gearRatio[(int)gear - 1] * finalDriveRatio * 0.97f); // 0.97 is drivetrain efficiency
+            float engineNetTorque = engineDriveTorque - engineResistTorque;
+
+            //rpm change
+            float angularAccel = engineNetTorque / momentOfInertia;
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
-            
 
-            // drag (air resistance)
-            float wheelTorque = rpmtorque * gearRatio[(int)gear - 1] * finalDriveRatio * 0.95f; // 0.95 is drive train lost
-
-            float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
-            float dragForce = 0.5f * 1.225f * dragCoefficient * frontalArea * (speed / 2.237f) * (speed / 2.237f);
-            float netResisForce = dragForce + rollingResistance;
-
-            float wheelRadius = tyreCircumference / (2 * (float)pi);
-            float drivingForce = wheelTorque / wheelRadius * 16f;
-
-            float netForce = drivingForce - (netResisForce * radar.Item3);
-            float netAccel = netForce / mass;
-
-            //speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f; // the 2.237 makes it mph
-            speed += netAccel * time * 2.237f;
+            speed = (rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60) * 3f * 2.237f; // the 2.237 makes it mph
+            //speed += netAccel * time * 2.237f;
 
             
 
