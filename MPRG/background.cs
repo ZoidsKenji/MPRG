@@ -32,6 +32,7 @@ namespace MPRG{
             // xPos = (int)Math.Floor(this.midpoint - (width / 2.0));
             this.backendColour = Color.Green;
             this.texture = texture;
+            this.xPos = 0;
 
         }
 

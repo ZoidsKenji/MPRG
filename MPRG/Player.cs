@@ -127,11 +127,19 @@ namespace MPRG
 
         public override void setSpeedTo(float Speed)
         {
+            double pi = Math.PI;
+
             speed = Speed;
             if (speed < 0)
             {
                 speed = 10;
             }
+
+            float wheelSpeed = (speed /( 2.237f *  3f)) / (float)(tyreCircumference / (2 * pi));
+            float engineSpeed = wheelSpeed * gearRatio[(int)gear - 1] * finalDriveRatio;
+
+            rpm = engineSpeed * 60 / (2 * (float)pi);
+            rpm = Math.Clamp(rpm, idleRpm + 10, rpmLim);
         }
 
         // ```
