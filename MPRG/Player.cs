@@ -14,13 +14,13 @@ namespace MPRG
     {
         // these value are for toyota mrs
         public float rpm = 800;
-        public float redLine = 6500;
-        public float rpmLim = 7500;
-        public float idleRpm = 800;
-        public List<float> gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
-        public List<float> torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
-        public float finalDriveRatio = 4.285f;
-        public float tyreCircumference = 1.893f;
+        protected float redLine = 6500;
+        protected float rpmLim = 7500;
+        protected float idleRpm = 800;
+        protected List<float> gearRatio = new List<float> { 3.230f, 1.913f, 1.258f, 0.918f, 0.731f };
+        protected List<float> torque = new List<float> { 60, 70, 120, 160, 171, 170, 160, 130, 120 }; // for every 1000 rpm in Nm
+        protected float finalDriveRatio = 4.285f;
+        protected float tyreCircumference = 1.893f;
         public float gear = 1;
 
         public int stage = 0;

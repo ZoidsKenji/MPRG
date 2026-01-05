@@ -9,8 +9,8 @@ namespace MPRG{
     internal class RoadLine : Sprite{
 
         int scale  = 0;
-        public int midpoint = 1280 / 2;
-        public int LeftOrRight = 0;
+        private int midpoint = 1280 / 2;
+        private int LeftOrRight = 0;
         public override Rectangle Rect{
             get{
                 return new Rectangle((int)xPos, (int)pos.Y, scale, Math.Max(scale / 40, 3));

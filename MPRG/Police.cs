@@ -18,17 +18,17 @@ namespace MPRG{
 
         public float xSpeed;
 
-        public PathFind pathfinder;
+        protected PathFind pathfinder;
 
         // rs6
         public float rpm = 800;
-        public float redLine = 6500;
-        public float rpmLim = 7000;
-        public float idleRpm = 800;
-        public List<float> gearRatio = new List<float> { 4.714f, 3.143f, 21.06f, 1.667f, 1.285f, 1, 0.839f, 0.667f};
-        public List<float> torque = new List<float> {70, 100, 250, 450, 600, 700, 750, 800, 850, 0, 0, 0, 0, 0}; // for every 1000 rpm in Nm
-        public float finalDriveRatio = 3.2f;
-        public float tyreCircumference = 2.255f;
+        protected float redLine = 6500;
+        protected float rpmLim = 7000;
+        protected float idleRpm = 800;
+        protected List<float> gearRatio = new List<float> { 4.714f, 3.143f, 21.06f, 1.667f, 1.285f, 1, 0.839f, 0.667f};
+        protected List<float> torque = new List<float> {70, 100, 250, 450, 600, 700, 750, 800, 850, 0, 0, 0, 0, 0}; // for every 1000 rpm in Nm
+        protected float finalDriveRatio = 3.2f;
+        protected float tyreCircumference = 2.255f;
         public float gear = 1;
 
         public override Rectangle Rect

@@ -360,6 +360,7 @@ public class Game1 : Game
         }
         if (tipsTimer > 3)
         {
+            tipsTimer = 0;
             if (player.radar.Item3 < 1f)
             {
                 tips = "Draft behind cars to go faster.";
@@ -375,6 +376,7 @@ public class Game1 : Game
             }else if (ingame)
             {
                 tips = "";
+                tipsTimer = 4;
             }
         }
 

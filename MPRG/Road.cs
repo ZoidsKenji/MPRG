@@ -9,7 +9,7 @@ namespace MPRG{
     internal class Road : Sprite{
 
         int width  = 0;
-        public int midpoint = 1280 / 2;
+        private int midpoint = 1280 / 2;
         public override Rectangle Rect{
             get{
                 return new Rectangle((int)xPos, (int)pos.Y, width, 3);

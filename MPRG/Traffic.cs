@@ -16,12 +16,12 @@ namespace MPRG{
 
         public float scale = 1;
 
-        public float setSpeed;
+        private float setSpeed;
 
-        public int midpoint = 1280 / 2;
+        private int midpoint = 1280 / 2;
 
 
-        public int lane = new Random().Next(0, 3);
+        private int lane = new Random().Next(0, 3);
 
         public override Rectangle Rect{
             get{

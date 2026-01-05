@@ -13,11 +13,11 @@ namespace MPRG
 {
     internal class PathFind
     {
-        public List<List<int>> map;
-        public int height;
-        public int width;
+        private List<List<int>> map;
+        private int height;
+        private int width;
 
-        public List<List<PathNode>> nodes;
+        private List<List<PathNode>> nodes;
 
         public PathFind(List<List<int>> map)
         {
