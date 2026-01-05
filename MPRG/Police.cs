@@ -22,13 +22,13 @@ namespace MPRG{
 
         // rs6
         public float rpm = 800;
-        protected float redLine = 6500;
+        protected float redLine = 6800;
         protected float rpmLim = 7000;
-        protected float idleRpm = 800;
-        protected List<float> gearRatio = new List<float> { 4.714f, 3.143f, 21.06f, 1.667f, 1.285f, 1, 0.839f, 0.667f};
-        protected List<float> torque = new List<float> {70, 100, 250, 450, 600, 700, 750, 800, 850, 1, 1, 1, 1, 1, 1}; // for every 1000 rpm in Nm
-        protected float finalDriveRatio = 3.2f;
-        protected float tyreCircumference = 2.255f;
+        protected float idleRpm = 700;
+        protected List<float> gearRatio = new List<float> { 4.714f, 3.143f, 2.106f, 1.667f, 1.285f, 1, 0.839f, 0.667f};
+        protected List<float> torque = new List<float> {300, 400, 550, 700, 750, 750, 700, 650, 0, 0, 0, 0, 0, 0, 0}; // for every 1000 rpm in Nm
+        protected float finalDriveRatio = 3.204f;
+        protected float tyreCircumference = 2.10f;
         public float gear = 1;
 
         protected float dragCoefficient = 0.28f;
