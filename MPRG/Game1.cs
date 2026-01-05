@@ -780,7 +780,7 @@ public class Game1 : Game
                             if (player.nosBoost > 0 && (Keyboard.GetState().IsKeyDown(Keys.Space) || gamePadState.Buttons.A  == ButtonState.Pressed))
                             {
                                 playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 2f, 0);
-                                player.nosBoost -= 10f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                                player.nosBoost -= 30f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                             }else
                             {
                                 playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 1f, 0);

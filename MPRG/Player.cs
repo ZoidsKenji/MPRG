@@ -82,11 +82,11 @@ namespace MPRG
 
         public virtual void accelerate(float accel, float time, float throttle, float brake)
         {
-            if (nosBoost < 100f)
+            if (nosBoost < 100f && throttle != 2f)
             {
-                if (radar.Item3 > 0.9f)
+                if (radar.Item3 < 1f)
                 {
-                    nosBoost += 5f * time;
+                    nosBoost += 10f * time;
                 }
                 else
                 {
