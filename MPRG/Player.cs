@@ -26,6 +26,7 @@ namespace MPRG
         public int stage = 0;
 
         public (float, float, float) radar = (1f, 1f, 1f);
+        public float nosBoost = 100f;
 
         //private float oldWheelSpeed;
 
@@ -81,6 +82,27 @@ namespace MPRG
 
         public virtual void accelerate(float accel, float time, float throttle, float brake)
         {
+            if (nosBoost < 100f)
+            {
+                if (radar.Item3 > 0.9f)
+                {
+                    nosBoost += 5f * time;
+                }
+                else
+                {
+                    nosBoost += 1f * time;
+                }
+
+                if (nosBoost < 0f)
+                {
+                    nosBoost = 0f;
+                }
+
+            }else if (nosBoost > 100f)
+            {
+                nosBoost = 100f;
+            }
+
             // Engine & Gear
             float momentOfInertia = 0.18f;
             double pi = Math.PI;

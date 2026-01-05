@@ -777,7 +777,14 @@ public class Game1 : Game
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.W) || gamePadState.Triggers.Right > 0)
                         {
-                            playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 0.9f, 0);
+                            if (player.nosBoost > 0 && (Keyboard.GetState().IsKeyDown(Keys.Space) || gamePadState.Buttons.A  == ButtonState.Pressed))
+                            {
+                                playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 2f, 0);
+                                player.nosBoost -= 10f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            }else
+                            {
+                                playersprite.accelerate(30 * (float)gameTime.ElapsedGameTime.TotalSeconds, (float)gameTime.ElapsedGameTime.TotalSeconds, 1f, 0);
+                            }
                         }
                         else if ((Keyboard.GetState().IsKeyDown(Keys.S) || gamePadState.Triggers.Left > 0) && playersprite.speed > 0)
                         {
@@ -1163,6 +1170,7 @@ public class Game1 : Game
             string gearHUD = "Gear: " + ((int)player.gear).ToString();
             string rpmHUD = "Rpm: " + ((int)player.rpm).ToString();
             string timeHUD = "Time: " + game_time.Item1 + " : " + game_time.Item2 + " : " + (int)game_time.Item3;
+            string nosBoostHUD = "Nos: " + ((int)player.nosBoost).ToString() + "%";
 
             List<AiOpponent> ingameplayers = GA.population.Where(ai => ai.health > 0).ToList();
             int playerPos = 1;
@@ -1274,6 +1282,16 @@ public class Game1 : Game
             FontOrigin.X = -5;
             FontOrigin.Y = -65;
             _spriteBatch.DrawString(spriteFont, rpmHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+            FontOrigin.X = -5 - glitchPosDif;
+            FontOrigin.Y = -85;
+            _spriteBatch.DrawString(spriteFont, nosBoostHUD, fontPos, glitchRight, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5 + glitchPosDif;
+            FontOrigin.Y = -85;
+            _spriteBatch.DrawString(spriteFont, nosBoostHUD, fontPos, glitchLeft, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            FontOrigin.X = -5;
+            FontOrigin.Y = -85;
+            _spriteBatch.DrawString(spriteFont, nosBoostHUD, fontPos, Color.White, 0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
             FontOrigin.X = -1100 - glitchPosDif;
             FontOrigin.Y = -5;
