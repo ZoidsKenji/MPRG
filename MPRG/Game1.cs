@@ -1092,6 +1092,18 @@ public class Game1 : Game
     {
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+        List<string> KeyBind = new List<string>();
+        KeyBind = [
+            "KeyBind (Keyboard / Gamepad):",
+            "Accelerate: W / Right Trigger",
+            "Brake: S / Left Trigger",
+            "Steer Left: A / Left Stick Left", 
+            "Steer Right: D / Left Stick Right",
+            "Nitro Boost: Space / A Button",
+            "Shift Up: Up Arrow / B Button",
+            "Shift Down: Down Arrow / X Button"
+        ];
+
         if (ingame)
         {
             Color glitchLeft = Color.Aqua;
@@ -1239,6 +1251,18 @@ public class Game1 : Game
                 {
                     _spriteBatch.Draw(optButton.texture, optButton.Rect, optButton.colour);
                     _spriteBatch.DrawString(spriteFont, optButton.text, new Vector2(optButton.pos.X + (optButton.size.X / 2) - 35, optButton.pos.Y + (optButton.size.Y / 2) - 30), optButton.textcolour, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0.5f);
+                }
+
+                Vector2 keybindFontOrigin = new Vector2();
+                Vector2 keybindTextPos = new Vector2();
+                keybindTextPos.X = 400;
+                keybindTextPos.Y = 320;
+                keybindFontOrigin.X = -5;
+                keybindFontOrigin.Y = -5;
+                foreach (string line in KeyBind)
+                {
+                    keybindTextPos.Y += 30;
+                    _spriteBatch.DrawString(spriteFont, line, keybindTextPos, Color.White, 0, keybindFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
                 }
             }
 
@@ -1396,6 +1420,18 @@ public class Game1 : Game
                 {
                     _spriteBatch.Draw(optButton.texture, optButton.Rect, optButton.colour);
                     _spriteBatch.DrawString(spriteFont, optButton.text, new Vector2(optButton.pos.X + (optButton.size.X / 2) - 35, optButton.pos.Y + (optButton.size.Y / 2) - 30), optButton.textcolour, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0.5f);
+                }
+
+                Vector2 keybindFontOrigin = new Vector2();
+                Vector2 keybindTextPos = new Vector2();
+                keybindTextPos.X = 400;
+                keybindTextPos.Y = 320;
+                keybindFontOrigin.X = -5;
+                keybindFontOrigin.Y = -5;
+                foreach (string line in KeyBind)
+                {
+                    keybindTextPos.Y += 30;
+                    _spriteBatch.DrawString(spriteFont, line, keybindTextPos, Color.White, 0, keybindFontOrigin, 1.0f, SpriteEffects.None, 0.5f);
                 }
             }
 
