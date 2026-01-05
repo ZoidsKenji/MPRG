@@ -33,12 +33,12 @@ namespace MPRG
         public bool manualGear = false;
         public float gearFrame = 0;
 
-        public float dragCoefficient = 0.28f;
-        public float frontalArea = 1.8f;
+        protected float dragCoefficient = 0.28f;
+        protected float frontalArea = 1.8f;
 
-        public float rollingResistanceCoefficient = 0.007f;
+        protected float rollingResistanceCoefficient = 0.007f;
 
-        public float brakingForce = 200;
+        protected float brakingForce = 200;
 
 
         // rpm equation:

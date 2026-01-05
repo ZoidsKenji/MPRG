@@ -211,18 +211,18 @@ namespace MPRG
             
             if (rpm > idleRpm)
             {
-                float momentOfInertia = 0.18f;
-                float viscousDampingCoefficent = 0.05f;
-                double pi = Math.PI;
-                float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-                float netTorque = - viscousLoss;
-                float angularAccel = netTorque / momentOfInertia;
-                float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
-                rpm += rpmPerSec * time;
+                // float momentOfInertia = 0.18f;
+                // float viscousDampingCoefficent = 0.05f;
+                // double pi = Math.PI;
+                // float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
+                // float netTorque = - viscousLoss;
+                // float angularAccel = netTorque / momentOfInertia;
+                // float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
+                // rpm += rpmPerSec * time;
             }
             else
             {
-                rpm = 810;
+                rpm = idleRpm + 10;
             }
 
             if (rpm > rpmLim)

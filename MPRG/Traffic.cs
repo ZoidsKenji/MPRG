@@ -40,7 +40,7 @@ namespace MPRG{
             if (setLane != 3){
                 lane = setLane;
             }
-            this.health = 50;
+            this.health = 150;
             this.midpoint = 1280 / 2;
             this.xPos = (lane - 1) * 500;
             this.backendColour = Color.Orange;

@@ -26,10 +26,17 @@ namespace MPRG{
         protected float rpmLim = 7000;
         protected float idleRpm = 800;
         protected List<float> gearRatio = new List<float> { 4.714f, 3.143f, 21.06f, 1.667f, 1.285f, 1, 0.839f, 0.667f};
-        protected List<float> torque = new List<float> {70, 100, 250, 450, 600, 700, 750, 800, 850, 0, 0, 0, 0, 0}; // for every 1000 rpm in Nm
+        protected List<float> torque = new List<float> {70, 100, 250, 450, 600, 700, 750, 800, 850, 1, 1, 1, 1, 1, 1}; // for every 1000 rpm in Nm
         protected float finalDriveRatio = 3.2f;
         protected float tyreCircumference = 2.255f;
         public float gear = 1;
+
+        protected float dragCoefficient = 0.28f;
+        protected float frontalArea = 1.8f;
+
+        protected float rollingResistanceCoefficient = 0.007f;
+        protected float brakingForce = 200;
+        public (float, float, float) radar = (1f, 1f, 1f);
 
         public override Rectangle Rect
         {
@@ -60,7 +67,7 @@ namespace MPRG{
             this.midpoint = 1280 / 2;
             this.backendColour = Color.Blue;
             this.speed = 90;
-            this.yPos = 1280;
+            this.yPos = 900;
             this.xSpeed = 0;
             this.mass = 2075;
             //this.xPos = 0;
@@ -101,7 +108,7 @@ namespace MPRG{
 
             //scale = (int)Math.Floor(((pos.Y) * 0.01));
             scale = Math.Max((pos.Y - 480) / 120f, 0f);
-            Console.WriteLine("police update" + " yPos" + this.yPos + " speed" + this.speed);
+            Console.WriteLine("police update" + " yPos" + this.yPos + " speed" + this.speed + " gear" + this.gear + " rpm" + this.rpm);
             if (yPos > 1500)
             {
                 yPos = 1500;
@@ -124,18 +131,18 @@ namespace MPRG{
 
             if (rpm > idleRpm)
             {
-                float momentOfInertia = 0.18f;
-                float viscousDampingCoefficent = 0.05f;
-                double pi = Math.PI;
-                float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-                float netTorque = - viscousLoss;
-                float angularAccel = netTorque / momentOfInertia;
-                float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
-                rpm += rpmPerSec * time;
+                // float momentOfInertia = 0.18f;
+                // float viscousDampingCoefficent = 0.05f;
+                // double pi = Math.PI;
+                // float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
+                // float netTorque = - viscousLoss;
+                // float angularAccel = netTorque / momentOfInertia;
+                // float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
+                // rpm += rpmPerSec * time;
             }
             else
             {
-                rpm = 810;
+                rpm = idleRpm + 10;
             }
 
             if (rpm > rpmLim)
@@ -252,6 +259,7 @@ namespace MPRG{
                     else
                     {
                         xSpeed = +speed / sideSlowSpeedDiv * time;
+                        accelerate(-1, time, 0, 0.5f);
                     }
                 }
                 else if (path[1].Item1 == 1)
@@ -259,10 +267,12 @@ namespace MPRG{
                     if (xPos < -200)
                     {
                         xSpeed = speed / sideSpeedDiv * time;
+                        accelerate(-1, time, 0, 0.5f);
                     }
                     else if (xPos > 200)
                     {
                         xSpeed = -speed / sideSpeedDiv * time;
+                        accelerate(-1, time, 0, 0.5f);
                     }
                     else
                     {
@@ -275,6 +285,7 @@ namespace MPRG{
                     if (xPos < 360)
                     {
                         xSpeed = speed / sideSpeedDiv * time;
+                        accelerate(-1, time, 0, 0.5f);
                     }
                     else
                     {
@@ -284,38 +295,91 @@ namespace MPRG{
 
                 if (path[1].Item2 < startPos.Item2)
                 {
-                    accelerate(40, time, 1);
+                    accelerate(1, time, 1, 0);
                 }
-                else if (speed > (playerSpeed * 0.8))
+                else if (path[1].Item2 > startPos.Item2)
                 {
-                    accelerate(-40, time, -1);
+                    accelerate(-1, time, 0, 1);
                 }
                 else
                 {
-                    accelerate(0, time, 0);
+                    accelerate(-1, time, 0, 0);
                 }
             }
             moveX(xSpeed);
         }
 
-        public void accelerate(float accel, float time, float throttle)
+        public virtual void accelerate(float accel, float time, float throttle, float brake)
         {
-            if (rpm > rpmLim)
-            {
-                rpm = rpmLim;
-            }
+
+            // Engine & Gear
             float momentOfInertia = 0.18f;
-            float viscousDampingCoefficent = 0.05f;
             double pi = Math.PI;
-            float rpmtorque = torque[(int)rpm / 1000] * throttle;
-            float viscousLoss = viscousDampingCoefficent * ((rpm * 2 * (float)pi) / 60); // (rpm * 2 * (float)pi) / 60 is the angular speed
-            float netTorque = rpmtorque - viscousLoss;
-            float angularAccel = netTorque / momentOfInertia;
+            float engineDriveTorque = 0;
+            if (torque.Count > (int)rpm/1000)
+            {
+                engineDriveTorque = torque[(int)rpm / 1000] * throttle;
+            }
+            else
+            {
+                engineDriveTorque = 0;
+            }
+
+            // braking
+            brakingForce = 1.2f * mass;
+            float ForceOnBrake = brakingForce * brake; // the resistance force from braking
+
+            // drag and rolling resistance
+            float rollingResistance = rollingResistanceCoefficient * mass * 9.81f;
+            float dragForce = 0.5f * 1.225f * dragCoefficient * frontalArea * (speed / (2.237f * 3)) * (speed / (2.237f * 3)) * radar.Item3; // radar.Item3 is front radar for the air stream thingy
+            float netResisForce = dragForce + rollingResistance + ForceOnBrake;
+
+            float wheelResisTorque = netResisForce * (tyreCircumference / (2 * (float)pi)); // the resistance torque at the wheels caused by drag, rolling resistance and braking
+            // net torque at engine
+            float engineResistTorque = wheelResisTorque / (gearRatio[(int)gear - 1] * finalDriveRatio * 0.97f); // 0.97 is drivetrain efficiency
+            float engineNetTorque = engineDriveTorque - engineResistTorque;
+
+            //rpm change
+            float angularAccel = engineNetTorque / momentOfInertia;
             float rpmPerSec = angularAccel * 60 / (2 * (float)pi);
             rpm += rpmPerSec * time;
 
-            speed = ((rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60)) * 3f * 2.237f;
+            speed = (rpm * tyreCircumference) / (gearRatio[(int)gear - 1] * finalDriveRatio * 60) * 3f * 2.237f; // the 2.237 makes it mph
         }
         
+        public void radarDetect(List<Sprite> cars)
+        {
+            float left = 1f;
+            float right = 1f;
+            float front = 1f;
+
+            foreach (Sprite car in cars)
+            {
+                if (car == this)
+                {
+                    continue;
+                }
+                //front
+                if ((yPos - car.yPos) < 360 && yPos > car.yPos && Math.Abs(xPos - car.xPos) < 60)
+                {
+                    front = Math.Min(front, 1 - ((yPos - car.yPos) / 270));
+                }
+                //side
+                if (Math.Abs(yPos + 45 - car.yPos + 45) < 100 && Math.Abs(xPos - car.xPos) > 70)
+                {
+                    if (car.xPos < xPos)
+                    {
+                        left = Math.Min(left, 1 - ((xPos - car.xPos) / 300));
+                    }
+                    else
+                    {
+                        right = Math.Min(right, 1 - (Math.Abs(xPos - car.xPos) / 300));
+                    }
+                }
+
+            }
+
+            radar = (left, right, front);
+        }
     }
 }

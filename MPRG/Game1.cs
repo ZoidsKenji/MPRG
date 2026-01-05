@@ -596,6 +596,7 @@ public class Game1 : Game
             {
 
                 policesprite.updateObject((float)gameTime.ElapsedGameTime.TotalSeconds, playerSpeed, -player.xPos, player.yPos, player.xPos);
+                policesprite.radarDetect(sprites);
                 if (policesprite.speed < cameraSpeed * 2 && policesprite.speed > cameraSpeed * 0.5 && policesprite.yPos < 960 && policesprite.yPos > -100)
                 {
                     specialEntities += 1;
